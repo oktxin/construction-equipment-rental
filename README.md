@@ -60,6 +60,30 @@ npm run typecheck
 npm run build
 ```
 
+## Database Setup
+
+1. Create PostgreSQL database `buildrent`.
+2. Copy `.env.example` to `.env`.
+3. Make sure `DATABASE_URL` points to your local PostgreSQL instance.
+
+### Generate Prisma Client
+
+```bash
+npm run prisma:generate --workspace server
+```
+
+### Apply Prisma migrations
+
+```bash
+npm run prisma:migrate --workspace server
+```
+
+### Open Prisma Studio
+
+```bash
+npm run prisma:studio --workspace server
+```
+
 ## Health Check
 
 After starting the server, open:
