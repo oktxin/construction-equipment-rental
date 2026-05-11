@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import { env } from "./config/env";
+import { prisma } from "./config/prisma";
 import { errorHandler } from "./middlewares/errorHandler";
 import { notFound } from "./middlewares/notFound";
 import { apiRouter } from "./routes";
@@ -22,6 +23,7 @@ export function createApp() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  app.locals.prisma = prisma;
   app.use("/api", apiRouter);
 
   app.use(notFound);

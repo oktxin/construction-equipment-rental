@@ -84,6 +84,47 @@ npm run prisma:migrate --workspace server
 npm run prisma:studio --workspace server
 ```
 
+### Seed base roles and admin
+
+```bash
+npm run prisma:seed --workspace server
+```
+
+The seed creates `ADMIN`, `CLIENT`, and a default administrator from environment variables:
+
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+- `ADMIN_FULL_NAME`
+
+## Authentication API
+
+Authentication is implemented with JWT Bearer access tokens.
+
+### Authorization header
+
+```text
+Authorization: Bearer <token>
+```
+
+### Main endpoints
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `GET /api/users`
+- `GET /api/users/:id`
+- `PATCH /api/users/:id`
+- `PATCH /api/users/:id/block`
+
+### Create admin user
+
+1. Configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_FULL_NAME` in `.env`.
+2. Run:
+
+```bash
+npm run prisma:seed --workspace server
+```
+
 ## Health Check
 
 After starting the server, open:

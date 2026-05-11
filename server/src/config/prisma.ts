@@ -1,10 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 
+import { env } from "./env";
+
 type GlobalPrisma = typeof globalThis & {
   prisma?: PrismaClient;
 };
 
 const globalForPrisma = globalThis as GlobalPrisma;
+
+process.env.DATABASE_URL = process.env.DATABASE_URL || env.DATABASE_URL;
 
 export const prisma =
   globalForPrisma.prisma ??
