@@ -125,6 +125,52 @@ Authorization: Bearer <token>
 npm run prisma:seed --workspace server
 ```
 
+## Catalog API
+
+The backend now includes public catalog and admin catalog management endpoints.
+
+### Public endpoints
+
+- `GET /api/categories`
+- `GET /api/categories/:slug`
+- `GET /api/equipment`
+- `GET /api/equipment/featured`
+- `GET /api/equipment/:slug`
+
+### Admin catalog endpoints
+
+- `POST /api/categories`
+- `PATCH /api/categories/:id`
+- `DELETE /api/categories/:id`
+- `POST /api/equipment`
+- `PATCH /api/equipment/:id`
+- `PUT /api/equipment/:id/images`
+- `PUT /api/equipment/:id/specs`
+- `DELETE /api/equipment/:id`
+
+### Catalog filters
+
+- `search`
+- `categorySlug`
+- `minPrice`
+- `maxPrice`
+- `status`
+- `isFeatured`
+- `sortBy`
+- `sortOrder`
+- `page`
+- `limit`
+
+### Sorting
+
+- `name`
+- `dailyPrice`
+- `createdAt`
+- `popularity`
+- `rating`
+
+Detailed examples are documented in [docs/catalog-api.md](docs/catalog-api.md).
+
 ## Health Check
 
 After starting the server, open:
