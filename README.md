@@ -171,6 +171,38 @@ The backend now includes public catalog and admin catalog management endpoints.
 
 Detailed examples are documented in [docs/catalog-api.md](docs/catalog-api.md).
 
+## Rental Orders API
+
+The backend now includes rental order calculation, customer rental flow, and admin order management.
+
+### Main endpoints
+
+- `POST /api/rental-orders/calculate`
+- `POST /api/rental-orders`
+- `GET /api/rental-orders/my`
+- `GET /api/rental-orders/my/:id`
+- `PATCH /api/rental-orders/:id/cancel`
+- `GET /api/admin/rental-orders`
+- `GET /api/admin/rental-orders/:id`
+- `PATCH /api/admin/rental-orders/:id/status`
+- `PATCH /api/admin/rental-orders/:id/comment`
+
+### Status flow
+
+- `PENDING -> APPROVED -> ACTIVE -> COMPLETED`
+- `PENDING -> REJECTED`
+- `PENDING -> CANCELLED`
+- `APPROVED -> CANCELLED`
+
+### Inventory strategy
+
+- `PENDING` orders do not reserve inventory yet
+- `APPROVED` reserves stock by decreasing `quantityAvailable`
+- `APPROVED -> CANCELLED` returns stock
+- `ACTIVE -> COMPLETED` returns stock
+
+Detailed examples are documented in [docs/rental-orders-api.md](docs/rental-orders-api.md).
+
 ## Health Check
 
 After starting the server, open:
