@@ -90,11 +90,55 @@ npm run prisma:studio --workspace server
 npm run prisma:seed --workspace server
 ```
 
-The seed creates `ADMIN`, `CLIENT`, and a default administrator from environment variables:
+On a clean database, the seed creates a full demo dataset for testing:
+
+- 2 roles
+- 13 users (1 admin + 12 clients)
+- 9 categories
+- 45 equipment records
+- 90 equipment images
+- 180 equipment specs
+- 35 rental orders with mixed statuses
+- 30 favorites
+- 40 reviews
+- 20 payments
+- 10 reports
+
+On a clean database the seed produces 500+ records in total and is safe to re-run because it uses stable identifiers and replaces only its own test data.
+
+Test accounts:
+
+- `admin@buildrent.local` / `Admin12345!`
+- any seeded client account / `Client12345!`
+
+The default administrator can still be configured through environment variables:
 
 - `ADMIN_EMAIL`
 - `ADMIN_PASSWORD`
 - `ADMIN_FULL_NAME`
+
+### Create JSON backup
+
+```bash
+npm run prisma:backup --workspace server
+```
+
+This creates `server/prisma/backups/buildrent_seed_backup.json`.
+
+If `pg_dump` is available in your environment, the same script also attempts to create:
+
+`server/prisma/backups/buildrent_seed_backup.sql`
+
+## Database Seed And Backup
+
+Use these commands after migrations are applied:
+
+```bash
+npm run prisma:seed --workspace server
+npm run prisma:backup --workspace server
+```
+
+The seed prints the actual current database totals to the console after completion, and the backup script exports the main tables for demonstration or restore-oriented review.
 
 ## Authentication API
 
