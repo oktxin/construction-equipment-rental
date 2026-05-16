@@ -203,6 +203,38 @@ The backend now includes rental order calculation, customer rental flow, and adm
 
 Detailed examples are documented in [docs/rental-orders-api.md](docs/rental-orders-api.md).
 
+## Favorites and Reviews API
+
+The backend now includes favorites and equipment reviews with moderation support.
+
+### Main favorites endpoints
+
+- `GET /api/favorites`
+- `POST /api/favorites/:equipmentId`
+- `DELETE /api/favorites/:equipmentId`
+- `GET /api/favorites/check/:equipmentId`
+
+### Main reviews endpoints
+
+- `GET /api/reviews/equipment/:equipmentId`
+- `POST /api/reviews`
+- `PATCH /api/reviews/:id`
+- `DELETE /api/reviews/:id`
+- `GET /api/reviews/my`
+- `GET /api/admin/reviews`
+- `PATCH /api/admin/reviews/:id/publish`
+
+### Behavior
+
+- users can add and remove favorites only for themselves
+- archived equipment cannot be added to favorites
+- one user can leave only one review per equipment
+- public reviews show only published entries
+- admin can moderate review visibility
+- `averageRating` and `reviewsCount` in catalog are based only on published reviews
+
+Detailed examples are documented in [docs/favorites-reviews-api.md](docs/favorites-reviews-api.md).
+
 ## Health Check
 
 After starting the server, open:
