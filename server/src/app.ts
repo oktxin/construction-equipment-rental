@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import path from "node:path";
 
 import { env } from "./config/env";
 import { prisma } from "./config/prisma";
@@ -22,6 +23,7 @@ export function createApp() {
   app.use(morgan("dev"));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
   app.locals.prisma = prisma;
   app.use("/api", apiRouter);

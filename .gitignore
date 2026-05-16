@@ -31,6 +31,8 @@ client/.vite/
 client/dist/
 server/dist/
 server/generated/
+server/uploads/reports/*
+!server/uploads/reports/.gitkeep
 
 /touch AGENTS.md
 /Текстовый документ.txt

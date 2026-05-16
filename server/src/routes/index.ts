@@ -4,6 +4,7 @@ import { authRouter } from "../modules/auth/auth.routes";
 import { categoriesRouter } from "../modules/categories/categories.routes";
 import { equipmentRouter } from "../modules/equipment/equipment.routes";
 import { favoritesRouter } from "../modules/favorites/favorites.routes";
+import { adminReportsRouter, reportsRouter } from "../modules/reports/reports.routes";
 import { adminReviewsRouter, reviewsRouter } from "../modules/reviews/reviews.routes";
 import {
   adminRentalOrdersRouter,
@@ -26,6 +27,8 @@ apiRouter.use("/categories", categoriesRouter);
 apiRouter.use("/equipment", equipmentRouter);
 apiRouter.use("/favorites", favoritesRouter);
 apiRouter.use("/reviews", reviewsRouter);
+apiRouter.use("/reports", reportsRouter);
 apiRouter.use("/rental-orders", rentalOrdersRouter);
 apiRouter.use("/admin/reviews", adminReviewsRouter);
+apiRouter.use("/admin/reports", adminReportsRouter);
 apiRouter.use("/admin/rental-orders", adminRentalOrdersRouter);

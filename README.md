@@ -235,6 +235,39 @@ The backend now includes favorites and equipment reviews with moderation support
 
 Detailed examples are documented in [docs/favorites-reviews-api.md](docs/favorites-reviews-api.md).
 
+## Reports API
+
+The backend now includes downloadable reports for rental orders, rental history, and admin rental statistics.
+
+### Available reports
+
+- `ORDER_DOCUMENT`
+- `RENTAL_HISTORY`
+- `ADMIN_RENTAL_STATISTICS`
+
+### Supported formats
+
+- `PDF`
+- `DOCX`
+
+### Main endpoints
+
+- `POST /api/reports/order/:orderId`
+- `POST /api/reports/rental-history`
+- `GET /api/reports/my`
+- `GET /api/reports/:id/download`
+- `POST /api/admin/reports/rental-statistics`
+- `GET /api/admin/reports`
+- `DELETE /api/admin/reports/:id`
+
+### Storage
+
+- generated files are stored in `server/uploads/reports`
+- report metadata is saved in the `Report` table
+- files are served through `/uploads`
+
+Detailed examples are documented in [docs/reports-api.md](docs/reports-api.md).
+
 ## Health Check
 
 After starting the server, open:

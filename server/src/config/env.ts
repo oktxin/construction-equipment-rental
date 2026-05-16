@@ -27,7 +27,7 @@ const envSchema = z.object({
   ADMIN_PASSWORD: z.string().min(8).default("Admin12345!"),
   ADMIN_FULL_NAME: z.string().min(1).default("BuildRent Admin"),
   BCRYPT_SALT_ROUNDS: z.coerce.number().int().min(4).max(15).default(10),
-  REPORT_STORAGE_PATH: z.string().min(1).default("./storage/reports"),
+  REPORT_STORAGE_PATH: z.string().min(1).default("./uploads/reports"),
 });
 
 export const env = envSchema.parse(process.env);
