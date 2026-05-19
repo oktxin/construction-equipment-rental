@@ -140,6 +140,10 @@ npm run prisma:backup --workspace server
 
 The seed prints the actual current database totals to the console after completion, and the backup script exports the main tables for demonstration or restore-oriented review.
 
+## Frontend Design Concept
+
+The frontend visual direction, UI-kit rules, layout system, and implementation roadmap are documented in [docs/frontend-design-concept.md](docs/frontend-design-concept.md).
+
 ## Authentication API
 
 Authentication is implemented with JWT Bearer access tokens.
