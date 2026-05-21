@@ -144,6 +144,52 @@ The seed prints the actual current database totals to the console after completi
 
 The frontend visual direction, UI-kit rules, layout system, and implementation roadmap are documented in [docs/frontend-design-concept.md](docs/frontend-design-concept.md).
 
+## Frontend Foundation
+
+The first frontend foundation pass now includes:
+
+- theme tokens and global styles
+- public, auth, and admin layouts
+- protected and admin-only routes
+- shared UI building blocks
+- auth state with token persistence
+- placeholder pages for public, client, and admin flows
+
+Frontend documentation:
+
+- [docs/frontend-foundation.md](docs/frontend-foundation.md)
+
+Main frontend routes currently prepared:
+
+- `/`
+- `/catalog`
+- `/equipment/:slug`
+- `/login`
+- `/register`
+- `/favorites`
+- `/orders`
+- `/orders/:id`
+- `/reports`
+- `/profile`
+- `/checkout`
+- `/admin`
+- `/admin/equipment`
+- `/admin/categories`
+- `/admin/orders`
+- `/admin/users`
+- `/admin/reviews`
+- `/admin/reports`
+
+Frontend environment:
+
+- `VITE_API_URL=http://localhost:4000/api`
+
+Run frontend locally:
+
+```bash
+npm run dev:client
+```
+
 ## Authentication API
 
 Authentication is implemented with JWT Bearer access tokens.

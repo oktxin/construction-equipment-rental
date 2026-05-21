@@ -1,16 +1,10 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
-const uiSlice = createSlice({
-  name: "ui",
-  initialState: {
-    appReady: true,
-  },
-  reducers: {},
-});
+import { authReducer } from "../features/auth/authSlice";
 
 export const store = configureStore({
   reducer: {
-    ui: uiSlice.reducer,
+    auth: authReducer,
   },
 });
 

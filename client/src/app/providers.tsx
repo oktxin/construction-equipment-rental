@@ -3,11 +3,14 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import { store } from "../store/store";
+import { AuthBootstrap } from "./AuthBootstrap";
 
 export function AppProviders({ children }: PropsWithChildren) {
   return (
     <Provider store={store}>
-      <BrowserRouter>{children}</BrowserRouter>
+      <BrowserRouter>
+        <AuthBootstrap>{children}</AuthBootstrap>
+      </BrowserRouter>
     </Provider>
   );
 }
