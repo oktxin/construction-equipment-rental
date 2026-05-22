@@ -3,46 +3,41 @@ import { Link } from "react-router-dom";
 import { Badge, Button, Card } from "../../shared/ui";
 
 const advantages = [
-  "Real stock visibility and rental-oriented status cues",
-  "Clean split between public browsing and internal operations",
-  "Prepared route and auth foundation for the full client flow",
+  "Понятные статусы техники и визуальный контроль доступности.",
+  "Чистое разделение между публичным каталогом и внутренними операциями.",
+  "Готовая auth-основа для полного клиентского сценария аренды.",
 ];
 
-const categoryShell = [
-  "Demolition",
-  "Mixers",
-  "Compactors",
-  "Generators",
-];
+const categoryShell = ["Демонтаж", "Бетоносмесители", "Уплотнение", "Генераторы"];
 
 const rentalSteps = [
-  "Choose equipment",
-  "Select dates and delivery",
-  "Submit the rental request",
+  "Выберите технику",
+  "Укажите даты и доставку",
+  "Отправьте заявку",
 ];
 
 export function HomePage() {
   return (
     <div className="overflow-x-hidden">
-      <section className="relative border-b border-border/55">
+      <section id="about" className="relative border-b border-border/55">
         <div className="mx-auto grid min-h-[calc(100dvh-76px)] max-w-[1440px] gap-14 px-4 py-16 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-20">
           <div className="flex flex-col justify-center">
             <Badge variant="accent" className="w-fit">
-              BuildRent foundation
+              Русская интерфейсная основа
             </Badge>
             <h1 className="mt-6 max-w-[18ch] font-heading text-[clamp(3rem,5vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.06em] text-foreground">
-              Construction rental with the weight of real inventory behind it.
+              Аренда строительной техники с понятным остатком и прозрачной заявкой.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-foreground/68">
-              This is the first frontend shell for BuildRent: industrial, warm, structured, and ready for catalog, checkout, favorites, reports and admin operations.
+              Это первая живая оболочка BuildRent: теплая, индустриальная, структурная и уже готовая к каталогу, оформлению аренды, избранному, отчетам и административным операциям.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link to="/catalog">
-                <Button size="lg">Go to catalog</Button>
+                <Button size="lg">Перейти в каталог</Button>
               </Link>
               <Link to="/login">
                 <Button variant="secondary" size="lg">
-                  Open access flow
+                  Открыть вход
                 </Button>
               </Link>
             </div>
@@ -54,9 +49,9 @@ export function HomePage() {
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(115deg,rgba(255,255,255,0.02)_0,rgba(255,255,255,0.02)_1px,transparent_1px,transparent_14px)] opacity-50" />
                 <div className="relative z-10 flex h-full flex-col justify-between">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.22em] text-primary">Public shell</p>
+                    <p className="text-xs uppercase tracking-[0.22em] text-primary">Публичная часть</p>
                     <h2 className="mt-4 max-w-[16ch] font-heading text-3xl font-semibold tracking-[-0.04em] text-white">
-                      Calm browsing outside, dense control inside.
+                      Спокойный каталог снаружи, плотный контроль внутри.
                     </h2>
                   </div>
                   <div className="grid gap-3 sm:grid-cols-3">
@@ -72,10 +67,10 @@ export function HomePage() {
 
             {categoryShell.map((item) => (
               <Card key={item} hoverable className="p-5">
-                <p className="text-sm uppercase tracking-[0.18em] text-accent-strong">Category shell</p>
+                <p className="text-sm uppercase tracking-[0.18em] text-accent-strong">Категория</p>
                 <h3 className="mt-4 font-heading text-2xl font-semibold tracking-[-0.03em]">{item}</h3>
                 <p className="mt-3 text-sm leading-6 text-foreground/66">
-                  Placeholder block ready for live category counts, imagery and quick entry to the catalog.
+                  Карточка уже готова к живым счетчикам, изображениям и быстрому входу в каталог.
                 </p>
               </Card>
             ))}
@@ -86,25 +81,56 @@ export function HomePage() {
       <section id="rental-flow" className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <Card className="p-6 md:p-8">
-            <p className="text-sm uppercase tracking-[0.18em] text-accent-strong">How rental works</p>
+            <p className="text-sm uppercase tracking-[0.18em] text-accent-strong">Как это работает</p>
             <h2 className="mt-4 max-w-[16ch] font-heading text-3xl font-semibold tracking-[-0.04em]">
-              The next feature stages already have a visual path.
+              Следующие продуктовые этапы уже имеют ясную визуальную логику.
             </h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-foreground/68">
-              The foundation is intentionally structured around the future catalog, detail, checkout and order history flows, not around isolated decorative blocks.
+              Основа изначально собрана вокруг будущего каталога, карточки техники, оформления аренды и истории заявок, а не вокруг случайных декоративных блоков.
             </p>
           </Card>
           <div className="grid gap-4 md:grid-cols-3">
             {rentalSteps.map((item, index) => (
               <Card key={item} hoverable className="p-6">
-                <p className="text-sm uppercase tracking-[0.18em] text-foreground/44">Step {index + 1}</p>
+                <p className="text-sm uppercase tracking-[0.18em] text-foreground/44">Шаг {index + 1}</p>
                 <h3 className="mt-5 font-heading text-2xl font-semibold tracking-[-0.03em]">{item}</h3>
                 <p className="mt-3 text-sm leading-6 text-foreground/66">
-                  Placeholder module prepared for real logic and API wiring in the next frontend stages.
+                  Модуль уже подготовлен к реальной логике и подключению API на следующем этапе разработки интерфейса.
                 </p>
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="contacts" className="mx-auto max-w-[1440px] px-4 pb-20 sm:px-6 lg:px-8">
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card className="p-6 md:p-8">
+            <p className="text-sm uppercase tracking-[0.18em] text-accent-strong">Контакты</p>
+            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.04em]">
+              Операторы аренды и документы всегда под рукой.
+            </h2>
+            <div className="mt-6 space-y-3 text-base leading-7 text-foreground/68">
+              <p>admin@buildrent.local</p>
+              <p>+375 29 111 01 01</p>
+              <p>Минск, диспетчерская аренды BuildRent</p>
+            </div>
+          </Card>
+
+          <Card id="documents" className="p-6 md:p-8">
+            <p className="text-sm uppercase tracking-[0.18em] text-accent-strong">Документы</p>
+            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.04em]">
+              Отчеты, история аренды и экспортные форматы уже предусмотрены.
+            </h2>
+            <p className="mt-4 max-w-xl text-base leading-7 text-foreground/68">
+              Клиентский и административный сценарии уже готовятся к PDF и DOCX-документам, истории аренд и управленческой статистике.
+            </p>
+            <div className="mt-6">
+              <Link to="/reports">
+                <Button variant="secondary">Открыть раздел отчетов</Button>
+              </Link>
+            </div>
+          </Card>
         </div>
       </section>
     </div>

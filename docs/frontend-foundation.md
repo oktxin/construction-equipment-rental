@@ -1,69 +1,140 @@
 # Frontend Foundation
 
-## Что реализовано
+## Что уже собрано
 
-На этом этапе собран фундамент frontend-части BuildRent, без попытки досрочно реализовать весь продуктовый интерфейс.
+На текущем этапе BuildRent уже получил рабочий frontend-каркас без попытки преждевременно достроить весь продуктовый интерфейс.
 
-Сейчас готовы:
+Сейчас в проекте есть:
 
 - дизайн-токены и глобальная тема;
-- глобальные стили и типографика;
 - shared UI-компоненты;
 - public, auth и admin layouts;
-- маршруты public/client/admin;
+- маршруты для публичной, клиентской и административной частей;
 - protected routes и admin-only routes;
 - API client с Bearer token interceptor;
 - auth state на Redux Toolkit;
-- набор красивых страниц-заглушек;
-- базовая home shell для публичной части.
+- набор аккуратных placeholder-страниц;
+- русифицированный базовый home shell.
 
-## Theme tokens
+## Русский язык интерфейса
 
-В тему перенесены ключевые токены из `docs/frontend-design-concept.md`:
+Фронтенд теперь ориентирован на русский язык по умолчанию.
 
-- `background`
-- `foreground`
-- `primary`
-- `secondary`
-- `accent`
-- `muted`
-- `border`
-- `danger`
-- `success`
-- `warning`
-- `card`
-- `card-hover`
-- `admin-background`
-- `admin-surface`
+Переведены:
 
-Токены добавлены как CSS variables и подключены в Tailwind-конфиг.
+- Header;
+- Footer;
+- MobileNav;
+- AdminSidebar;
+- AdminTopbar;
+- AuthLayout;
+- LoginPage;
+- RegisterPage;
+- HomePage;
+- все placeholder-страницы public/client/admin;
+- NotFoundPage;
+- тексты по умолчанию внутри `FoundationPlaceholder`;
+- ошибки auth-state, которые могут всплывать в UI.
 
-## Layouts
+Навигационные подписи приведены к одному словарю:
+
+- `Главная`
+- `Каталог`
+- `Как это работает`
+- `Избранное`
+- `Мои заявки`
+- `Профиль`
+- `Войти`
+- `Регистрация`
+- `Выйти`
+- `Обзор`
+- `Оборудование`
+- `Категории`
+- `Заявки`
+- `Пользователи`
+- `Отзывы`
+- `Отчеты`
+
+## Статусы и русские labels
+
+Добавлен helper `client/src/shared/utils/statusLabels.ts`.
+
+В нем собраны русские подписи для:
+
+- `EquipmentStatus`
+- `OrderStatus`
+- `PaymentStatus`
+- `DeliveryType`
+- `ReportType`
+- `ReportFormat`
+
+`StatusBadge` теперь получает русскую подпись через этот helper и поддерживает контекст статуса, чтобы одинаковые коды вроде `PENDING` могли отображаться корректно для разных доменов.
+
+Примеры:
+
+- `AVAILABLE -> Доступно`
+- `MAINTENANCE -> На обслуживании`
+- `PENDING (order) -> Ожидает подтверждения`
+- `PENDING (payment) -> Ожидает оплаты`
+- `ACTIVE (order) -> Активна`
+- `PDF -> PDF`
+
+## Исправление auth layout
+
+Auth-shell приведен к более устойчивой адаптивной схеме:
+
+- левая брендовая колонка остается только на `lg+`;
+- на mobile и tablet остается одна компактная карточка;
+- у auth-card есть `min-w-0`, уменьшенный базовый padding и безопасная ширина;
+- в `/login` и `/register` кнопки и блоки больше не выталкивают контент вправо;
+- `Демо-доступ` больше не ломает layout и теперь полезен: он подставляет демонстрационные данные в поля формы.
+
+Login и register страницы также получили:
+
+- русские заголовки и описания;
+- русские labels для всех полей;
+- понятные переходы `Нет аккаунта? Зарегистрироваться` и `Уже есть аккаунт? Войти`;
+- компактные демо-блоки без горизонтального переполнения.
+
+## Проверка адаптива auth pages
+
+После правок auth-страницы проверяются в нескольких состояниях:
+
+- desktop;
+- tablet;
+- mobile;
+- ширина `320px`.
+
+Критерии проверки:
+
+- нет горизонтального скролла;
+- форма остается читаемой;
+- поля и кнопки не вылезают за границы карточки;
+- split-screen корректно работает на desktop;
+- mobile-версия остается одним цельным карточным экраном.
+
+## Layouts и маршруты
 
 ### PublicLayout
 
-- тёплый светлый фон;
-- industrial ambient background;
-- header;
-- main content area;
-- footer;
-- no horizontal overflow.
+- теплый светлый фон;
+- атмосферные индустриальные пятна в фоне;
+- header, main, footer;
+- без горизонтального overflow.
 
 ### AuthLayout
 
 - split-screen на desktop;
-- слева брендовый визуальный блок;
-- справа auth card;
-- на mobile остаётся компактная карточка.
+- крупный brand-block слева;
+- auth-card справа;
+- единая карточка на mobile.
 
 ### AdminLayout
 
-- тёмная рабочая оболочка;
+- темная operational-оболочка;
 - responsive sidebar;
 - topbar;
-- content area для будущих data-heavy экранов.
-
-## Routes
+- контентная зона под data-heavy экраны.
 
 ### Public routes
 
@@ -93,116 +164,11 @@
 - `/admin/reviews`
 - `/admin/reports`
 
-## Protected routes
-
-### ProtectedRoute
-
-- если auth ещё инициализируется, показывает loading shell;
-- если нет `token` и `user`, перенаправляет на `/login`;
-- если пользователь авторизован, рендерит вложенный route.
-
-### AdminRoute
-
-- если auth загружается, показывает admin loading shell;
-- если пользователь не авторизован, редиректит на `/login`;
-- если роль не `ADMIN`, редиректит на `/`;
-- только ADMIN получает доступ к `/admin/*`.
-
-## Auth state
-
-В `features/auth` подготовлены:
-
-- `authSlice.ts`
-- `authApi.ts`
-- `authTypes.ts`
-
-Текущее поведение:
-
-- хранение `token`;
-- хранение `user`;
-- `login`;
-- `register`;
-- `fetchMe`;
-- `logout`;
-- восстановление token из `localStorage`;
-- сохранение token в `localStorage`;
-- удаление token при logout или невалидной сессии;
-- автоматическая инициализация auth в `AppProviders`.
-
-## Shared UI components
-
-Подготовлены:
-
-- `Button`
-- `Input`
-- `Select`
-- `Badge`
-- `StatusBadge`
-- `Card`
-- `Modal`
-- `EmptyState`
-- `LoadingSkeleton`
-- `PageHeader`
-- `Breadcrumbs`
-
-Они уже поддерживают:
-
-- variants;
-- className override;
-- public/admin visual tones;
-- hover/focus/active states;
-- аккуратную типографику и shape-system из дизайн-концепции.
-
-## Public/Admin split
-
-### Public
-
-- светлый бетонный фон;
-- тёплые строительные акценты;
-- более воздушные блоки;
-- image-first and CTA-friendly surfaces.
-
-### Admin
-
-- тёмный графитовый фон;
-- плотные operational surfaces;
-- меньше декоративности;
-- больше control-oriented hierarchy.
-
-## Страницы-заглушки
-
-Сейчас добавлены foundation pages для:
-
-- Home
-- Catalog
-- Equipment detail
-- Login
-- Register
-- Favorites
-- My orders
-- Order detail
-- Reports
-- Profile
-- Checkout
-- Admin dashboard
-- Admin equipment
-- Admin categories
-- Admin orders
-- Admin users
-- Admin reviews
-- Admin reports
-- 404
-
-Это ещё не финальные продуктовые страницы, а аккуратные shells под дальнейшую реализацию.
-
 ## Что дальше
 
-Следующими логичными этапами остаются:
+Логичный следующий этап:
 
-1. Реализация auth forms и full login/register UX.
-2. Реализация public home page уже с контентной детализацией.
-3. Реализация catalog page с фильтрами, сортировкой и пагинацией.
-4. Реализация equipment detail page.
-5. Реализация checkout flow.
-6. Реализация client pages с реальными API.
-7. Реализация admin data views и report UI.
+1. Подключить реальные submit-flow для `login` и `register`.
+2. Начать наполнять `CatalogPage` живыми фильтрами и карточками техники.
+3. Собрать `EquipmentDetailPage` и `CheckoutPage` поверх уже русифицированного UI-слоя.
+4. Подключить клиентские и admin-экраны к реальному backend API.

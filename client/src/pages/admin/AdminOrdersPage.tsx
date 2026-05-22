@@ -4,19 +4,19 @@ export function AdminOrdersPage() {
   return (
     <FoundationPlaceholder
       tone="admin"
-      eyebrow="Admin foundation"
-      title="Order operations shell"
-      description="Approval, status transitions and manager comments will be managed from this workspace in the next admin implementation stage."
+      eyebrow="Панель администратора"
+      title="Заявки"
+      description="Здесь будут жить подтверждение, смена статусов и комментарии менеджера по каждой заявке."
       summary={[
-        "This route is built around high-signal status visibility.",
-        "The shell leaves room for filters, list density and detail drill-ins.",
-        "StatusBadge already supports the backend order states.",
-        "The admin workspace remains practical, not dashboard-generic.",
+        "Маршрут изначально построен вокруг высокосигнальной видимости статусов.",
+        "Каркас оставляет место под фильтры, плотные списки и углубленный просмотр деталей.",
+        "StatusBadge уже поддерживает backend-состояния заявок с русскими labels.",
+        "Рабочее пространство остается практичным, а не абстрактно dashboard-типовым.",
       ]}
       metrics={[
-        { label: "Workflow", value: "Prepared", status: "APPROVED" },
-        { label: "Statuses", value: "Mapped", status: "ACTIVE" },
-        { label: "Actions", value: "Next", status: "PENDING" },
+        { label: "Workflow", value: "Подготовлен", status: "APPROVED", statusContext: "order" },
+        { label: "Статусы", value: "Сопоставлены", status: "ACTIVE", statusContext: "order" },
+        { label: "Действия", value: "Следующий этап", status: "PENDING", statusContext: "order" },
       ]}
     />
   );

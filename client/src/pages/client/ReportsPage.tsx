@@ -5,19 +5,19 @@ export function ReportsPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       <FoundationPlaceholder
         tone="public"
-        eyebrow="Client shell"
-        title="Reports foundation"
-        description="Downloadable PDF and DOCX history will surface here once report listing and generation flows are connected."
+        eyebrow="Клиентский кабинет"
+        title="Отчеты"
+        description="Здесь появятся выгрузки PDF и DOCX, как только будут подключены листинг и генерация отчетов."
         summary={[
-          "Protected access is already in place for report routes.",
-          "The page layout anticipates file actions, metadata and report states.",
-          "Shared empty and loading surfaces are ready for no-data and generation states.",
-          "Admin and client report UX are intentionally split by tone.",
+          "Доступ к разделу уже защищен клиентской проверкой доступа.",
+          "Макет страницы заранее учитывает файловые действия, метаданные и состояния отчетов.",
+          "Общие состояния загрузки и пустого списка уже готовы к сценариям без данных и генерации.",
+          "Опыт клиента и администратора в отчетах намеренно разведен по тону и плотности.",
         ]}
         metrics={[
-          { label: "Downloads", value: "Planned", status: "PENDING" },
-          { label: "Access", value: "Protected", status: "APPROVED" },
-          { label: "Format support", value: "PDF / DOCX", status: "AVAILABLE" },
+          { label: "Выгрузки", value: "Запланированы", status: "PENDING" },
+          { label: "Доступ", value: "Защищен", status: "APPROVED" },
+          { label: "Форматы", value: "PDF / DOCX", status: "AVAILABLE" },
         ]}
       />
     </div>

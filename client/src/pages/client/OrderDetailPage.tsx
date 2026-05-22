@@ -5,14 +5,14 @@ export function OrderDetailPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       <FoundationPlaceholder
         tone="public"
-        eyebrow="Client shell"
-        title="Order detail foundation"
-        description="This route will carry the detailed rental summary, delivery info and status timeline for a single order."
+        eyebrow="Клиентский кабинет"
+        title="Детали заявки"
+        description="Этот маршрут подготовлен под сводку аренды, информацию о доставке и ленту статусов по одной заявке."
         summary={[
-          "Breadcrumbs and page headers already support this detail-oriented view.",
-          "Status and totals hierarchy are reserved for the next API integration phase.",
-          "The shell is designed to stay readable on mobile without forcing desktop tables.",
-          "Future report actions can attach here naturally.",
+          "Breadcrumbs и page headers уже поддерживают detail-ориентированный сценарий.",
+          "Иерархия статусов и итогов зарезервирована под следующий API-этап.",
+          "Каркас остается читаемым на мобильных экранах без принудительных desktop-таблиц.",
+          "Будущие действия с отчетами естественно встроятся именно сюда.",
         ]}
       />
     </div>

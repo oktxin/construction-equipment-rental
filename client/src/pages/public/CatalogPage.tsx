@@ -5,19 +5,19 @@ export function CatalogPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       <FoundationPlaceholder
         tone="public"
-        eyebrow="Catalog shell"
-        title="Equipment catalog foundation"
-        description="Search, filter and sorting zones are prepared here as a calm, industrial browsing workspace for the next feature stage."
+        eyebrow="Каркас каталога"
+        title="Каталог оборудования"
+        description="Здесь уже подготовлены зоны поиска, фильтров и сортировки для следующего этапа развития каталога."
         summary={[
-          "Sticky filter panel and mobile drawer behavior are planned.",
-          "Equipment cards will plug into the shared design tokens and status badges.",
-          "Pagination and sorting live here, but full catalog logic is intentionally deferred.",
-          "This shell protects the visual direction before API density arrives.",
+          "Запланированы фиксированные фильтры и мобильная выдвижная панель для узких экранов.",
+          "Карточки техники подключатся к общим дизайн-токенам и статусным бейджам.",
+          "Пагинация и сортировка уже заложены по структуре, но логика подключается следующим этапом.",
+          "Каркас сохраняет визуальное направление до появления реальной API-плотности.",
         ]}
         metrics={[
-          { label: "Layout mode", value: "Grid", status: "AVAILABLE" },
-          { label: "Filters", value: "Prepared", status: "PENDING" },
-          { label: "Data wiring", value: "Next", status: "APPROVED" },
+          { label: "Режим выдачи", value: "Сетка", status: "AVAILABLE" },
+          { label: "Фильтры", value: "Подготовлены", status: "PENDING" },
+          { label: "Подключение данных", value: "Следующий этап", status: "APPROVED" },
         ]}
       />
     </div>

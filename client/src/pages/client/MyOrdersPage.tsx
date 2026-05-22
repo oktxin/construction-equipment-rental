@@ -5,19 +5,19 @@ export function MyOrdersPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       <FoundationPlaceholder
         tone="public"
-        eyebrow="Client shell"
-        title="My orders foundation"
-        description="Order history, status overview and drill-in navigation will be built here after the frontend catalog and checkout stages."
+        eyebrow="Клиентский кабинет"
+        title="Мои заявки"
+        description="История заявок, обзор статусов и переход к деталям появятся здесь после этапов каталога и оформления аренды."
         summary={[
-          "Shared badges already support order status colors and labels.",
-          "The route is protected and ready for authenticated users only.",
-          "This page is shaped for either card-based or table-like history blocks.",
-          "Order density will be introduced later without breaking the overall theme.",
+          "Общие бейджи уже поддерживают цвета и русские подписи статусов заявок.",
+          "Маршрут защищен и рассчитан только на авторизованных пользователей.",
+          "Страница подходит как для карточного, так и для табличного сценария истории.",
+          "Плотность данных можно будет нарастить позже без потери общей темы.",
         ]}
         metrics={[
-          { label: "Status UI", value: "Ready", status: "ACTIVE" },
-          { label: "Route guard", value: "Enabled", status: "APPROVED" },
-          { label: "History data", value: "Next", status: "PENDING" },
+          { label: "Статусы", value: "Готовы", status: "ACTIVE", statusContext: "order" },
+          { label: "Защита маршрута", value: "Включена", status: "APPROVED", statusContext: "order" },
+          { label: "История", value: "Следующий этап", status: "PENDING", statusContext: "order" },
         ]}
       />
     </div>

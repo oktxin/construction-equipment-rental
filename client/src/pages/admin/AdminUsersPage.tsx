@@ -4,14 +4,14 @@ export function AdminUsersPage() {
   return (
     <FoundationPlaceholder
       tone="admin"
-      eyebrow="Admin foundation"
-      title="User management shell"
-      description="Blocking, role display and account search will be connected here after the core admin data stage begins."
+      eyebrow="Панель администратора"
+      title="Пользователи"
+      description="Здесь появятся блокировки, отображение ролей и поиск аккаунтов после подключения ключевого административного слоя данных."
       summary={[
-        "Prepared for compact, utilitarian user administration.",
-        "Role-aware auth state already exists in the frontend store.",
-        "The shell can host filters and quick row actions without redesign.",
-        "This is intentionally calmer than the public product pages.",
+        "Экран подготовлен под компактное и утилитарное управление пользователями.",
+        "Ролевое состояние авторизации уже существует в клиентском хранилище.",
+        "Каркас спокойно примет фильтры и быстрые row-actions без редизайна.",
+        "По тону он намеренно спокойнее публичных продуктовых страниц.",
       ]}
     />
   );

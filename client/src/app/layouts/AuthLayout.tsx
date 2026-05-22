@@ -9,22 +9,22 @@ export function AuthLayout() {
           <div className="relative z-10 flex w-full flex-col justify-between px-12 py-12">
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
-                BuildRent access
+                Личный кабинет BuildRent
               </p>
               <h1 className="max-w-xl font-heading text-[clamp(3rem,4.2vw,5.2rem)] font-semibold leading-[0.95] tracking-[-0.05em]">
-                Reliable rental flows start with a calm, controlled entry point.
+                Аренда строительного оборудования без лишних звонков
               </h1>
               <p className="max-w-lg text-base leading-7 text-background/70">
-                This shell prepares authentication, route protection and role-aware access for both public clients and internal operators.
+                Выбирайте технику, оформляйте заявку и отслеживайте статус аренды в одном личном кабинете.
               </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                "Role-aware access for client and admin routes",
-                "Design tokens shared with the public and admin shells",
-                "Auth store ready for login, register and fetchMe flows",
-                "Placeholder screens prepared for the next feature stages",
+                "Ролевой доступ уже подготовлен для клиентских и административных маршрутов.",
+                "Дизайн-токены едины для публичной части и рабочей админки.",
+                "Слой авторизации готов ко входу, регистрации и восстановлению сессии.",
+                "Каркас страниц уже собран без риска сломать дальнейший продуктовый интерфейс.",
               ].map((item) => (
                 <div key={item} className="rounded-display border border-white/10 bg-white/6 p-5 text-sm leading-6 text-background/74">
                   {item}
@@ -34,8 +34,8 @@ export function AuthLayout() {
           </div>
         </section>
 
-        <section className="relative flex items-center justify-center px-4 py-10 sm:px-6 lg:px-10">
-          <div className="w-full max-w-xl rounded-display border border-white/10 bg-adminSurface/85 p-6 shadow-industrial-dark-xl backdrop-blur-xl sm:p-8">
+        <section className="relative flex items-center justify-center px-3 py-6 sm:px-6 sm:py-10 lg:px-10">
+          <div className="w-full min-w-0 max-w-[34rem] rounded-display border border-white/10 bg-adminSurface/85 p-5 shadow-industrial-dark-xl backdrop-blur-xl sm:p-8">
             <Outlet />
           </div>
         </section>

@@ -8,11 +8,11 @@ import { cn } from "../../shared/utils/cn";
 import { MobileNav } from "./MobileNav";
 
 const publicLinks = [
-  { label: "Home", to: "/" },
-  { label: "Catalog", to: "/catalog" },
-  { label: "How it works", to: "/#rental-flow" },
-  { label: "Favorites", to: "/favorites" },
-  { label: "My orders", to: "/orders" },
+  { label: "Главная", to: "/" },
+  { label: "Каталог", to: "/catalog" },
+  { label: "Как это работает", to: "/#rental-flow" },
+  { label: "Избранное", to: "/favorites" },
+  { label: "Мои заявки", to: "/orders" },
 ];
 
 export function Header() {
@@ -46,7 +46,7 @@ export function Header() {
                 BuildRent
               </div>
               <div className="text-xs uppercase tracking-[0.2em] text-foreground/48">
-                Industrial rental
+                Прокат техники
               </div>
             </div>
           </Link>
@@ -80,24 +80,24 @@ export function Header() {
                   </span>
                   <span className="text-left">
                     <span className="block text-sm font-semibold text-foreground">
-                      {auth.user?.fullName ?? "Profile"}
+                      {auth.user?.fullName ?? "Профиль"}
                     </span>
                     <span className="block text-xs uppercase tracking-[0.18em] text-foreground/45">
-                      {auth.user?.role.name === "ADMIN" ? "Admin access" : "Client profile"}
+                      {auth.user?.role.name === "ADMIN" ? "Доступ администратора" : "Профиль клиента"}
                     </span>
                   </span>
                 </Link>
                 <Button variant="ghost" onClick={() => dispatch(logout())}>
-                  Logout
+                  Выйти
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="ghost">Login</Button>
+                  <Button variant="ghost">Войти</Button>
                 </Link>
                 <Link to="/register">
-                  <Button>Register</Button>
+                  <Button>Регистрация</Button>
                 </Link>
               </>
             )}
@@ -106,7 +106,7 @@ export function Header() {
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-card text-foreground shadow-industrial lg:hidden"
-            aria-label="Open navigation"
+            aria-label="Открыть навигацию"
             onClick={() => setMobileOpen(true)}
           >
             <span className="flex flex-col gap-1.5">

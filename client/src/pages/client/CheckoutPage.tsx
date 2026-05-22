@@ -5,19 +5,19 @@ export function CheckoutPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       <FoundationPlaceholder
         tone="public"
-        eyebrow="Protected checkout shell"
-        title="Rental checkout foundation"
-        description="Dates, delivery, comment fields and totals will be implemented here after catalog and detail page integration."
+        eyebrow="Защищенное оформление"
+        title="Оформление аренды"
+        description="Здесь появятся даты, доставка, комментарии и итоговая стоимость после интеграции каталога и карточки техники."
         summary={[
-          "Route protection already keeps checkout behind authentication.",
-          "Input, select and CTA components are ready for the real rental form.",
-          "The shell reserves a strong summary zone for pricing and deposit totals.",
-          "Validation and calculation logic are intentionally deferred to the next implementation pass.",
+          "Проверка доступа уже удерживает оформление аренды за авторизацией.",
+          "Input, select и CTA-компоненты готовы к реальной форме аренды.",
+          "Каркас заранее резервирует сильную summary-зону для стоимости и депозита.",
+          "Валидация и расчеты намеренно вынесены в следующий продуктовый проход.",
         ]}
         metrics={[
-          { label: "Access", value: "Protected", status: "APPROVED" },
-          { label: "Form shell", value: "Ready", status: "AVAILABLE" },
-          { label: "Calculation", value: "Next", status: "PENDING" },
+          { label: "Доступ", value: "Защищен", status: "APPROVED" },
+          { label: "Форма", value: "Готова", status: "AVAILABLE" },
+          { label: "Расчет", value: "Следующий этап", status: "PENDING" },
         ]}
       />
     </div>

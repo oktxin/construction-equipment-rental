@@ -4,19 +4,19 @@ export function AdminDashboardPage() {
   return (
     <FoundationPlaceholder
       tone="admin"
-      eyebrow="Admin foundation"
-      title="Operations dashboard shell"
-      description="KPI cards, review queues and report highlights will be built here on top of the dark admin workspace."
+      eyebrow="Панель администратора"
+      title="Панель администратора"
+      description="Здесь появятся KPI-карточки, очереди модерации и сводка отчетов поверх темной административной рабочей зоны."
       summary={[
-        "Dense operational layout is separated from the warmer public browsing shell.",
-        "Shared stats-style components are ready to host live numbers later.",
-        "Admin routes are guarded for ADMIN role only.",
-        "This shell is optimized for a future data-heavy workspace without shipping empty tables now.",
+        "Плотный рабочий макет намеренно отделен от более теплого публичного каталога.",
+        "Общие карточки статистики уже готовы принять живые цифры.",
+        "Admin-маршруты защищены только для роли ADMIN.",
+        "Каркас оптимизирован под насыщенное данными рабочее пространство без пустых таблиц на старте.",
       ]}
       metrics={[
-        { label: "Access", value: "Admin only", status: "APPROVED" },
-        { label: "Density", value: "Structured", status: "ACTIVE" },
-        { label: "Data", value: "Pending", status: "PENDING" },
+        { label: "Доступ", value: "Только admin", status: "APPROVED" },
+        { label: "Плотность", value: "Собрана", status: "ACTIVE" },
+        { label: "Данные", value: "В очереди", status: "PENDING" },
       ]}
     />
   );

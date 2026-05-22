@@ -5,14 +5,14 @@ export function ProfilePage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       <FoundationPlaceholder
         tone="public"
-        eyebrow="Client shell"
-        title="Profile foundation"
-        description="Account details, contact preferences and user-facing shortcuts will live here as a calm client workspace."
+        eyebrow="Клиентский кабинет"
+        title="Профиль"
+        description="Здесь будут жить учетные данные, контактные настройки и клиентские быстрые действия."
         summary={[
-          "This screen already sits behind authenticated route protection.",
-          "The shell is ready for editable contact blocks and rental activity summaries.",
-          "Shared inputs and buttons are available for future forms.",
-          "Profile and admin shells stay visually separate by design.",
+          "Экран уже расположен за защищенным маршрутом авторизованного пользователя.",
+          "Каркас готов к редактируемым контактным блокам и сводке арендной активности.",
+          "Общие inputs и buttons уже доступны для будущих форм.",
+          "Профиль и админка остаются визуально разделены по замыслу дизайн-системы.",
         ]}
       />
     </div>

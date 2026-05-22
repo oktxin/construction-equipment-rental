@@ -5,19 +5,19 @@ export function FavoritesPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       <FoundationPlaceholder
         tone="public"
-        eyebrow="Client shell"
-        title="Favorites foundation"
-        description="Saved equipment cards, quick compare actions and empty-state UX will live here when favorites are connected."
+        eyebrow="Клиентский кабинет"
+        title="Избранное"
+        description="Здесь появятся сохраненные карточки техники, быстрые действия и содержательный empty-state после подключения избранного."
         summary={[
-          "Protected route logic already guards this client-only page.",
-          "Saved equipment cards will reuse the catalog card system.",
-          "This view is shaped for an informative empty state, not a blank white page.",
-          "Micro-feedback for save and remove actions will be added later.",
+          "Эта страница уже защищена клиентской проверкой доступа.",
+          "Карточки сохраненной техники переиспользуют систему каталожных карточек.",
+          "Экран заранее собран под информативный empty-state, а не под пустое белое поле.",
+          "Микро-отклик для сохранения и удаления будет добавлен на следующем этапе.",
         ]}
         metrics={[
-          { label: "Access", value: "Protected", status: "APPROVED" },
-          { label: "Cards", value: "Shared UI", status: "AVAILABLE" },
-          { label: "Logic", value: "Pending", status: "PENDING" },
+          { label: "Доступ", value: "Защищен", status: "APPROVED" },
+          { label: "Карточки", value: "Shared UI", status: "AVAILABLE" },
+          { label: "Логика", value: "В очереди", status: "PENDING" },
         ]}
       />
     </div>

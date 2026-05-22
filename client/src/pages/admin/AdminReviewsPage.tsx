@@ -4,14 +4,14 @@ export function AdminReviewsPage() {
   return (
     <FoundationPlaceholder
       tone="admin"
-      eyebrow="Admin foundation"
-      title="Review moderation shell"
-      description="Moderation queues, publication toggles and equipment context will be introduced here in the next admin pass."
+      eyebrow="Панель администратора"
+      title="Отзывы"
+      description="Здесь появятся очереди модерации, публикация отзывов и контекст оборудования на следующем административном этапе."
       summary={[
-        "The visual system is ready for moderation-specific status cues.",
-        "This route keeps content dense and readable on both desktop and tablet.",
-        "Review states and equipment references will connect cleanly to the shell.",
-        "No fake moderation table is shipped before the real data layer.",
+        "Визуальная система уже готова к moderation-статусам и контекстным сигналам.",
+        "Маршрут сохраняет читаемость и на desktop, и на tablet.",
+        "Состояния отзывов и связи с оборудованием аккуратно подключатся к существующему каркасу.",
+        "До появления реальных данных сюда не добавляется фальшивая таблица модерации.",
       ]}
     />
   );

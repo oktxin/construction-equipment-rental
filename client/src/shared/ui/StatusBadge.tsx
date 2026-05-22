@@ -1,25 +1,12 @@
+import { type StatusLabelContext, type StatusLabelKey, getStatusLabel } from "../utils/statusLabels";
 import { Badge } from "./Badge";
 
-type SupportedStatus =
-  | "AVAILABLE"
-  | "UNAVAILABLE"
-  | "MAINTENANCE"
-  | "ARCHIVED"
-  | "PENDING"
-  | "APPROVED"
-  | "ACTIVE"
-  | "COMPLETED"
-  | "CANCELLED"
-  | "REJECTED"
-  | "PAID"
-  | "FAILED"
-  | "REFUNDED";
-
-const statusVariantMap: Record<SupportedStatus, Parameters<typeof Badge>[0]["variant"]> = {
+const statusVariantMap: Record<StatusLabelKey, Parameters<typeof Badge>[0]["variant"]> = {
   AVAILABLE: "success",
   UNAVAILABLE: "danger",
   MAINTENANCE: "warning",
   ARCHIVED: "neutral",
+  DRAFT: "neutral",
   PENDING: "warning",
   APPROVED: "accent",
   ACTIVE: "accent",
@@ -29,33 +16,30 @@ const statusVariantMap: Record<SupportedStatus, Parameters<typeof Badge>[0]["var
   PAID: "success",
   FAILED: "danger",
   REFUNDED: "neutral",
-};
-
-const labelMap: Record<SupportedStatus, string> = {
-  AVAILABLE: "Available",
-  UNAVAILABLE: "Unavailable",
-  MAINTENANCE: "Maintenance",
-  ARCHIVED: "Archived",
-  PENDING: "Pending",
-  APPROVED: "Approved",
-  ACTIVE: "Active",
-  COMPLETED: "Completed",
-  CANCELLED: "Cancelled",
-  REJECTED: "Rejected",
-  PAID: "Paid",
-  FAILED: "Failed",
-  REFUNDED: "Refunded",
+  PICKUP: "accent",
+  DELIVERY: "accent",
+  ORDER_DOCUMENT: "neutral",
+  RENTAL_HISTORY: "neutral",
+  ADMIN_RENTAL_STATISTICS: "accent",
+  EQUIPMENT_UTILIZATION: "accent",
+  PDF: "neutral",
+  DOCX: "neutral",
 };
 
 export type StatusBadgeProps = {
-  status: SupportedStatus;
+  status: StatusLabelKey;
+  context?: StatusLabelContext;
   className?: string;
 };
 
-export function StatusBadge({ status, className }: StatusBadgeProps) {
+export function StatusBadge({
+  status,
+  context = "generic",
+  className,
+}: StatusBadgeProps) {
   return (
     <Badge variant={statusVariantMap[status]} className={className}>
-      {labelMap[status]}
+      {getStatusLabel(status, context)}
     </Badge>
   );
 }

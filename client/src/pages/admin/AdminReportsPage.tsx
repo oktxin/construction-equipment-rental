@@ -4,19 +4,19 @@ export function AdminReportsPage() {
   return (
     <FoundationPlaceholder
       tone="admin"
-      eyebrow="Admin foundation"
-      title="Admin reports shell"
-      description="Operational exports, generated documents and statistics controls will be added here once report UI work begins."
+      eyebrow="Панель администратора"
+      title="Отчеты"
+      description="Здесь появятся выгрузки, сгенерированные документы и управление статистическими отчетами."
       summary={[
-        "Prepared for mixed metadata, filters and action-heavy report cards.",
-        "The route stays consistent with the rest of admin operations UI.",
-        "Export and generation states can reuse the shared loading and empty surfaces.",
-        "The backend already supports reports, this shell prepares the frontend landing zone.",
+        "Экран подготовлен под смешанные метаданные, фильтры и action-heavy карточки отчетов.",
+        "Маршрут остается консистентным с остальной системой административного интерфейса.",
+        "Состояния выгрузки и генерации переиспользуют общие loading и empty-сценарии.",
+        "Сервер уже поддерживает отчеты, а этот каркас готовит чистую точку входа для интерфейса.",
       ]}
       metrics={[
-        { label: "Exports", value: "Prepared", status: "AVAILABLE" },
-        { label: "Visibility", value: "Admin only", status: "APPROVED" },
-        { label: "Analytics", value: "Next", status: "PENDING" },
+        { label: "Выгрузки", value: "Подготовлены", status: "AVAILABLE" },
+        { label: "Видимость", value: "Только admin", status: "APPROVED" },
+        { label: "Аналитика", value: "Следующий этап", status: "PENDING" },
       ]}
     />
   );

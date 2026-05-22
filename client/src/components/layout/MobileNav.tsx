@@ -6,11 +6,11 @@ import { Button } from "../../shared/ui";
 import { cn } from "../../shared/utils/cn";
 
 const mobileLinks = [
-  { label: "Home", to: "/" },
-  { label: "Catalog", to: "/catalog" },
-  { label: "Favorites", to: "/favorites" },
-  { label: "My orders", to: "/orders" },
-  { label: "Reports", to: "/reports" },
+  { label: "Главная", to: "/" },
+  { label: "Каталог", to: "/catalog" },
+  { label: "Избранное", to: "/favorites" },
+  { label: "Мои заявки", to: "/orders" },
+  { label: "Отчеты", to: "/reports" },
 ];
 
 export type MobileNavProps = {
@@ -32,7 +32,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
     >
       <button
         type="button"
-        aria-label="Close menu overlay"
+        aria-label="Закрыть подложку меню"
         className="absolute inset-0 bg-secondary/55 backdrop-blur-sm"
         onClick={onClose}
       />
@@ -48,13 +48,13 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
               BuildRent
             </p>
             <p className="text-xs uppercase tracking-[0.18em] text-foreground/45">
-              Navigation
+              Навигация
             </p>
           </div>
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background text-foreground"
-            aria-label="Close navigation"
+            aria-label="Закрыть навигацию"
             onClick={onClose}
           >
             <span className="text-lg">+</span>
@@ -89,7 +89,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
               <div className="flex flex-col gap-3">
                 <Link to={auth.user?.role.name === "ADMIN" ? "/admin" : "/profile"} onClick={onClose}>
                   <Button className="w-full justify-center">
-                    {auth.user?.role.name === "ADMIN" ? "Open admin" : "Open profile"}
+                    {auth.user?.role.name === "ADMIN" ? "Панель администратора" : "Открыть профиль"}
                   </Button>
                 </Link>
                 <Button
@@ -100,23 +100,23 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                     onClose();
                   }}
                 >
-                  Logout
+                  Выйти
                 </Button>
               </div>
             </div>
           ) : (
             <div className="space-y-4">
               <p className="text-sm leading-6 text-foreground/62">
-                Sign in to access saved equipment, reports and rental history.
+                Войдите, чтобы открыть избранное, отчеты и историю аренды в одном кабинете.
               </p>
               <div className="flex flex-col gap-3">
                 <Link to="/login" onClick={onClose}>
                   <Button variant="secondary" className="w-full justify-center">
-                    Login
+                    Войти
                   </Button>
                 </Link>
                 <Link to="/register" onClick={onClose}>
-                  <Button className="w-full justify-center">Register</Button>
+                  <Button className="w-full justify-center">Регистрация</Button>
                 </Link>
               </div>
             </div>

@@ -4,14 +4,14 @@ export function AdminEquipmentPage() {
   return (
     <FoundationPlaceholder
       tone="admin"
-      eyebrow="Admin foundation"
-      title="Equipment management shell"
-      description="Inventory controls, status changes, featured flags and asset maintenance will be added here in the next admin stage."
+      eyebrow="Панель администратора"
+      title="Оборудование"
+      description="Здесь появятся управление остатками, смена статусов, featured-флаги и обслуживание техники."
       summary={[
-        "The page is reserved for dense but readable operational UI.",
-        "Shared status badges already support equipment statuses.",
-        "Table and edit flows are intentionally postponed until the next stage.",
-        "The layout already accounts for filters, quick actions and side panels.",
+        "Страница зарезервирована под плотный, но читаемый рабочий интерфейс.",
+        "Общие статусные бейджи уже поддерживают статусы оборудования на русском.",
+        "Таблицы и edit-flow намеренно вынесены на следующий этап.",
+        "Макет уже учитывает фильтры, быстрые действия и боковые панели.",
       ]}
     />
   );

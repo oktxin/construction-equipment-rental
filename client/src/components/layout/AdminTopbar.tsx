@@ -19,7 +19,7 @@ export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-adminSurface text-white lg:hidden"
-            aria-label="Open admin menu"
+            aria-label="Открыть меню администратора"
             onClick={onOpenSidebar}
           >
             <span className="flex flex-col gap-1.5">
@@ -34,12 +34,12 @@ export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
               tone="admin"
               items={[
                 { label: "BuildRent", to: "/" },
-                { label: "Admin", to: "/admin" },
-                { label: auth.user?.role.name === "ADMIN" ? "Operations" : "Workspace" },
+                { label: "Админка", to: "/admin" },
+                { label: auth.user?.role.name === "ADMIN" ? "Операции" : "Рабочая зона" },
               ]}
             />
             <p className="text-sm text-white/52">
-              Operational workspace with route guards, shared UI and foundation screens.
+              Рабочее пространство с защитой маршрутов, общим UI-слоем и подготовленными экранами.
             </p>
           </div>
         </div>
@@ -47,7 +47,7 @@ export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
         <div className="flex flex-wrap items-center gap-3">
           <Link to="/profile">
             <Button variant="ghost" className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong">
-              Profile
+              Профиль
             </Button>
           </Link>
           <Button
@@ -55,7 +55,7 @@ export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
             className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong"
             onClick={() => dispatch(logout())}
           >
-            Logout
+            Выйти
           </Button>
         </div>
       </div>

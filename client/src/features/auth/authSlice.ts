@@ -44,7 +44,7 @@ export const initializeAuth = createAsyncThunk(
       return { token, user };
     } catch (error) {
       persistToken(null);
-      return rejectWithValue("Session expired. Please sign in again.");
+      return rejectWithValue("Сессия истекла. Пожалуйста, войдите снова.");
     }
   },
 );
@@ -57,7 +57,7 @@ export const login = createAsyncThunk(
       persistToken(result.token);
       return result;
     } catch (error) {
-      return rejectWithValue("Unable to sign in with the provided credentials.");
+      return rejectWithValue("Не удалось войти с указанными учетными данными.");
     }
   },
 );
@@ -70,7 +70,7 @@ export const register = createAsyncThunk(
       persistToken(result.token);
       return result;
     } catch (error) {
-      return rejectWithValue("Unable to create the account right now.");
+      return rejectWithValue("Не удалось создать аккаунт прямо сейчас.");
     }
   },
 );
@@ -81,7 +81,7 @@ export const fetchMe = createAsyncThunk(
     try {
       return await fetchCurrentUserRequest();
     } catch (error) {
-      return rejectWithValue("Unable to load the current user.");
+      return rejectWithValue("Не удалось загрузить текущего пользователя.");
     }
   },
 );
@@ -137,7 +137,7 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = (action.payload as string) ?? "Unable to sign in.";
+        state.error = (action.payload as string) ?? "Не удалось выполнить вход.";
       })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -151,7 +151,7 @@ const authSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = (action.payload as string) ?? "Unable to register.";
+        state.error = (action.payload as string) ?? "Не удалось зарегистрироваться.";
       })
       .addCase(fetchMe.pending, (state) => {
         state.isLoading = true;
@@ -167,7 +167,7 @@ const authSlice = createSlice({
         state.token = null;
         state.isInitialized = true;
         state.isLoading = false;
-        state.error = (action.payload as string) ?? "Unable to load the user.";
+        state.error = (action.payload as string) ?? "Не удалось загрузить пользователя.";
         persistToken(null);
       });
   },
