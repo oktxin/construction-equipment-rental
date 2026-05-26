@@ -10,7 +10,7 @@ import { MobileNav } from "./MobileNav";
 const publicLinks = [
   { label: "Главная", to: "/" },
   { label: "Каталог", to: "/catalog" },
-  { label: "Как это работает", to: "/#rental-flow" },
+  { label: "Как это работает", to: "/#how-it-works" },
 ];
 
 export function Header() {

@@ -228,3 +228,63 @@ Login и register страницы также получили:
 - исходный маршрут сохраняется в `location.state.from`, чтобы вернуть клиента после логина;
 - `AdminRoute` отдельно проверяет наличие роли `ADMIN`;
 - пользователь без admin-прав не попадает в `/admin`.
+
+## Живая главная страница
+
+Публичная HomePage больше не является только визуальным shell-экраном.
+
+Теперь она:
+
+- подключена к backend API;
+- получает реальные категории через `GET /api/categories`;
+- получает featured equipment через `GET /api/equipment/featured`;
+- отображает reusable карточки категорий и техники;
+- сохраняет индустриальный BuildRent visual direction из дизайн-концепта;
+- имеет отдельные loading, empty и error states по секциям.
+
+## Public Catalog API Layer
+
+Во frontend добавлен отдельный public catalog слой:
+
+- `client/src/features/catalog/catalogTypes.ts`
+- `client/src/features/catalog/catalogApi.ts`
+
+Подготовлены методы:
+
+- `getCategories`
+- `getFeaturedEquipment`
+- `getEquipment`
+- `getEquipmentBySlug`
+
+Это позволяет дальше подключать:
+
+- страницу каталога;
+- детальную карточку оборудования;
+- похожие подборки и фильтры.
+
+## CategoryCard и EquipmentCard
+
+Для публичной части добавлены reusable-компоненты:
+
+- `CategoryCard`
+- `EquipmentCard`
+- `EquipmentPrice`
+- `EquipmentAvailability`
+
+`CategoryCard` ведёт в `/catalog?categorySlug=...`.
+
+`EquipmentCard` уже показывает:
+
+- основное изображение;
+- название;
+- бренд и модель;
+- краткое описание;
+- цену за сутки;
+- залог;
+- availability status;
+- рейтинг и число отзывов;
+- переход в `/equipment/:slug`.
+
+Подробности по публичным страницам вынесены в:
+
+- [docs/frontend-public-pages.md](./frontend-public-pages.md)

@@ -158,6 +158,7 @@ The first frontend foundation pass now includes:
 Frontend documentation:
 
 - [docs/frontend-foundation.md](docs/frontend-foundation.md)
+- [docs/frontend-public-pages.md](docs/frontend-public-pages.md)
 
 Main frontend routes currently prepared:
 
@@ -183,6 +184,11 @@ Main frontend routes currently prepared:
 Frontend environment:
 
 - `VITE_API_URL=http://localhost:4000/api`
+
+Public homepage:
+
+- `/` now loads live categories from `GET /api/categories`
+- `/` now loads featured equipment from `GET /api/equipment/featured`
 
 Run frontend locally:
 

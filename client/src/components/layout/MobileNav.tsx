@@ -8,7 +8,7 @@ import { cn } from "../../shared/utils/cn";
 const publicLinks = [
   { label: "Главная", to: "/" },
   { label: "Каталог", to: "/catalog" },
-  { label: "Как это работает", to: "/#rental-flow" },
+  { label: "Как это работает", to: "/#how-it-works" },
 ];
 
 const privateLinks = [
