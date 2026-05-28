@@ -21,6 +21,8 @@ export const genericStatusLabels = {
   EQUIPMENT_UTILIZATION: "Использование оборудования",
   PDF: "PDF",
   DOCX: "DOCX",
+  ADMIN: "Администратор",
+  CLIENT: "Клиент",
 } as const;
 
 export type StatusLabelKey = keyof typeof genericStatusLabels;
@@ -102,3 +104,6 @@ export const getReportTypeLabel = (status: StatusLabelKey) =>
 
 export const getReportFormatLabel = (status: StatusLabelKey) =>
   getStatusLabel(status, "reportFormat");
+
+export const getUserRoleLabel = (status: Extract<StatusLabelKey, "ADMIN" | "CLIENT">) =>
+  getStatusLabel(status);

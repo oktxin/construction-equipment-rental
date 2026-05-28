@@ -1,5 +1,12 @@
 import { apiClient } from "../../shared/api/apiClient";
-import type { DownloadedReport, ReportFormat, ReportListItem } from "./reportsTypes";
+import type {
+  DownloadedReport,
+  Report,
+  ReportFormat,
+  ReportsQueryParams,
+  ReportsResponse,
+} from "./reportsTypes";
+import type { PaginationMeta } from "../catalog/catalogTypes";
 
 type ApiEnvelope<T> = {
   status?: "success" | "error";
@@ -8,12 +15,32 @@ type ApiEnvelope<T> = {
   data: T;
 };
 
+type RawReport = Omit<Report, "createdAt"> & {
+  createdAt: string;
+};
+
 function unwrapData<T>(payload: ApiEnvelope<T> | T) {
   if (payload && typeof payload === "object" && "data" in payload) {
     return payload.data as T;
   }
 
   return payload as T;
+}
+
+function normalizePagination(pagination: PaginationMeta): PaginationMeta {
+  return {
+    page: Number(pagination.page) || 1,
+    limit: Number(pagination.limit) || 10,
+    total: Number(pagination.total) || 0,
+    totalPages: Number(pagination.totalPages) || 1,
+  };
+}
+
+function normalizeReport(item: RawReport): Report {
+  return {
+    ...item,
+    createdAt: item.createdAt,
+  };
 }
 
 function extractFileName(contentDisposition?: string) {
@@ -47,13 +74,28 @@ function triggerBrowserDownload({ blob, fileName }: DownloadedReport) {
 }
 
 export async function createOrderReport(orderId: string, format: ReportFormat) {
-  const response = await apiClient.post<ApiEnvelope<ReportListItem>>(
+  const response = await apiClient.post<ApiEnvelope<Report>>(
     `/reports/order/${orderId}`,
     { format },
     { timeout: 30000 },
   );
 
   return unwrapData(response.data);
+}
+
+export async function getMyReports(params?: ReportsQueryParams) {
+  const response = await apiClient.get<
+    ApiEnvelope<{
+      items: RawReport[];
+      pagination: PaginationMeta;
+    }>
+  >("/reports/my", { params });
+  const data = unwrapData(response.data);
+
+  return {
+    items: (data.items ?? []).map(normalizeReport),
+    pagination: normalizePagination(data.pagination),
+  } satisfies ReportsResponse;
 }
 
 export async function downloadReport(reportId: string) {

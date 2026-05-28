@@ -220,6 +220,15 @@ Client orders pages:
 - allows cancellation through `PATCH /api/rental-orders/:id/cancel` for `PENDING` and `APPROVED`
 - allows downloading order documents in `PDF` and `DOCX` through the reports endpoints
 
+Client cabinet pages:
+
+- `/favorites` is protected and now loads saved equipment from `GET /api/favorites`
+- supports removing items through `DELETE /api/favorites/:equipmentId`, empty state, and pagination
+- `/profile` is protected and now shows customer account data with an editable contact form
+- saves profile changes through `PATCH /api/users/:id` and refreshes the auth user after update
+- `/reports` is protected and now loads customer report history from `GET /api/reports/my`
+- supports filtering by report type and format, plus downloading files through `GET /api/reports/:id/download`
+
 Run frontend locally:
 
 ```bash

@@ -24,6 +24,8 @@ const statusVariantMap: Record<StatusLabelKey, Parameters<typeof Badge>[0]["vari
   EQUIPMENT_UTILIZATION: "accent",
   PDF: "neutral",
   DOCX: "neutral",
+  ADMIN: "accent",
+  CLIENT: "neutral",
 };
 
 export type StatusBadgeProps = {

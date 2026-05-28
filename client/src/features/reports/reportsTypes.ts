@@ -1,3 +1,5 @@
+import type { PaginationMeta } from "../catalog/catalogTypes";
+
 export type ReportType =
   | "ORDER_DOCUMENT"
   | "RENTAL_HISTORY"
@@ -6,7 +8,7 @@ export type ReportType =
 
 export type ReportFormat = "PDF" | "DOCX";
 
-export type ReportListItem = {
+export type Report = {
   id: string;
   userId: string;
   rentalOrderId: string | null;
@@ -16,6 +18,23 @@ export type ReportListItem = {
   fileUrl: string | null;
   downloadUrl: string;
   createdAt: string;
+  rentalOrder?: {
+    id: string;
+    orderNumber: string;
+    status: "PENDING" | "APPROVED" | "ACTIVE" | "COMPLETED" | "CANCELLED" | "REJECTED";
+  } | null;
+};
+
+export type ReportsQueryParams = {
+  type?: ReportType;
+  format?: ReportFormat;
+  page?: number;
+  limit?: number;
+};
+
+export type ReportsResponse = {
+  items: Report[];
+  pagination: PaginationMeta;
 };
 
 export type DownloadedReport = {

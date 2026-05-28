@@ -237,3 +237,75 @@ The `/orders/:id` page opens a full detail view for one rental order and keeps d
 - desktop: форма слева и sticky summary справа;
 - tablet: summary уходит под форму, блоки сохраняют плотный и читаемый ритм;
 - mobile: вся форма собирается в одну колонку без overflow, кнопки и карточка summary остаются удобными для тапа.
+
+## FavoritesPage
+
+Страница `/favorites` теперь подключена к живому списку избранного клиента и остаётся внутри существующего light industrial client area.
+
+### Connected endpoints
+
+- `GET /api/favorites`
+- `DELETE /api/favorites/:equipmentId`
+
+### What FavoritesPage supports
+
+- breadcrumbs `Главная / Избранное`
+- page header с CTA обратно в каталог
+- grid `3 / 2 / 1` на desktop, tablet и mobile
+- переиспользование `EquipmentCard` для сохранённой техники
+- локальный feedback после удаления из избранного
+- loading, error, empty states и pagination
+
+### Responsive behavior
+
+- desktop: три карточки в ряд
+- tablet: две карточки в ряд
+- mobile: одна карточка в ряд без horizontal overflow на `320px`
+
+## ProfilePage
+
+Страница `/profile` собирает карточку пользователя, форму редактирования и быстрые действия клиентского кабинета.
+
+### Connected endpoints
+
+- `GET /api/auth/me`
+- `PATCH /api/users/:id`
+
+### What ProfilePage supports
+
+- breadcrumbs `Главная / Профиль`
+- summary card с ФИО, email, телефоном, ролью и датой регистрации
+- форма на `react-hook-form + zod`
+- editable fields: `fullName`, `phone`, `avatarUrl`
+- readonly fields: `email`, `role`
+- обновление auth user после успешного сохранения
+- быстрые переходы в `/orders`, `/favorites`, `/reports`, `/catalog`
+
+### Responsive behavior
+
+- desktop: form content и quick actions разнесены по двум колонкам
+- mobile: форма и action cards складываются в одну колонку без overflow
+
+## ReportsPage
+
+Страница `/reports` показывает клиентские документы и историю выгрузок с отдельным действием скачивания для каждой записи.
+
+### Connected endpoints
+
+- `GET /api/reports/my`
+- `GET /api/reports/:id/download`
+
+### What ReportsPage supports
+
+- breadcrumbs `Главная / Отчёты`
+- page header с переходом к заявкам
+- filters by report `type` and `format`
+- reset filters action
+- list of report cards with title, type, format, created date, and related order
+- download button с отдельным loading state на уровне одной записи
+- loading, error, empty states и pagination
+
+### Responsive behavior
+
+- desktop: filters and cards remain inline and readable
+- mobile: filters stack vertically, cards stay single-column, and the page keeps `320px` stability without overflow

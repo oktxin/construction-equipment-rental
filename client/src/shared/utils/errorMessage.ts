@@ -89,6 +89,10 @@ function normalizeKnownMessage(message: string, status?: number) {
     return "Оборудование не найдено";
   }
 
+  if (normalizedMessage.includes("archived equipment cannot be added to favorites")) {
+    return "Архивную позицию нельзя добавить в избранное";
+  }
+
   if (normalizedMessage.includes("rental order not found")) {
     return "Заявка не найдена";
   }
@@ -107,6 +111,14 @@ function normalizeKnownMessage(message: string, status?: number) {
 
   if (normalizedMessage.includes("report not found")) {
     return "Отчёт не найден";
+  }
+
+  if (normalizedMessage.includes("user not found")) {
+    return "Пользователь не найден";
+  }
+
+  if (normalizedMessage.includes("you do not have permission to update this user")) {
+    return "Нет доступа для изменения профиля";
   }
 
   if (normalizedMessage.includes("you do not have permission to download this report")) {
