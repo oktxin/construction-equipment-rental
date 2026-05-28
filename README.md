@@ -190,6 +190,13 @@ Public homepage:
 - `/` now loads live categories from `GET /api/categories`
 - `/` now loads featured equipment from `GET /api/equipment/featured`
 
+Public catalog page:
+
+- `/catalog` now loads live equipment from `GET /api/equipment`
+- supports search, filters, sorting, pagination, and category deep links
+- keeps catalog settings in `localStorage` under `buildrent.catalog.filters`
+- syncs active catalog state with `URLSearchParams`
+
 Run frontend locally:
 
 ```bash

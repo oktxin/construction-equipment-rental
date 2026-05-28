@@ -65,3 +65,62 @@
 - empty state, если backend вернул пустой набор.
 
 Ошибки одной секции не ломают вторую и не ломают весь экран.
+
+## CatalogPage
+
+Страница `/catalog` теперь подключена к живому backend endpoint `GET /api/equipment` и работает как полноценный публичный каталог.
+
+### Подключённые endpoints
+
+- `GET /api/equipment`
+- `GET /api/categories`
+
+### Что поддерживает CatalogPage
+
+- поиск по `name`, `brand`, `model` через `search`;
+- фильтр по `categorySlug`;
+- фильтр по диапазону `minPrice` / `maxPrice`;
+- фильтр по `status` (`AVAILABLE`, `UNAVAILABLE`, `MAINTENANCE`);
+- переключатель `isFeatured` для популярных позиций;
+- сортировку по `createdAt`, `dailyPrice`, `name`, `rating`;
+- пагинацию через `page` и `limit`.
+
+### URLSearchParams и localStorage
+
+Каталог использует хук `useCatalogFilters`, который:
+
+- читает начальное состояние из `URLSearchParams`;
+- если URL пустой, восстанавливает состояние из `localStorage`;
+- синхронизирует фильтры, сортировку и лимит с URL;
+- сохраняет настройки в `localStorage` по ключу `buildrent.catalog.filters`;
+- очищает и URL, и `localStorage` по кнопке сброса.
+
+Сохраняются:
+
+- `search`
+- `categorySlug`
+- `minPrice`
+- `maxPrice`
+- `status`
+- `isFeatured`
+- `sortBy`
+- `sortOrder`
+- `limit`
+
+### Состояния страницы
+
+На CatalogPage реализованы:
+
+- skeleton для фильтров и сетки карточек;
+- отдельный error state для каталога;
+- отдельная ошибка загрузки категорий внутри блока фильтров;
+- empty state для пустой выдачи;
+- валидация диапазона цены без отправки некорректного запроса.
+
+### Responsive behavior
+
+Страница адаптирована для:
+
+- desktop: левый sticky-блок фильтров и сетка из 3 карточек;
+- tablet: сетка из 2 карточек;
+- mobile: одна карточка в ряд и отдельная нижняя панель фильтров с кнопками "Применить" и "Сбросить".

@@ -30,6 +30,10 @@ export type EquipmentSpec = {
 };
 
 export type EquipmentStatus = "AVAILABLE" | "UNAVAILABLE" | "MAINTENANCE" | "ARCHIVED";
+export type PublicEquipmentStatus = Exclude<EquipmentStatus, "ARCHIVED">;
+
+export type CatalogSortBy = "name" | "dailyPrice" | "createdAt" | "popularity" | "rating";
+export type CatalogSortOrder = "asc" | "desc";
 
 export type EquipmentListItem = {
   id: string;
@@ -100,11 +104,44 @@ export type EquipmentDetail = {
   similarEquipment: EquipmentListItem[];
 };
 
+export type CatalogFilterState = {
+  search: string;
+  categorySlug: string;
+  minPrice?: number;
+  maxPrice?: number;
+  status?: PublicEquipmentStatus;
+  isFeatured: boolean;
+  sortBy: CatalogSortBy;
+  sortOrder: CatalogSortOrder;
+  page: number;
+  limit: number;
+};
+
+export type PersistedCatalogFilters = Pick<
+  CatalogFilterState,
+  "search" | "categorySlug" | "minPrice" | "maxPrice" | "status" | "isFeatured" | "sortBy" | "sortOrder" | "limit"
+>;
+
+export type CatalogQueryParams = {
+  search?: string;
+  categorySlug?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  status?: PublicEquipmentStatus;
+  isFeatured?: boolean;
+  sortBy?: CatalogSortBy;
+  sortOrder?: CatalogSortOrder;
+  page?: number;
+  limit?: number;
+};
+
+export type CatalogAppliedFilters = Partial<CatalogQueryParams>;
+
 export type CatalogResponse = {
   items: EquipmentListItem[];
   pagination: PaginationMeta;
   filters?: {
-    applied: Record<string, unknown>;
+    applied?: CatalogAppliedFilters;
   };
 };
 
@@ -113,19 +150,6 @@ export type FeaturedEquipmentResponse = EquipmentListItem[];
 export type CategoriesResponse = {
   items: Category[];
   pagination: PaginationMeta;
-};
-
-export type CatalogQueryParams = {
-  search?: string;
-  categorySlug?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  status?: EquipmentStatus;
-  isFeatured?: boolean;
-  sortBy?: "name" | "dailyPrice" | "createdAt" | "popularity" | "rating";
-  sortOrder?: "asc" | "desc";
-  page?: number;
-  limit?: number;
 };
 
 export type CategoryQueryParams = {
