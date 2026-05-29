@@ -131,6 +131,77 @@
 - tablet: галерея и summary складываются в вертикальный поток, similar equipment идет по 2 карточки в ряд;
 - mobile: одна карточка в ряд, миниатюры без horizontal overflow, характеристики читаются как вертикальный список, layout остается стабильным на ширине `320px`.
 
+## MyOrdersPage
+
+The `/orders` page is now connected to the protected client flow and shows the current user's rental history.
+
+### Connected endpoints
+
+- `GET /api/rental-orders/my`
+
+### What MyOrdersPage supports
+
+- breadcrumbs `Главная / Мои заявки`
+- page header with a CTA back to the catalog
+- status tabs for `ALL`, `PENDING`, `APPROVED`, `ACTIVE`, `COMPLETED`, `CANCELLED`, and `REJECTED`
+- page reset to `1` when the status filter changes
+- `OrderCard` blocks with order number, status, rental period, item count, total amount, and link to detail page
+- pagination for multi-page order history
+- Russian loading, empty, and error states
+
+### Query parameters
+
+- `status`
+- `page`
+
+### Responsive behavior
+
+- desktop: full-width order cards with inline summary blocks
+- tablet: cards keep the same hierarchy and totals move into stacked groups
+- mobile: status tabs scroll horizontally, cards stay in one column, and there is no horizontal overflow at `320px`
+
+## OrderDetailPage
+
+The `/orders/:id` page opens a full detail view for one rental order and keeps documents and destructive actions inside the same protected screen.
+
+### Connected endpoints
+
+- `GET /api/rental-orders/my/:id`
+- `PATCH /api/rental-orders/:id/cancel`
+- `POST /api/reports/order/:orderId`
+- `GET /api/reports/:id/download`
+
+### What OrderDetailPage supports
+
+- breadcrumbs `Главная / Мои заявки / BR-...`
+- header with order number, status badge, created date, and back button
+- `OrderTimeline` for regular order progression and a separate negative-state layout for `CANCELLED` and `REJECTED`
+- rental details block with dates, delivery type, delivery address, customer comment, and manager comment
+- `OrderItemsList` with item-by-item cost breakdown
+- `OrderTotals` in the sticky summary column
+- `OrderDocumentsPanel` with separate loading state for `PDF` and `DOCX`
+- `OrderActions` with a confirmation modal and in-place state refresh after cancellation
+
+### Cancel order flow
+
+- cancel is shown only for `PENDING` and `APPROVED`
+- the user confirms the action in a modal
+- the page updates local detail state after a successful `PATCH`
+- success and error feedback remain visible inside the actions card
+
+### Order documents flow
+
+- reports are generated only after clicking `Скачать PDF` or `Скачать DOCX`
+- frontend first calls `POST /api/reports/order/:orderId`
+- after receiving `report.id`, frontend downloads the file through `GET /api/reports/:id/download`
+- download uses `blob` plus a temporary link so authenticated file saving works correctly in the browser
+
+### Responsive behavior
+
+- desktop: main content on the left, sticky summary and actions on the right
+- tablet: the summary column moves below the main content while keeping block order readable
+- mobile: the layout becomes a single column, sticky behavior disappears naturally, and download/cancel buttons remain full-width
+
 ## CheckoutPage
 
 Страница `/checkout` работает как защищенный клиентский checkout flow и принимает `equipmentId` через query string.

@@ -212,6 +212,14 @@ Checkout page:
 - creates rental orders via `POST /api/rental-orders`
 - shows a success state with a link to `/orders`
 
+Client orders pages:
+
+- `/orders` is protected and now shows the current user's rental history
+- supports status filtering and pagination for `GET /api/rental-orders/my`
+- `/orders/:id` shows order details, timeline, totals, and order items
+- allows cancellation through `PATCH /api/rental-orders/:id/cancel` for `PENDING` and `APPROVED`
+- allows downloading order documents in `PDF` and `DOCX` through the reports endpoints
+
 Run frontend locally:
 
 ```bash

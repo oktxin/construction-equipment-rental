@@ -7,6 +7,7 @@ import type {
   RentalOrdersQueryParams,
   RentalOrdersResponse,
 } from "./rentalOrdersTypes";
+import type { PaginationMeta } from "../catalog/catalogTypes";
 
 type ApiEnvelope<T> = {
   status?: "success" | "error";
@@ -21,6 +22,37 @@ function unwrapData<T>(payload: ApiEnvelope<T> | T) {
   }
 
   return payload as T;
+}
+
+function normalizePagination(pagination: PaginationMeta): PaginationMeta {
+  return {
+    page: Number(pagination.page) || 1,
+    limit: Number(pagination.limit) || 10,
+    total: Number(pagination.total) || 0,
+    totalPages: Number(pagination.totalPages) || 1,
+  };
+}
+
+function normalizeRentalOrder(order: RentalOrder): RentalOrder {
+  return {
+    ...order,
+    daysCount: Number(order.daysCount) || 1,
+    subtotal: Number(order.subtotal) || 0,
+    depositTotal: Number(order.depositTotal) || 0,
+    deliveryPrice: Number(order.deliveryPrice) || 0,
+    totalPrice: Number(order.totalPrice) || 0,
+    items: (order.items ?? []).map((item) => ({
+      ...item,
+      quantity: Number(item.quantity) || 0,
+      dailyPrice: Number(item.dailyPrice) || 0,
+      daysCount: Number(item.daysCount) || 1,
+      lineTotal: Number(item.lineTotal) || 0,
+      equipment: {
+        ...item.equipment,
+        quantityAvailable: Number(item.equipment.quantityAvailable) || 0,
+      },
+    })),
+  };
 }
 
 export async function calculateRentalOrder(payload: RentalOrderCalculateRequest) {
@@ -38,7 +70,7 @@ export async function createRentalOrder(payload: CreateRentalOrderRequest) {
     payload,
   );
 
-  return unwrapData(response.data);
+  return normalizeRentalOrder(unwrapData(response.data));
 }
 
 export async function getMyOrders(params?: RentalOrdersQueryParams) {
@@ -47,10 +79,23 @@ export async function getMyOrders(params?: RentalOrdersQueryParams) {
     { params },
   );
 
-  return unwrapData(response.data);
+  const data = unwrapData(response.data);
+
+  return {
+    items: (data.items ?? []).map(normalizeRentalOrder),
+    pagination: normalizePagination(data.pagination),
+  } satisfies RentalOrdersResponse;
 }
 
 export async function getMyOrderById(id: string) {
   const response = await apiClient.get<ApiEnvelope<RentalOrder>>(`/rental-orders/my/${id}`);
-  return unwrapData(response.data);
+  return normalizeRentalOrder(unwrapData(response.data));
+}
+
+export async function cancelRentalOrder(id: string) {
+  const response = await apiClient.patch<ApiEnvelope<RentalOrder>>(
+    `/rental-orders/${id}/cancel`,
+  );
+
+  return normalizeRentalOrder(unwrapData(response.data));
 }

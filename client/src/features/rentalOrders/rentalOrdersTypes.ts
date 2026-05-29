@@ -8,6 +8,8 @@ export type OrderStatus =
   | "COMPLETED"
   | "CANCELLED"
   | "REJECTED";
+export type RentalOrdersSortBy = "createdAt" | "startDate" | "totalPrice" | "status";
+export type RentalOrdersSortOrder = "asc" | "desc";
 
 export type RentalOrderCalculateRequest = {
   startDate: string;
@@ -115,6 +117,6 @@ export type RentalOrdersQueryParams = {
   status?: OrderStatus;
   page?: number;
   limit?: number;
-  sortBy?: "createdAt" | "startDate" | "totalPrice" | "status";
-  sortOrder?: "asc" | "desc";
+  sortBy?: RentalOrdersSortBy;
+  sortOrder?: RentalOrdersSortOrder;
 };

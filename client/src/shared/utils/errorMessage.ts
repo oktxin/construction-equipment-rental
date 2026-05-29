@@ -89,6 +89,34 @@ function normalizeKnownMessage(message: string, status?: number) {
     return "Оборудование не найдено";
   }
 
+  if (normalizedMessage.includes("rental order not found")) {
+    return "Заявка не найдена";
+  }
+
+  if (normalizedMessage.includes("you do not have permission to view this rental order")) {
+    return "Эта заявка недоступна для просмотра";
+  }
+
+  if (normalizedMessage.includes("you do not have permission to cancel this rental order")) {
+    return "Эту заявку нельзя отменить";
+  }
+
+  if (normalizedMessage.includes("status transition") && normalizedMessage.includes("cancelled")) {
+    return "Заявку с текущим статусом уже нельзя отменить";
+  }
+
+  if (normalizedMessage.includes("report not found")) {
+    return "Отчёт не найден";
+  }
+
+  if (normalizedMessage.includes("you do not have permission to download this report")) {
+    return "У вас нет доступа к этому документу";
+  }
+
+  if (normalizedMessage.includes("file") && normalizedMessage.includes("not found")) {
+    return "Файл отчёта сейчас недоступен";
+  }
+
   if (status === 400 || normalizedMessage.includes("validation failed")) {
     return "Проверьте введённые данные";
   }
