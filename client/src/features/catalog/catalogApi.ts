@@ -29,6 +29,45 @@ type RawCategory = {
   };
 };
 
+type RawEquipmentImage = {
+  id: string;
+  url: string;
+  alt: string | null;
+  sortOrder: number;
+  equipmentId?: string;
+  createdAt?: string;
+};
+
+type RawEquipmentSpec = {
+  id: string;
+  name: string;
+  value: string;
+  unit: string | null;
+  sortOrder: number;
+};
+
+type RawEquipmentReview = {
+  id: string;
+  userId?: string;
+  equipmentId?: string;
+  rating: number;
+  text: string;
+  isPublished?: boolean;
+  createdAt: string;
+  updatedAt?: string;
+  user: {
+    id: string;
+    fullName: string;
+    avatarUrl: string | null;
+  };
+};
+
+type RawEquipmentDetail = Omit<EquipmentDetail, "images" | "specs" | "reviews"> & {
+  images: RawEquipmentImage[];
+  specs: RawEquipmentSpec[];
+  reviews: RawEquipmentReview[];
+};
+
 type RawCatalogResponse = {
   items: CatalogResponse["items"];
   pagination: PaginationMeta;
@@ -62,6 +101,63 @@ function normalizeCategory(category: RawCategory): Category {
     description: category.description,
     iconName: category.iconName,
     equipmentCount: category._count?.equipment ?? 0,
+  };
+}
+
+function normalizeEquipmentImage(image: RawEquipmentImage) {
+  return {
+    id: image.id,
+    url: image.url,
+    alt: image.alt,
+    sortOrder: Number(image.sortOrder) || 0,
+    equipmentId: image.equipmentId,
+    createdAt: image.createdAt,
+  };
+}
+
+function normalizeEquipmentSpec(spec: RawEquipmentSpec) {
+  return {
+    id: spec.id,
+    name: spec.name,
+    value: spec.value,
+    unit: spec.unit,
+    sortOrder: Number(spec.sortOrder) || 0,
+  };
+}
+
+function normalizeEquipmentReview(review: RawEquipmentReview) {
+  return {
+    id: review.id,
+    userId: review.userId,
+    equipmentId: review.equipmentId,
+    rating: Number(review.rating) || 0,
+    text: review.text,
+    isPublished: review.isPublished,
+    createdAt: review.createdAt,
+    updatedAt: review.updatedAt,
+    user: {
+      id: review.user.id,
+      fullName: review.user.fullName,
+      avatarUrl: review.user.avatarUrl,
+    },
+  };
+}
+
+function normalizeEquipmentDetail(equipment: RawEquipmentDetail): EquipmentDetail {
+  return {
+    ...equipment,
+    dailyPrice: Number(equipment.dailyPrice) || 0,
+    depositAmount: Number(equipment.depositAmount) || 0,
+    quantityTotal: Number(equipment.quantityTotal) || 0,
+    quantityAvailable: Number(equipment.quantityAvailable) || 0,
+    power: equipment.power === null ? null : Number(equipment.power),
+    weight: equipment.weight === null ? null : Number(equipment.weight),
+    averageRating: equipment.averageRating === null ? null : Number(equipment.averageRating),
+    reviewsCount: Number(equipment.reviewsCount) || 0,
+    images: (equipment.images ?? []).map(normalizeEquipmentImage),
+    specs: (equipment.specs ?? []).map(normalizeEquipmentSpec),
+    reviews: (equipment.reviews ?? []).map(normalizeEquipmentReview),
+    similarEquipment: equipment.similarEquipment ?? [],
   };
 }
 
@@ -99,6 +195,8 @@ export async function getEquipment(params?: CatalogQueryParams) {
 }
 
 export async function getEquipmentBySlug(slug: string) {
-  const response = await apiClient.get<ApiEnvelope<EquipmentDetail>>(`/equipment/${slug}`);
-  return unwrapData(response.data);
+  const response = await apiClient.get<ApiEnvelope<RawEquipmentDetail>>(`/equipment/${slug}`);
+  const data = unwrapData(response.data);
+
+  return normalizeEquipmentDetail(data);
 }

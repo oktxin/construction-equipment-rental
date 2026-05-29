@@ -2,75 +2,55 @@
 
 ## HomePage
 
-Главная страница теперь подключена к реальному public API и собирается из отдельных секций:
+Главная страница подключена к реальному public API и собирается из отдельных секций:
 
-- hero с индустриальным визуальным блоком и главными CTA;
+- hero с главным CTA;
 - блок преимуществ;
 - блок категорий;
-- блок featured equipment;
-- блок "Как это работает";
+- featured equipment;
+- секция "Как это работает";
 - финальный CTA в каталог.
 
-## Подключённые endpoints
-
-Для текущего этапа реально используются:
+### Подключенные endpoints
 
 - `GET /api/categories`
 - `GET /api/equipment/featured`
 
-В public catalog API layer также подготовлены:
-
-- `GET /api/equipment`
-- `GET /api/equipment/:slug`
-
 ## Public catalog API layer
 
-Во frontend добавлен слой:
+Во frontend используется отдельный public catalog слой:
 
 - `client/src/features/catalog/catalogTypes.ts`
 - `client/src/features/catalog/catalogApi.ts`
 
-В нём описаны:
+В нем описаны:
 
 - типы категорий;
-- типы каталожных карточек оборудования;
-- типы детальной карточки;
+- типы карточек оборудования;
+- типы detail response для `/equipment/:slug`;
 - pagination metadata;
-- методы запроса public catalog data.
+- методы загрузки public catalog data.
 
 ## Reusable Components
 
-Для HomePage и следующего этапа каталога созданы:
+Для публичных страниц подготовлены переиспользуемые компоненты:
 
 - `CategoryCard`
 - `EquipmentCard`
 - `EquipmentPrice`
 - `EquipmentAvailability`
-
-Компоненты уже готовы к повторному использованию в:
-
-- главной странице;
-- будущем каталоге;
-- связанных подборках;
-- похожем оборудовании.
-
-## Состояния
-
-На HomePage реализованы отдельные состояния для каждой data-секции:
-
-- отдельный loading state для категорий;
-- отдельный loading state для featured equipment;
-- отдельный error state для категорий;
-- отдельный error state для featured equipment;
-- empty state, если backend вернул пустой набор.
-
-Ошибки одной секции не ломают вторую и не ломают весь экран.
+- `EquipmentGallery`
+- `EquipmentSpecsTable`
+- `EquipmentReviews`
+- `EquipmentSummaryPanel`
+- `SimilarEquipmentSection`
+- `FavoriteButton`
 
 ## CatalogPage
 
-Страница `/catalog` теперь подключена к живому backend endpoint `GET /api/equipment` и работает как полноценный публичный каталог.
+Страница `/catalog` подключена к `GET /api/equipment` и работает как полноценный публичный каталог.
 
-### Подключённые endpoints
+### Подключенные endpoints
 
 - `GET /api/equipment`
 - `GET /api/categories`
@@ -81,13 +61,13 @@
 - фильтр по `categorySlug`;
 - фильтр по диапазону `minPrice` / `maxPrice`;
 - фильтр по `status` (`AVAILABLE`, `UNAVAILABLE`, `MAINTENANCE`);
-- переключатель `isFeatured` для популярных позиций;
+- переключатель `isFeatured`;
 - сортировку по `createdAt`, `dailyPrice`, `name`, `rating`;
 - пагинацию через `page` и `limit`.
 
 ### URLSearchParams и localStorage
 
-Каталог использует хук `useCatalogFilters`, который:
+Каталог использует `useCatalogFilters`, который:
 
 - читает начальное состояние из `URLSearchParams`;
 - если URL пустой, восстанавливает состояние из `localStorage`;
@@ -95,21 +75,7 @@
 - сохраняет настройки в `localStorage` по ключу `buildrent.catalog.filters`;
 - очищает и URL, и `localStorage` по кнопке сброса.
 
-Сохраняются:
-
-- `search`
-- `categorySlug`
-- `minPrice`
-- `maxPrice`
-- `status`
-- `isFeatured`
-- `sortBy`
-- `sortOrder`
-- `limit`
-
 ### Состояния страницы
-
-На CatalogPage реализованы:
 
 - skeleton для фильтров и сетки карточек;
 - отдельный error state для каталога;
@@ -119,8 +85,48 @@
 
 ### Responsive behavior
 
-Страница адаптирована для:
-
-- desktop: левый sticky-блок фильтров и сетка из 3 карточек;
+- desktop: sticky-блок фильтров и сетка из 3 карточек;
 - tablet: сетка из 2 карточек;
-- mobile: одна карточка в ряд и отдельная нижняя панель фильтров с кнопками "Применить" и "Сбросить".
+- mobile: одна карточка в ряд и отдельная нижняя панель фильтров.
+
+## EquipmentDetailPage
+
+Страница `/equipment/:slug` подключена к живому API и открывает публичную карточку оборудования с галереей, характеристиками, отзывами, избранным и CTA на аренду.
+
+### Подключенные endpoints
+
+- `GET /api/equipment/:slug`
+- `GET /api/reviews/equipment/:equipmentId`
+- `GET /api/favorites/check/:equipmentId`
+- `POST /api/favorites/:equipmentId`
+- `DELETE /api/favorites/:equipmentId`
+
+### Что поддерживает EquipmentDetailPage
+
+- breadcrumbs `Главная / Каталог / Название оборудования`;
+- адаптивную галерею с главным изображением, миниатюрами и fallback-блоком;
+- summary panel с ценой за сутки, залогом, статусом, свободным количеством, CTA и кнопкой избранного;
+- основные данные по позиции: `name`, `brand`, `model`, `shortDescription`, `description`, `averageRating`, `reviewsCount`;
+- таблицу характеристик из `specs` с добавлением `power` и `weight`, если они пришли в detail response;
+- блок отзывов с опубликованными review entries, датой, рейтингом и текстом;
+- секцию похожего оборудования на базе `similarEquipment` и `EquipmentCard`;
+- переход к `/checkout?equipmentId=<id>` через защищенный checkout route.
+
+### Favorites flow
+
+- если пользователь не авторизован, кнопка "В избранное" ведет на `/login` и сохраняет previous location;
+- если пользователь авторизован, detail page делает `checkFavorite`, затем позволяет выполнить `addFavorite` и `removeFavorite`;
+- в кнопке есть loading-состояния: `Проверяем...`, `Добавляем...`, `Удаляем...`.
+
+### Loading, error, not found
+
+- loading state: отдельные skeleton-блоки для breadcrumbs, галереи, summary panel и секций контента;
+- error state: русское сообщение "Не удалось загрузить карточку оборудования" и кнопка "Повторить";
+- not found state: русское сообщение "Оборудование не найдено" и CTA "Вернуться в каталог";
+- reviews endpoint не ломает страницу целиком: при ошибке detail page использует reviews из detail response, если они уже пришли.
+
+### Responsive behavior
+
+- desktop: двухколоночный верхний блок `gallery + summary`, секция похожего оборудования в 4 колонки;
+- tablet: галерея и summary складываются в вертикальный поток, similar equipment идет по 2 карточки в ряд;
+- mobile: одна карточка в ряд, миниатюры без horizontal overflow, характеристики читаются как вертикальный список, layout остается стабильным на ширине `320px`.

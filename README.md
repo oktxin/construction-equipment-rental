@@ -197,6 +197,13 @@ Public catalog page:
 - keeps catalog settings in `localStorage` under `buildrent.catalog.filters`
 - syncs active catalog state with `URLSearchParams`
 
+Equipment detail page:
+
+- `/equipment/:slug` now loads live equipment details from `GET /api/equipment/:slug`
+- supports image gallery, technical specs, reviews, favorite toggle, similar equipment, and CTA to `/checkout?equipmentId=...`
+- uses favorites endpoints `GET /api/favorites/check/:equipmentId`, `POST /api/favorites/:equipmentId`, `DELETE /api/favorites/:equipmentId`
+- loads public reviews from `GET /api/reviews/equipment/:equipmentId`
+
 Run frontend locally:
 
 ```bash

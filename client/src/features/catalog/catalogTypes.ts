@@ -19,6 +19,8 @@ export type EquipmentImage = {
   url: string;
   alt: string | null;
   sortOrder: number;
+  equipmentId?: string;
+  createdAt?: string;
 };
 
 export type EquipmentSpec = {
@@ -60,9 +62,13 @@ export type EquipmentListItem = {
 
 export type EquipmentReview = {
   id: string;
+  userId?: string;
+  equipmentId?: string;
   rating: number;
-  comment: string | null;
+  text: string;
+  isPublished?: boolean;
   createdAt: string;
+  updatedAt?: string;
   user: {
     id: string;
     fullName: string;
