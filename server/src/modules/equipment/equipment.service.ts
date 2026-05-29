@@ -378,6 +378,63 @@ export async function getEquipmentBySlug(slug: string) {
   };
 }
 
+export async function getEquipmentById(id: string) {
+  const equipment = await prisma.equipment.findUnique({
+    where: { id },
+    include: equipmentDetailsInclude,
+  });
+
+  if (!equipment || equipment.status === EquipmentStatus.ARCHIVED) {
+    throw new ApiError(404, "Equipment not found");
+  }
+
+  const averageRating = getAverageRating(equipment.reviews);
+  const similarEquipmentRaw = await prisma.equipment.findMany({
+    where: {
+      categoryId: equipment.categoryId,
+      id: {
+        not: equipment.id,
+      },
+      status: {
+        not: EquipmentStatus.ARCHIVED,
+      },
+    },
+    take: 4,
+    include: publicEquipmentInclude,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return {
+    id: equipment.id,
+    categoryId: equipment.categoryId,
+    name: equipment.name,
+    slug: equipment.slug,
+    shortDescription: equipment.shortDescription,
+    description: equipment.description,
+    brand: equipment.brand,
+    model: equipment.model,
+    dailyPrice: Number(equipment.dailyPrice),
+    depositAmount: Number(equipment.depositAmount),
+    quantityTotal: equipment.quantityTotal,
+    quantityAvailable: equipment.quantityAvailable,
+    power: equipment.power === null ? null : Number(equipment.power),
+    weight: equipment.weight === null ? null : Number(equipment.weight),
+    status: equipment.status,
+    isFeatured: equipment.isFeatured,
+    createdAt: equipment.createdAt,
+    updatedAt: equipment.updatedAt,
+    category: equipment.category,
+    images: equipment.images,
+    specs: equipment.specs,
+    reviews: equipment.reviews,
+    averageRating,
+    reviewsCount: equipment.reviews.length,
+    similarEquipment: similarEquipmentRaw.map(mapCatalogItem),
+  };
+}
+
 export async function createEquipment(input: CreateEquipmentInput) {
   await ensureCategoryExists(input.categoryId);
 

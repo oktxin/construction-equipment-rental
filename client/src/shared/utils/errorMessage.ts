@@ -61,6 +61,34 @@ function normalizeKnownMessage(message: string, status?: number) {
     return "Аккаунт временно заблокирован";
   }
 
+  if (normalizedMessage.includes("startdate cannot be later than enddate")) {
+    return "Дата окончания не может быть раньше даты начала";
+  }
+
+  if (normalizedMessage.includes("deliveryaddress is required for delivery")) {
+    return "Укажите адрес доставки";
+  }
+
+  if (normalizedMessage.includes("item quantity must be greater than zero")) {
+    return "Количество должно быть не меньше 1";
+  }
+
+  if (normalizedMessage.includes("exceeds current availability")) {
+    return "Недостаточно оборудования в наличии";
+  }
+
+  if (normalizedMessage.includes("is not available for rent")) {
+    return "Это оборудование сейчас недоступно для аренды";
+  }
+
+  if (normalizedMessage.includes("is archived and cannot be rented")) {
+    return "Эта позиция переведена в архив и недоступна для аренды";
+  }
+
+  if (normalizedMessage.includes("equipment not found")) {
+    return "Оборудование не найдено";
+  }
+
   if (status === 400 || normalizedMessage.includes("validation failed")) {
     return "Проверьте введённые данные";
   }

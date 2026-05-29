@@ -3,6 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 import { successResponse } from "../../utils/apiResponse";
 import {
   createEquipment,
+  getEquipmentById,
   deleteEquipment,
   getEquipmentBySlug,
   listEquipment,
@@ -47,6 +48,22 @@ export async function listFeaturedEquipmentController(
     return res
       .status(200)
       .json(successResponse(data, "Featured equipment fetched successfully"));
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getEquipmentByIdController(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const { id } = equipmentIdParamSchema.parse(req.params);
+    const data = await getEquipmentById(id);
+    return res
+      .status(200)
+      .json(successResponse(data, "Equipment details fetched successfully"));
   } catch (error) {
     next(error);
   }

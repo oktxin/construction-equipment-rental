@@ -204,6 +204,14 @@ Equipment detail page:
 - uses favorites endpoints `GET /api/favorites/check/:equipmentId`, `POST /api/favorites/:equipmentId`, `DELETE /api/favorites/:equipmentId`
 - loads public reviews from `GET /api/reviews/equipment/:equipmentId`
 
+Checkout page:
+
+- `/checkout` is protected by `ProtectedRoute` and now opens a live rental checkout flow
+- loads the selected equipment from `GET /api/equipment/by-id/:id`
+- calculates totals via `POST /api/rental-orders/calculate`
+- creates rental orders via `POST /api/rental-orders`
+- shows a success state with a link to `/orders`
+
 Run frontend locally:
 
 ```bash
@@ -274,6 +282,7 @@ The backend now includes public catalog and admin catalog management endpoints.
 - `GET /api/categories/:slug`
 - `GET /api/equipment`
 - `GET /api/equipment/featured`
+- `GET /api/equipment/by-id/:id`
 - `GET /api/equipment/:slug`
 
 ### Admin catalog endpoints

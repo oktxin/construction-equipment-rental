@@ -5,6 +5,7 @@ import { roleMiddleware } from "../../middlewares/roleMiddleware";
 import {
   createEquipmentController,
   deleteEquipmentController,
+  getEquipmentByIdController,
   getEquipmentBySlugController,
   listEquipmentController,
   listFeaturedEquipmentController,
@@ -17,6 +18,7 @@ export const equipmentRouter = Router();
 
 equipmentRouter.get("/", listEquipmentController);
 equipmentRouter.get("/featured", listFeaturedEquipmentController);
+equipmentRouter.get("/by-id/:id", getEquipmentByIdController);
 equipmentRouter.get("/:slug", getEquipmentBySlugController);
 equipmentRouter.post(
   "/",

@@ -200,3 +200,10 @@ export async function getEquipmentBySlug(slug: string) {
 
   return normalizeEquipmentDetail(data);
 }
+
+export async function getEquipmentById(id: string) {
+  const response = await apiClient.get<ApiEnvelope<RawEquipmentDetail>>(`/equipment/by-id/${id}`);
+  const data = unwrapData(response.data);
+
+  return normalizeEquipmentDetail(data);
+}
