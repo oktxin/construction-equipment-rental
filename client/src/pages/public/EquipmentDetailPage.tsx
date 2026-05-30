@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { selectAuth } from "../../features/auth/authSlice";
 import { getEquipmentBySlug } from "../../features/catalog/catalogApi";
 import { EquipmentGallery } from "../../features/catalog/components/EquipmentGallery";
 import { EquipmentReviews } from "../../features/catalog/components/EquipmentReviews";
@@ -14,6 +15,7 @@ import type {
   EquipmentSpec,
 } from "../../features/catalog/catalogTypes";
 import { getEquipmentReviews } from "../../features/reviews/reviewsApi";
+import { useAppSelector } from "../../shared/hooks/redux";
 import {
   Breadcrumbs,
   Button,
@@ -79,12 +81,22 @@ function buildRatingLabel(averageRating: number | null, reviewsCount: number) {
   return `${ratingFormatter.format(averageRating)} из 5, ${reviewsCount} отзывов`;
 }
 
+function calculateAverageRating(reviews: EquipmentReview[]) {
+  if (reviews.length === 0) {
+    return null;
+  }
+
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+  return Number((total / reviews.length).toFixed(2));
+}
+
 export function EquipmentDetailPage() {
   const { slug = "" } = useParams();
   const navigate = useNavigate();
+  const auth = useAppSelector(selectAuth);
   const [equipment, setEquipment] = useState<EquipmentDetail | null>(null);
   const [reviews, setReviews] = useState<EquipmentReview[] | null>(null);
-  const [reviewsTotal, setReviewsTotal] = useState<number | null>(null);
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewsLoading, setIsReviewsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,7 +111,7 @@ export function EquipmentDetailPage() {
     if (!slug) {
       setEquipment(null);
       setReviews(null);
-      setReviewsTotal(null);
+      setReviewsError(null);
       setError("Некорректный адрес карточки оборудования");
       setIsNotFound(false);
       setIsLoading(false);
@@ -113,7 +125,7 @@ export function EquipmentDetailPage() {
       setError(null);
       setIsNotFound(false);
       setReviews(null);
-      setReviewsTotal(null);
+      setReviewsError(null);
 
       try {
         const data = await getEquipmentBySlug(slug);
@@ -129,7 +141,7 @@ export function EquipmentDetailPage() {
 
         setEquipment(null);
         setReviews(null);
-        setReviewsTotal(null);
+        setReviewsError(null);
 
         if (axios.isAxiosError(requestError) && requestError.response?.status === 404) {
           setIsNotFound(true);
@@ -160,11 +172,12 @@ export function EquipmentDetailPage() {
 
     const loadReviews = async () => {
       setIsReviewsLoading(true);
+      setReviewsError(null);
 
       try {
         const data = await getEquipmentReviews(equipment.id, {
           page: 1,
-          limit: 12,
+          limit: 100,
           sortBy: "createdAt",
           sortOrder: "desc",
         });
@@ -174,14 +187,13 @@ export function EquipmentDetailPage() {
         }
 
         setReviews(data.items);
-        setReviewsTotal(data.pagination.total);
-      } catch {
+      } catch (requestError) {
         if (!isActive) {
           return;
         }
 
         setReviews(null);
-        setReviewsTotal(null);
+        setReviewsError(getErrorMessage(requestError));
       } finally {
         if (isActive) {
           setIsReviewsLoading(false);
@@ -236,7 +248,30 @@ export function EquipmentDetailPage() {
 
   const specs = buildSpecs(equipment);
   const visibleReviews = reviews ?? equipment.reviews;
-  const reviewsCount = reviewsTotal ?? equipment.reviewsCount;
+  const reviewsCount = visibleReviews.length;
+  const averageRating =
+    reviews !== null ? calculateAverageRating(visibleReviews) : equipment.averageRating;
+
+  const handleReviewsChanged = async () => {
+    setIsReviewsLoading(true);
+    setReviewsError(null);
+
+    try {
+      const data = await getEquipmentReviews(equipment.id, {
+        page: 1,
+        limit: 100,
+        sortBy: "createdAt",
+        sortOrder: "desc",
+      });
+
+      setReviews(data.items);
+    } catch (requestError) {
+      setReviewsError(getErrorMessage(requestError));
+      throw requestError;
+    } finally {
+      setIsReviewsLoading(false);
+    }
+  };
 
   return (
     <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
@@ -282,8 +317,11 @@ export function EquipmentDetailPage() {
             <div className="grid gap-4 border-t border-border/45 pt-6 sm:grid-cols-2">
               <div>
                 <p className="text-sm font-medium text-foreground/58">Средняя оценка</p>
-                <p className="mt-2 font-heading text-2xl font-semibold tracking-[-0.03em] text-foreground">
-                  {buildRatingLabel(equipment.averageRating, reviewsCount)}
+                <p
+                  className="mt-2 font-heading text-2xl font-semibold tracking-[-0.03em] text-foreground"
+                  data-testid="detail-reviews-summary"
+                >
+                  {buildRatingLabel(averageRating, reviewsCount)}
                 </p>
               </div>
               <div>
@@ -291,7 +329,7 @@ export function EquipmentDetailPage() {
                 <p className="mt-2 text-base leading-7 text-foreground/74">
                   {equipment.quantityAvailable > 0
                     ? `Свободно ${equipment.quantityAvailable} из ${equipment.quantityTotal} единиц.`
-                    : "Свободных единиц сейчас нет, но карточка и условия аренды остаются доступны для просмотра."}
+                    : "Свободных единиц сейчас нет, но карточка и условия аренды остаются доступными для просмотра."}
                 </p>
               </div>
             </div>
@@ -336,7 +374,8 @@ export function EquipmentDetailPage() {
               Характеристики
             </h2>
             <p className="max-w-2xl text-sm leading-6 text-foreground/68">
-              Ключевые технические параметры, которые помогают быстро оценить совместимость оборудования с задачей на объекте.
+              Ключевые технические параметры, которые помогают быстро оценить совместимость
+              оборудования с задачей на объекте.
             </p>
           </div>
           <EquipmentSpecsTable specs={specs} />
@@ -344,9 +383,14 @@ export function EquipmentDetailPage() {
 
         <section>
           <EquipmentReviews
+            equipmentId={equipment.id}
             reviews={visibleReviews}
-            averageRating={equipment.averageRating}
+            averageRating={averageRating}
             reviewsCount={reviewsCount}
+            currentUser={auth.user}
+            isAuthReady={auth.isInitialized}
+            reviewsError={reviewsError}
+            onReviewsChanged={handleReviewsChanged}
           />
         </section>
 

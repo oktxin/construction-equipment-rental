@@ -203,6 +203,7 @@ Equipment detail page:
 - supports image gallery, technical specs, reviews, favorite toggle, similar equipment, and CTA to `/checkout?equipmentId=...`
 - uses favorites endpoints `GET /api/favorites/check/:equipmentId`, `POST /api/favorites/:equipmentId`, `DELETE /api/favorites/:equipmentId`
 - loads public reviews from `GET /api/reviews/equipment/:equipmentId`
+- allows authenticated clients to create, edit, and delete their own reviews on the same page
 
 Checkout page:
 
@@ -394,6 +395,7 @@ The backend now includes favorites and equipment reviews with moderation support
 - users can add and remove favorites only for themselves
 - archived equipment cannot be added to favorites
 - one user can leave only one review per equipment
+- clients can edit and delete only their own reviews from the equipment page
 - public reviews show only published entries
 - admin can moderate review visibility
 - `averageRating` and `reviewsCount` in catalog are based only on published reviews

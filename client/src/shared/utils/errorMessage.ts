@@ -53,7 +53,7 @@ function normalizeKnownMessage(message: string, status?: number) {
     return "Неверный email или пароль";
   }
 
-  if (status === 409 || normalizedMessage.includes("email is already in use")) {
+  if (normalizedMessage.includes("email is already in use")) {
     return "Пользователь с таким email уже существует";
   }
 
@@ -91,6 +91,30 @@ function normalizeKnownMessage(message: string, status?: number) {
 
   if (normalizedMessage.includes("archived equipment cannot be added to favorites")) {
     return "Архивную позицию нельзя добавить в избранное";
+  }
+
+  if (normalizedMessage.includes("you have already left a review for this equipment")) {
+    return "Вы уже оставили отзыв на это оборудование.";
+  }
+
+  if (normalizedMessage.includes("archived equipment cannot receive new reviews")) {
+    return "Архивная позиция недоступна для новых отзывов";
+  }
+
+  if (normalizedMessage.includes("reviews for archived equipment cannot be updated")) {
+    return "Нельзя обновить отзыв для архивной позиции";
+  }
+
+  if (normalizedMessage.includes("you do not have permission to edit this review")) {
+    return "Нельзя редактировать чужой отзыв";
+  }
+
+  if (normalizedMessage.includes("you do not have permission to delete this review")) {
+    return "Нельзя удалять чужой отзыв";
+  }
+
+  if (normalizedMessage.includes("review not found")) {
+    return "Отзыв не найден";
   }
 
   if (normalizedMessage.includes("rental order not found")) {

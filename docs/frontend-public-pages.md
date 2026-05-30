@@ -309,3 +309,39 @@ The `/orders/:id` page opens a full detail view for one rental order and keeps d
 
 - desktop: filters and cards remain inline and readable
 - mobile: filters stack vertically, cards stay single-column, and the page keeps `320px` stability without overflow
+
+## Client review actions on EquipmentDetailPage
+
+The public equipment page now includes a client review flow without turning the section into an admin-style form.
+
+### Connected endpoints
+
+- `GET /api/reviews/equipment/:equipmentId`
+- `POST /api/reviews`
+- `PATCH /api/reviews/:id`
+- `DELETE /api/reviews/:id`
+- `GET /api/reviews/my`
+
+### What the reviews section supports
+
+- anyone can read published reviews on the equipment page
+- an unauthenticated visitor sees a compact CTA `Войдите, чтобы оставить отзыв` with a redirect to `/login` and the current location stored in navigation state
+- an authenticated client can create one review with `rating` and `text`
+- the current user's review is highlighted with the badge `Ваш отзыв`
+- the current user's review can be edited in place without leaving the equipment page
+- deleting a review goes through a confirmation modal with `Удалить отзыв?` and `Это действие нельзя отменить.`
+- duplicate create attempts show the Russian backend-mapped error `Вы уже оставили отзыв на это оборудование.`
+
+### Rating and count refresh
+
+- after create, edit, or delete, the page reloads the public review list from `GET /api/reviews/equipment/:equipmentId`
+- `reviewsCount` is recalculated from the refreshed public list
+- `averageRating` is recalculated locally from the refreshed published ratings
+- the summary text on the detail page and the reviews block stay in sync after review mutations
+
+### Responsive behavior
+
+- the review form stays compact and readable on desktop, tablet, and mobile
+- rating buttons wrap safely on narrow screens
+- action buttons inside `ReviewCard` stack on small widths and stay usable at `320px`
+- the reviews block avoids horizontal overflow even when the text is long
