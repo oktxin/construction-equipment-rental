@@ -46,6 +46,7 @@ export type EquipmentListItem = {
   model: string | null;
   dailyPrice: number;
   depositAmount: number;
+  quantityTotal: number;
   quantityAvailable: number;
   status: EquipmentStatus;
   isFeatured: boolean;

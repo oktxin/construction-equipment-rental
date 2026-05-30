@@ -235,6 +235,8 @@ Admin pages:
 
 - `/admin` now shows a live operational dashboard for rental orders
 - `/admin/orders` now supports filters, pagination, detail panel, status changes, and manager comments
+- `/admin/equipment` now supports live catalog management for equipment, filters, create and edit flows, image replacement, specs replacement, and safe delete or archive behavior
+- `/admin/categories` now supports category search, create and edit flows, and guarded deletion when equipment is still attached
 - admin order management uses `GET /api/admin/rental-orders`, `GET /api/admin/rental-orders/:id`, `PATCH /api/admin/rental-orders/:id/status`, and `PATCH /api/admin/rental-orders/:id/comment`
 
 Run frontend locally:

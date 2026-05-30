@@ -23,6 +23,7 @@ type RawFavoriteEquipment = {
   shortDescription: string | null;
   dailyPrice: number;
   depositAmount: number;
+  quantityTotal: number;
   status: FavoriteListItem["equipment"]["status"];
   quantityAvailable: number;
   category: FavoriteListItem["equipment"]["category"];
@@ -68,6 +69,7 @@ function normalizeFavoriteItem(item: RawFavoriteListItem): FavoriteListItem {
       isFeatured: item.equipment.isFeatured ?? false,
       dailyPrice: Number(item.equipment.dailyPrice) || 0,
       depositAmount: Number(item.equipment.depositAmount) || 0,
+      quantityTotal: Number(item.equipment.quantityTotal) || 0,
       quantityAvailable: Number(item.equipment.quantityAvailable) || 0,
       averageRating:
         item.equipment.averageRating === null ? null : Number(item.equipment.averageRating),

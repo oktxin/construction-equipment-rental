@@ -2,7 +2,7 @@
 
 ## AdminDashboardPage
 
-Страница `/admin` теперь использует живые данные из admin rental orders API и показывает operational-first сводку без лишних графиков.
+Страница `/admin` использует live-данные из admin rental orders API и показывает operational-first сводку без лишних графиков.
 
 ### Подключённые endpoints
 
@@ -10,28 +10,15 @@
 
 ### Что реализовано
 
-- page header с заголовком "Панель администратора" и переходом к списку заявок
-- шесть KPI-карточек:
-  - всего заявок
-  - ожидают подтверждения
-  - активные аренды
-  - завершённые
-  - отменённые и отклонённые
-  - общая сумма заявок
-- блок "Последние заявки" с быстрым переходом в detail panel через `/admin/orders?selected=<id>`
-- блок quick actions для заявок, оборудования, отзывов и отчётов
+- page header с быстрым переходом к списку заявок
+- KPI-карточки по всем заявкам, ожиданию подтверждения, активным арендам, завершённым и отменённым сценариям
+- блок "Последние заявки" с переходом в detail panel через `/admin/orders?selected=<id>`
+- quick actions для заявок, оборудования, отзывов и отчётов
 - loading, empty и error states на русском
-
-### Как считаются dashboard stats
-
-- страница сначала запрашивает `GET /api/admin/rental-orders?page=1&limit=100&sortBy=createdAt&sortOrder=desc`
-- если backend сообщает больше одной страницы, frontend догружает остальные страницы тем же endpoint
-- статистика считается локально по агрегированному массиву заявок, без новых backend endpoints
-- общая сумма считается как сумма `totalPrice` по доступным администратору заявкам
 
 ## AdminOrdersPage
 
-Страница `/admin/orders` стала рабочим центром для обработки заявок.
+Страница `/admin/orders` работает как рабочий центр для обработки заявок.
 
 ### Подключённые endpoints
 
@@ -42,7 +29,7 @@
 
 ### Что реализовано
 
-- page header с описанием рабочего сценария
+- page header с описанием сценария
 - фильтры:
   - `search`
   - `status`
@@ -54,7 +41,7 @@
   - mobile показывает карточки заявок без page overflow
 - пагинация
 - detail panel справа на desktop и full-width overlay на mobile
-- status update flow с select допустимых переходов, manager comment и success/error feedback
+- status update flow с допустимыми переходами, manager comment и success/error feedback
 - отдельная форма сохранения manager comment
 - русские loading, empty и error states
 
@@ -68,60 +55,125 @@
 - `startDateTo`
 - `page`
 - `limit`
-- дополнительный внутренний параметр `selected` используется для открытия detail panel по конкретной заявке
-
-Поведение:
-
-- изменение фильтров сбрасывает `page` на `1`
-- reset очищает URL целиком
-- dashboard может открыть заявку сразу в detail panel через `selected`
-
-### Detail panel
-
-Detail panel показывает:
-
-- номер заявки
-- текущий статус
-- клиента, email и телефон
-- даты аренды и дату создания
-- тип получения и адрес доставки
-- комментарий клиента
-- текущий комментарий менеджера
-- список оборудования
-- totals по заявке
-- таймлайн статуса
-- форму обновления статуса
-- форму сохранения комментария менеджера
-
-### Status update flow
-
-- менеджер выбирает новый статус из `AdminOrderStatusSelect`
-- доступны только допустимые переходы:
-  - `PENDING -> APPROVED | REJECTED | CANCELLED`
-  - `APPROVED -> ACTIVE | CANCELLED`
-  - `ACTIVE -> COMPLETED`
-- после `PATCH /api/admin/rental-orders/:id/status` frontend:
-  - обновляет detail panel
-  - обновляет строку в списке
-  - делает тихий refresh списка, чтобы корректно отработали активные фильтры
-- ошибки backend нормализуются в русский текст через `getErrorMessage`
-
-### Manager comment flow
-
-- отдельная форма отправляет `PATCH /api/admin/rental-orders/:id/comment`
-- после успеха detail panel сразу получает обновлённую заявку
-- текущий комментарий синхронизируется и в форме статуса, и в отдельной форме комментария
+- `selected` для открытия detail panel по конкретной заявке
 
 ### Protected admin flow
 
 - `/admin` и `/admin/orders` находятся под `AdminRoute`
 - без token пользователь перенаправляется на `/login`
 - пользователь без роли `ADMIN` перенаправляется на `/`
-- администратор получает доступ к `AdminLayout` и обоим маршрутам
+- администратор получает доступ к `AdminLayout` и admin-маршрутам
+
+## AdminEquipmentPage
+
+Страница `/admin/equipment` теперь работает как живая админская поверхность каталога для техники.
+
+### Подключённые endpoints
+
+- `GET /api/categories`
+- `GET /api/equipment`
+- `GET /api/equipment/by-id/:id`
+- `POST /api/equipment`
+- `PATCH /api/equipment/:id`
+- `PUT /api/equipment/:id/images`
+- `PUT /api/equipment/:id/specs`
+- `DELETE /api/equipment/:id`
+
+### Что реализовано
+
+- page header с итоговым счётчиком и CTA "Добавить оборудование"
+- фильтры:
+  - `search`
+  - `categorySlug`
+  - `status`
+  - `isFeatured`
+  - `limit`
+- фильтры живут в `URLSearchParams`, а reset очищает URL полностью
+- desktop и tablet показывают плотную responsive table с safe horizontal scroll внутри контейнера
+- mobile переключается на карточки без общего overflow страницы
+- modal создания и редактирования с полями каталога, цен, остатков и статуса
+- отдельный modal редактора изображений с preview, `url`, `alt`, `sortOrder`, добавлением и удалением строк
+- отдельный modal редактора характеристик с `name`, `value`, `unit`, `sortOrder`
+- delete or archive confirm flow с feedback "Оборудование удалено или переведено в архив."
+- loading, empty, error и success states на русском
+
+### Фильтры и URL
+
+Страница хранит состояние в `URLSearchParams`:
+
+- `search`
+- `categorySlug`
+- `status`
+- `isFeatured`
+- `page`
+- `limit`
+
+Поведение:
+
+- изменение фильтров сбрасывает `page` на `1`
+- reset очищает весь query string
+- список обновляется тихо, если пользователь уже работает со страницей
+
+### Создание и редактирование
+
+- форма валидирует обязательные поля `name`, `slug`, `categoryId`, `status`
+- `dailyPrice`, `depositAmount`, `quantityTotal`, `quantityAvailable` не могут быть отрицательными
+- `quantityAvailable` не может превышать `quantityTotal`
+- `slug` автогенерируется из `name`, пока пользователь не начал редактировать его вручную
+- создание использует пустые массивы `images` и `specs`, чтобы отдельные редакторы можно было открыть сразу после сохранения
+
+### Изображения и характеристики
+
+- редактор изображений полностью заменяет текущий набор через `PUT /api/equipment/:id/images`
+- редактор характеристик полностью заменяет текущий набор через `PUT /api/equipment/:id/specs`
+- оба редактора поддерживают add/remove row, локальную валидацию и сохранение без выхода со страницы
 
 ### Responsive behavior
 
-- desktop: список работает как плотная операционная таблица, detail panel открывается справа
-- tablet: таблица остаётся в контейнере без общего overflow страницы
-- mobile: список переключается в карточки, detail panel становится full-width overlay
+- desktop: плотная operational table с быстрыми действиями в строке
+- tablet: safe horizontal scroll остаётся внутри таблицы и не ломает layout
+- mobile: карточки вместо таблицы, модалки помещаются в viewport
 - ширина `320px` поддерживается без общего horizontal overflow
+
+## AdminCategoriesPage
+
+Страница `/admin/categories` теперь управляет разделами каталога в том же admin-стиле.
+
+### Подключённые endpoints
+
+- `GET /api/categories`
+- `POST /api/categories`
+- `PATCH /api/categories/:id`
+- `DELETE /api/categories/:id`
+
+### Что реализовано
+
+- page header с итоговым счётчиком и CTA "Добавить категорию"
+- toolbar с `search`, `limit` и reset
+- таблица категорий с `name`, `slug`, `description`, `iconName`, действиями
+- mobile-представление через карточки
+- modal создания и редактирования категории
+- auto-slug из `name`, пока slug не изменён вручную
+- delete confirm с обработкой серверной ошибки, если категория уже используется
+- loading, empty, error и success states на русском
+
+### Search params
+
+Страница хранит состояние в `URLSearchParams`:
+
+- `search`
+- `page`
+- `limit`
+
+### Поведение удаления
+
+- если категория не связана с оборудованием, она удаляется
+- если backend возвращает конфликт использования, frontend показывает сообщение:
+  - "Категорию нельзя удалить, пока к ней привязано оборудование."
+
+### Protected admin flow
+
+- `/admin/equipment` и `/admin/categories` находятся под `AdminRoute`
+- пользователь без token перенаправляется на `/login`
+- пользователь без роли `ADMIN` перенаправляется на `/`
+- администратор получает доступ к обоим маршрутам через `AdminLayout`

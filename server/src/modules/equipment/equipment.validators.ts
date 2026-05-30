@@ -2,8 +2,12 @@ import { EquipmentStatus } from "@prisma/client";
 import { z } from "zod";
 
 function parseOptionalNumericText(value: unknown) {
-  if (value === undefined || value === null || value === "") {
+  if (value === undefined) {
     return undefined;
+  }
+
+  if (value === null || value === "") {
+    return null;
   }
 
   if (typeof value === "number" && Number.isFinite(value)) {

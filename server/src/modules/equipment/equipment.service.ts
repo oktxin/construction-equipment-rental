@@ -193,6 +193,7 @@ function mapCatalogItem(
     model: item.model,
     dailyPrice: Number(item.dailyPrice),
     depositAmount: Number(item.depositAmount),
+    quantityTotal: item.quantityTotal,
     quantityAvailable: item.quantityAvailable,
     status: item.status,
     isFeatured: item.isFeatured,

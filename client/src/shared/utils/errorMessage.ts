@@ -89,6 +89,26 @@ function normalizeKnownMessage(message: string, status?: number) {
     return "Оборудование не найдено";
   }
 
+  if (normalizedMessage.includes("equipment slug is already in use")) {
+    return "Slug оборудования уже используется";
+  }
+
+  if (normalizedMessage.includes("category slug is already in use")) {
+    return "Slug категории уже используется";
+  }
+
+  if (normalizedMessage.includes("category not found")) {
+    return "Категория не найдена";
+  }
+
+  if (normalizedMessage.includes("quantityavailable cannot be greater than quantitytotal")) {
+    return "Доступное количество не может превышать общий остаток";
+  }
+
+  if (normalizedMessage.includes("category cannot be deleted while equipment is assigned to it")) {
+    return "Категорию нельзя удалить, пока к ней привязано оборудование.";
+  }
+
   if (normalizedMessage.includes("archived equipment cannot be added to favorites")) {
     return "Архивную позицию нельзя добавить в избранное";
   }

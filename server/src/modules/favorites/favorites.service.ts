@@ -64,6 +64,7 @@ function mapFavoriteItem(item: FavoriteWithEquipment) {
       shortDescription: item.equipment.shortDescription,
       dailyPrice: Number(item.equipment.dailyPrice),
       depositAmount: Number(item.equipment.depositAmount),
+      quantityTotal: item.equipment.quantityTotal,
       status: item.equipment.status,
       quantityAvailable: item.equipment.quantityAvailable,
       category: item.equipment.category,
