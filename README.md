@@ -159,6 +159,7 @@ Frontend documentation:
 
 - [docs/frontend-foundation.md](docs/frontend-foundation.md)
 - [docs/frontend-public-pages.md](docs/frontend-public-pages.md)
+- [docs/frontend-admin-pages.md](docs/frontend-admin-pages.md)
 
 Main frontend routes currently prepared:
 
@@ -229,6 +230,12 @@ Client cabinet pages:
 - saves profile changes through `PATCH /api/users/:id` and refreshes the auth user after update
 - `/reports` is protected and now loads customer report history from `GET /api/reports/my`
 - supports filtering by report type and format, plus downloading files through `GET /api/reports/:id/download`
+
+Admin pages:
+
+- `/admin` now shows a live operational dashboard for rental orders
+- `/admin/orders` now supports filters, pagination, detail panel, status changes, and manager comments
+- admin order management uses `GET /api/admin/rental-orders`, `GET /api/admin/rental-orders/:id`, `PATCH /api/admin/rental-orders/:id/status`, and `PATCH /api/admin/rental-orders/:id/comment`
 
 Run frontend locally:
 

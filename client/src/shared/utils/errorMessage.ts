@@ -121,6 +121,18 @@ function normalizeKnownMessage(message: string, status?: number) {
     return "Заявка не найдена";
   }
 
+  if (normalizedMessage.includes("order already has status")) {
+    return "Заявка уже находится в этом статусе";
+  }
+
+  if (normalizedMessage.includes("status transition") && normalizedMessage.includes("is not allowed")) {
+    return "Недопустимый переход статуса";
+  }
+
+  if (normalizedMessage.includes("no longer has enough stock for approval")) {
+    return "Недостаточно техники в наличии для подтверждения";
+  }
+
   if (normalizedMessage.includes("you do not have permission to view this rental order")) {
     return "Эта заявка недоступна для просмотра";
   }
