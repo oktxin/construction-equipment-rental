@@ -1,27 +1,33 @@
 import { Link, NavLink } from "react-router-dom";
 
-import { logout, selectAuth, selectIsAuthenticated } from "../../features/auth/authSlice";
-import { useAppDispatch, useAppSelector } from "../../shared/hooks/redux";
+import { selectAuth, selectIsAuthenticated } from "../../features/auth/authSlice";
+import { useAppSelector } from "../../shared/hooks/redux";
 import { Button } from "../../shared/ui";
 import { cn } from "../../shared/utils/cn";
 
-const mobileLinks = [
+const publicLinks = [
   { label: "Главная", to: "/" },
   { label: "Каталог", to: "/catalog" },
+  { label: "Как это работает", to: "/#rental-flow" },
+];
+
+const privateLinks = [
   { label: "Избранное", to: "/favorites" },
   { label: "Мои заявки", to: "/orders" },
-  { label: "Отчеты", to: "/reports" },
+  { label: "Отчёты", to: "/reports" },
 ];
 
 export type MobileNavProps = {
   open: boolean;
   onClose: () => void;
+  onLogout: () => void;
 };
 
-export function MobileNav({ open, onClose }: MobileNavProps) {
-  const dispatch = useAppDispatch();
+export function MobileNav({ open, onClose, onLogout }: MobileNavProps) {
   const auth = useAppSelector(selectAuth);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isAdmin = auth.user?.role.name === "ADMIN";
+  const links = isAuthenticated ? [...publicLinks, ...privateLinks] : publicLinks;
 
   return (
     <div
@@ -62,7 +68,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         </div>
 
         <nav className="mt-8 flex flex-col gap-2">
-          {mobileLinks.map((link) => (
+          {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
@@ -70,7 +76,9 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
               className={({ isActive }) =>
                 cn(
                   "rounded-2xl px-4 py-3 text-base font-medium transition",
-                  isActive ? "bg-background text-foreground shadow-industrial" : "text-foreground/72 hover:bg-background/60 hover:text-foreground",
+                  isActive
+                    ? "bg-background text-foreground shadow-industrial"
+                    : "text-foreground/72 hover:bg-background/60 hover:text-foreground",
                 )
               }
             >
@@ -87,19 +95,22 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                 <p className="text-sm text-foreground/58">{auth.user?.email}</p>
               </div>
               <div className="flex flex-col gap-3">
-                <Link to={auth.user?.role.name === "ADMIN" ? "/admin" : "/profile"} onClick={onClose}>
-                  <Button className="w-full justify-center">
-                    {auth.user?.role.name === "ADMIN" ? "Панель администратора" : "Открыть профиль"}
+                <Link to="/profile" onClick={onClose}>
+                  <Button className="w-full justify-center">Профиль</Button>
+                </Link>
+                <Link to="/orders" onClick={onClose}>
+                  <Button variant="ghost" className="w-full justify-center">
+                    Мои заявки
                   </Button>
                 </Link>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-center"
-                  onClick={() => {
-                    dispatch(logout());
-                    onClose();
-                  }}
-                >
+                {isAdmin ? (
+                  <Link to="/admin" onClick={onClose}>
+                    <Button variant="secondary" className="w-full justify-center">
+                      Админ-панель
+                    </Button>
+                  </Link>
+                ) : null}
+                <Button variant="ghost" className="w-full justify-center" onClick={onLogout}>
                   Выйти
                 </Button>
               </div>
@@ -107,7 +118,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
           ) : (
             <div className="space-y-4">
               <p className="text-sm leading-6 text-foreground/62">
-                Войдите, чтобы открыть избранное, отчеты и историю аренды в одном кабинете.
+                Войдите, чтобы открыть избранное, отчёты и историю аренды в одном кабинете.
               </p>
               <div className="flex flex-col gap-3">
                 <Link to="/login" onClick={onClose}>

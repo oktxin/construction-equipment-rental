@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { logout, selectAuth } from "../../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../shared/hooks/redux";
-import { Button, Breadcrumbs } from "../../shared/ui";
+import { Breadcrumbs, Button } from "../../shared/ui";
 
 export type AdminTopbarProps = {
   onOpenSidebar: () => void;
@@ -10,7 +10,13 @@ export type AdminTopbarProps = {
 
 export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const auth = useAppSelector(selectAuth);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className="sticky top-0 z-30 border-b border-white/8 bg-adminBackground/92 px-4 py-4 backdrop-blur-xl sm:px-6 lg:px-8">
@@ -38,9 +44,14 @@ export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
                 { label: auth.user?.role.name === "ADMIN" ? "Операции" : "Рабочая зона" },
               ]}
             />
-            <p className="text-sm text-white/52">
-              Рабочее пространство с защитой маршрутов, общим UI-слоем и подготовленными экранами.
-            </p>
+            <div className="space-y-1">
+              <p className="text-sm text-white/52">
+                Рабочее пространство с защитой маршрутов, общим UI-слоем и подготовленными экранами.
+              </p>
+              <p className="text-xs uppercase tracking-[0.18em] text-white/36">
+                {auth.user?.fullName ?? "Администратор"}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -53,7 +64,7 @@ export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
           <Button
             variant="ghost"
             className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong"
-            onClick={() => dispatch(logout())}
+            onClick={handleLogout}
           >
             Выйти
           </Button>

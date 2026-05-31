@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { getStoredAuthToken } from "../utils/auth";
+
 const baseURL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 export const apiClient = axios.create({
@@ -11,7 +13,7 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("buildrent.auth.token");
+  const token = getStoredAuthToken();
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -22,13 +24,5 @@ apiClient.interceptors.request.use((config) => {
 
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    const message =
-      error.response?.data?.message ||
-      error.response?.data?.error ||
-      error.message ||
-      "Unexpected API error";
-
-    return Promise.reject(new Error(message));
-  },
+  (error) => Promise.reject(error),
 );

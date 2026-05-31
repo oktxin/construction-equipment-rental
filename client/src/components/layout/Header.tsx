@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { logout, selectAuth, selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../shared/hooks/redux";
@@ -11,15 +11,15 @@ const publicLinks = [
   { label: "Главная", to: "/" },
   { label: "Каталог", to: "/catalog" },
   { label: "Как это работает", to: "/#rental-flow" },
-  { label: "Избранное", to: "/favorites" },
-  { label: "Мои заявки", to: "/orders" },
 ];
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const auth = useAppSelector(selectAuth);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isAdmin = auth.user?.role.name === "ADMIN";
 
   const initials = useMemo(() => {
     if (!auth.user?.fullName) {
@@ -32,6 +32,12 @@ export function Header() {
       .map((item) => item[0]?.toUpperCase() ?? "")
       .join("");
   }, [auth.user?.fullName]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setMobileOpen(false);
+    navigate("/", { replace: true });
+  };
 
   return (
     <>
@@ -71,10 +77,7 @@ export function Header() {
           <div className="hidden items-center gap-3 lg:flex">
             {isAuthenticated ? (
               <>
-                <Link
-                  to={auth.user?.role.name === "ADMIN" ? "/admin" : "/profile"}
-                  className="flex items-center gap-3 rounded-full border border-border/60 bg-card px-4 py-2 shadow-industrial transition hover:-translate-y-0.5 hover:bg-card-hover"
-                >
+                <div className="flex items-center gap-3 rounded-full border border-border/60 bg-card px-4 py-2 shadow-industrial">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-xs font-bold tracking-[0.18em] text-foreground">
                     {initials}
                   </span>
@@ -83,11 +86,23 @@ export function Header() {
                       {auth.user?.fullName ?? "Профиль"}
                     </span>
                     <span className="block text-xs uppercase tracking-[0.18em] text-foreground/45">
-                      {auth.user?.role.name === "ADMIN" ? "Доступ администратора" : "Профиль клиента"}
+                      {isAdmin ? "Администратор" : "Клиентский кабинет"}
                     </span>
                   </span>
+                </div>
+
+                <Link to="/profile">
+                  <Button variant="ghost">Профиль</Button>
                 </Link>
-                <Button variant="ghost" onClick={() => dispatch(logout())}>
+                <Link to="/orders">
+                  <Button variant="ghost">Мои заявки</Button>
+                </Link>
+                {isAdmin ? (
+                  <Link to="/admin">
+                    <Button variant="secondary">Админ-панель</Button>
+                  </Link>
+                ) : null}
+                <Button variant="ghost" onClick={handleLogout}>
                   Выйти
                 </Button>
               </>
@@ -118,7 +133,7 @@ export function Header() {
         </div>
       </header>
 
-      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} onLogout={handleLogout} />
     </>
   );
 }

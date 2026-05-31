@@ -190,6 +190,31 @@ Run frontend locally:
 npm run dev:client
 ```
 
+## Frontend Auth Flow
+
+The frontend auth flow is now connected to the backend API and includes:
+
+- live `login`, `register`, and `fetch me` requests
+- session bootstrap from `localStorage`
+- protected client routes and admin-only routes
+- logout with full token cleanup
+- normalized Russian error messages for auth forms
+
+Demo access:
+
+- client: `ivan.petrov@buildrent.local` / `Client12345!`
+- admin: `admin@buildrent.local` / `Admin12345!`
+
+Redirect behavior:
+
+- admin users go to `/admin` after login
+- client users return to the protected route they originally requested when possible
+- otherwise clients go to `/catalog`
+
+Token storage:
+
+- `localStorage` key: `buildrent.auth.token`
+
 ## Authentication API
 
 Authentication is implemented with JWT Bearer access tokens.

@@ -1,23 +1,128 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
 
+import {
+  clearAuthError,
+  register as registerAccount,
+  selectAuth,
+  selectIsAuthenticated,
+} from "../../features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../shared/hooks/redux";
 import { Button, Input, PageHeader } from "../../shared/ui";
 
 const authInputClassName =
   "border-white/10 bg-white/6 text-white placeholder:text-white/38 focus-visible:border-primary focus-visible:bg-white/10";
 
-export function RegisterPage() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+const registerSchema = z
+  .object({
+    fullName: z
+      .string()
+      .trim()
+      .min(2, "Укажите имя и фамилию"),
+    email: z
+      .string()
+      .trim()
+      .min(1, "Укажите email")
+      .email("Введите корректный email"),
+    phone: z
+      .string()
+      .trim()
+      .min(7, "Укажите корректный телефон")
+      .regex(/^[+\d\s()-]{7,20}$/, "Укажите корректный телефон"),
+    password: z
+      .string()
+      .min(8, "Пароль должен содержать минимум 8 символов")
+      .regex(/^(?=.*[A-Za-zА-Яа-я])(?=.*\d).+$/, "Пароль должен содержать букву и цифру"),
+    confirmPassword: z.string().min(1, "Подтвердите пароль"),
+  })
+  .refine((values) => values.password === values.confirmPassword, {
+    message: "Пароли должны совпадать",
+    path: ["confirmPassword"],
+  });
 
-  const applyDemoAccess = () => {
-    setFullName("Иван Петров");
-    setEmail("client@buildrent.local");
-    setPhone("+375 29 111 00 00");
-    setPassword("Client12345!");
+type RegisterFormValues = z.infer<typeof registerSchema>;
+
+export function RegisterPage() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const auth = useAppSelector(selectAuth);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const redirectTimeoutRef = useRef<number | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  useEffect(() => {
+    dispatch(clearAuthError());
+
+    return () => {
+      if (redirectTimeoutRef.current) {
+        window.clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (auth.isInitialized && isAuthenticated && !successMessage) {
+      navigate("/catalog", { replace: true });
+    }
+  }, [auth.isInitialized, isAuthenticated, navigate, successMessage]);
+
+  const applyExampleProfile = () => {
+    const uniqueSuffix = Date.now().toString().slice(-6);
+
+    setSubmitError(null);
+    setSuccessMessage(null);
+    dispatch(clearAuthError());
+    setValue("fullName", "Иван Петров", { shouldDirty: true, shouldValidate: true });
+    setValue("email", `client.${uniqueSuffix}@buildrent.local`, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    setValue("phone", "+375 29 111 00 00", { shouldDirty: true, shouldValidate: true });
+    setValue("password", "Client12345!", { shouldDirty: true, shouldValidate: true });
+    setValue("confirmPassword", "Client12345!", {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
   };
+
+  const onSubmit = async ({ confirmPassword: _confirmPassword, ...values }: RegisterFormValues) => {
+    setSubmitError(null);
+    setSuccessMessage(null);
+    dispatch(clearAuthError());
+
+    try {
+      await dispatch(registerAccount(values)).unwrap();
+      setSuccessMessage("Аккаунт создан. Перенаправляем в каталог...");
+
+      redirectTimeoutRef.current = window.setTimeout(() => {
+        navigate("/catalog", { replace: true });
+      }, 500);
+    } catch (error) {
+      setSubmitError(typeof error === "string" ? error : "Не удалось создать аккаунт");
+    }
+  };
+
+  const formError = submitError ?? auth.error;
 
   return (
     <div className="space-y-6">
@@ -28,76 +133,115 @@ export function RegisterPage() {
         description="Подготовьте клиентский профиль для аренды, избранного и отслеживания заявок в одном кабинете."
       />
 
-      <div className="grid gap-5">
+      <form className="grid gap-5" noValidate onSubmit={handleSubmit(onSubmit)}>
+        {formError ? (
+          <div className="rounded-display border border-danger/55 bg-danger/10 px-4 py-3 text-sm leading-6 text-white">
+            {formError}
+          </div>
+        ) : null}
+
+        {successMessage ? (
+          <div className="rounded-display border border-success/55 bg-success/10 px-4 py-3 text-sm leading-6 text-white">
+            {successMessage}
+          </div>
+        ) : null}
+
         <div className="grid gap-4">
           <label className="space-y-2 text-sm font-medium text-white/76">
             <span>ФИО</span>
             <Input
-              value={fullName}
-              onChange={(event) => setFullName(event.target.value)}
               placeholder="Иван Петров"
+              autoComplete="name"
+              hasError={Boolean(errors.fullName)}
               className={authInputClassName}
+              {...register("fullName")}
             />
+            {errors.fullName ? (
+              <p className="text-sm text-primary">{errors.fullName.message}</p>
+            ) : null}
           </label>
+
           <label className="space-y-2 text-sm font-medium text-white/76">
             <span>Email</span>
             <Input
               type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
               placeholder="client@buildrent.local"
+              autoComplete="email"
+              hasError={Boolean(errors.email)}
               className={authInputClassName}
+              {...register("email")}
             />
+            {errors.email ? (
+              <p className="text-sm text-primary">{errors.email.message}</p>
+            ) : null}
           </label>
+
           <label className="space-y-2 text-sm font-medium text-white/76">
             <span>Телефон</span>
             <Input
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
               placeholder="+375 29 111 00 00"
+              autoComplete="tel"
+              hasError={Boolean(errors.phone)}
               className={authInputClassName}
+              {...register("phone")}
             />
+            {errors.phone ? (
+              <p className="text-sm text-primary">{errors.phone.message}</p>
+            ) : null}
           </label>
+
           <label className="space-y-2 text-sm font-medium text-white/76">
             <span>Пароль</span>
             <Input
               type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Придумайте надежный пароль"
+              placeholder="Придумайте надёжный пароль"
+              autoComplete="new-password"
+              hasError={Boolean(errors.password)}
               className={authInputClassName}
+              {...register("password")}
             />
+            {errors.password ? (
+              <p className="text-sm text-primary">{errors.password.message}</p>
+            ) : null}
+          </label>
+
+          <label className="space-y-2 text-sm font-medium text-white/76">
+            <span>Подтверждение пароля</span>
+            <Input
+              type="password"
+              placeholder="Повторите пароль"
+              autoComplete="new-password"
+              hasError={Boolean(errors.confirmPassword)}
+              className={authInputClassName}
+              {...register("confirmPassword")}
+            />
+            {errors.confirmPassword ? (
+              <p className="text-sm text-primary">{errors.confirmPassword.message}</p>
+            ) : null}
           </label>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <Button className="w-full min-w-0 justify-center">Зарегистрироваться</Button>
+          <Button type="submit" className="w-full min-w-0 justify-center" disabled={auth.isLoading}>
+            {auth.isLoading ? "Создаём аккаунт..." : "Зарегистрироваться"}
+          </Button>
           <Button
             variant="ghost"
             className="w-full min-w-0 justify-center border-white/10 bg-white/6 text-white hover:bg-white/10"
-            onClick={applyDemoAccess}
+            onClick={applyExampleProfile}
+            disabled={auth.isLoading}
           >
-            Демо-доступ
+            Заполнить пример
           </Button>
         </div>
 
         <div className="rounded-display border border-white/10 bg-white/6 p-4 sm:p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
-            Демо-доступ
+            Быстрый старт
           </p>
           <p className="mt-3 text-sm leading-6 text-white/68">
-            Кнопка подставляет пример клиентского профиля, чтобы проверить сетку формы и ритм полей без ручного ввода.
+            Кнопка заполняет форму примером нового клиента. Email создаётся уникальным, чтобы можно было повторять проверку регистрации.
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-adminBackground/45 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-white/42">Клиент</p>
-              <p className="mt-2 break-all text-sm text-white">Иван Петров</p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-adminBackground/45 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-white/42">Телефон</p>
-              <p className="mt-2 break-all text-sm text-white">+375 29 111 00 00</p>
-            </div>
-          </div>
         </div>
 
         <p className="text-sm text-white/62">
@@ -106,7 +250,7 @@ export function RegisterPage() {
             Войти
           </Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 }
