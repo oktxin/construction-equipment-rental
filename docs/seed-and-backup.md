@@ -1,26 +1,34 @@
-# Seed And Backup
+# Seed и backup
 
-## Goal
+## Назначение
 
-The BuildRent seed prepares a predictable demo database for coursework presentation, backend testing, and manual API checks.
+`server/prisma/seed.ts` подготавливает стабильную demo-базу для показа курсового проекта, ручной проверки сценариев и повторяемой локальной разработки.
 
-The dataset is intentionally large enough to exceed the coursework requirement of 200 total records. On a clean database the seed creates more than 500 records.
+Seed рассчитан на повторный запуск. Он не только обновляет свои записи, но и очищает временные QA/demo-данные:
 
-## What The Seed Creates On A Clean Database
+- тестовые пользователи с адресами `@example.com`;
+- служебные учётки вида `codex.auth.*`;
+- старые заявки с префиксом `BR-SEED-*`;
+- ручные временные категории и оборудование;
+- дубликаты, созданные через админку поверх seed-позиций.
 
-- roles: 2
-- users: 13
-- categories: 9
-- equipment: 45
-- equipment images: 90
-- equipment specs: 180
-- rental orders: 35
-- favorites: 30
-- reviews: 40
-- payments: 20
-- reports: 10
+## Что создаётся на чистой базе
 
-The rental orders include the following statuses:
+- роли: `2`
+- пользователи: `13`
+- категории: `9`
+- оборудование: `45`
+- изображения оборудования: `90`
+- характеристики: `180`
+- заявки аренды: `35`
+- позиции в заявках: `69`
+- избранное: `30`
+- отзывы: `40`
+- платежи: `20`
+- отчёты: `10`
+- всего записей: `543`
+
+В seed присутствуют разные статусы заявок:
 
 - `PENDING`
 - `APPROVED`
@@ -29,95 +37,84 @@ The rental orders include the following statuses:
 - `CANCELLED`
 - `REJECTED`
 
-The equipment catalog includes mixed statuses as well:
+И разные состояния оборудования:
 
 - `AVAILABLE`
 - `UNAVAILABLE`
 - `MAINTENANCE`
 - `ARCHIVED`
 
-## Test Accounts
+## Демо-учётки
 
-- admin: `admin@buildrent.local` / `Admin12345!`
-- clients: seeded client emails / `Client12345!`
+- администратор: `admin@buildrent.local` / `Admin12345!`
+- клиенты: подготовленные seed-аккаунты / `Client12345!`
 
-The admin account can still be overridden with:
+При необходимости администратора можно переопределить переменными:
 
 - `ADMIN_EMAIL`
 - `ADMIN_PASSWORD`
 - `ADMIN_FULL_NAME`
 
-## Idempotency
+## Команды
 
-The seed is designed to be re-runnable:
-
-- roles, users, categories, and equipment use stable unique identifiers
-- seeded rental orders use the `BR-SEED-` prefix
-- seeded reports use the `Seed:` title prefix
-- seeded favorites and reviews are recreated only for seeded client accounts
-- seeded images and specs are fully replaced for seeded equipment
-
-Running the seed again should refresh the same demo dataset instead of creating uncontrolled duplicates.
-
-## Run The Seed
+Заполнение базы:
 
 ```bash
 npm run prisma:seed --workspace server
 ```
 
-After completion, the script prints a summary of the actual current database totals, for example:
-
-```text
-Seed completed:
-- roles: X
-- users: X
-- categories: X
-- equipment: X
-- equipmentImages: X
-- equipmentSpecs: X
-- rentalOrders: X
-- rentalOrderItems: X
-- favorites: X
-- reviews: X
-- payments: X
-- reports: X
-- total records: X
-```
-
-## Create Backup
+Создание backup:
 
 ```bash
 npm run prisma:backup --workspace server
 ```
 
-The backup script exports the main tables into:
+## Что выводит seed
+
+После завершения seed печатает фактические текущие счётчики базы. Это удобно для быстрого контроля перед демо и после повторного прогона.
+
+Пример формата вывода:
+
+```text
+Seed completed:
+- roles: 2
+- users: 13
+- categories: 9
+- equipment: 45
+- equipmentImages: 90
+- equipmentSpecs: 180
+- rentalOrders: 35
+- rentalOrderItems: 69
+- favorites: 30
+- reviews: 40
+- payments: 20
+- reports: 10
+- total records: 543
+```
+
+## Что создаёт backup
+
+Backup-скрипт сохраняет:
 
 - `server/prisma/backups/buildrent_seed_backup.json`
+- `server/prisma/backups/buildrent_seed_backup.sql` — если в системе доступен `pg_dump`
 
-If `pg_dump` is available in `PATH`, it also tries to generate:
+JSON-дамп удобен для:
 
-- `server/prisma/backups/buildrent_seed_backup.sql`
+- быстрой проверки наполненности базы;
+- показа структуры данных без Prisma Studio;
+- сравнения состояния после повторных запусков.
 
-## How To Use The Backup
+SQL-дамп удобен для:
 
-The JSON backup is useful for:
+- восстановления снимка в PostgreSQL;
+- хранения проверяемого артефакта вместе с репозиторием.
 
-- demonstrating that the database is populated
-- checking exact seeded records without opening Prisma Studio
-- comparing database state after repeated seed runs
-
-The SQL backup, when available, is useful for:
-
-- restoring the same snapshot into PostgreSQL
-- keeping a database dump next to the repository for review
-
-## Manual Verification Targets
-
-After seeding, the following endpoints should return meaningful data:
+## Что стоит проверить после seed
 
 - `GET /api/categories`
 - `GET /api/equipment`
 - `GET /api/equipment/featured`
-- `GET /api/reviews/equipment/:equipmentId`
+- `GET /api/rental-orders/my`
 - `GET /api/admin/rental-orders`
 - `GET /api/admin/reports`

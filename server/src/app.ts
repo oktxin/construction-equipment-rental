@@ -10,12 +10,39 @@ import { errorHandler } from "./middlewares/errorHandler";
 import { notFound } from "./middlewares/notFound";
 import { apiRouter } from "./routes";
 
+function buildAllowedOrigins() {
+  const configuredOrigin = new URL(env.CLIENT_ORIGIN);
+  const allowedOrigins = new Set<string>([env.CLIENT_ORIGIN]);
+
+  if (configuredOrigin.hostname === "localhost") {
+    allowedOrigins.add(
+      `${configuredOrigin.protocol}//127.0.0.1${configuredOrigin.port ? `:${configuredOrigin.port}` : ""}`,
+    );
+  }
+
+  if (configuredOrigin.hostname === "127.0.0.1") {
+    allowedOrigins.add(
+      `${configuredOrigin.protocol}//localhost${configuredOrigin.port ? `:${configuredOrigin.port}` : ""}`,
+    );
+  }
+
+  return allowedOrigins;
+}
+
 export function createApp() {
   const app = express();
+  const allowedOrigins = buildAllowedOrigins();
 
   app.use(
     cors({
-      origin: env.CLIENT_ORIGIN,
+      origin(origin, callback) {
+        if (!origin || allowedOrigins.has(origin)) {
+          callback(null, true);
+          return;
+        }
+
+        callback(new Error("CORS origin is not allowed"));
+      },
       credentials: true,
     }),
   );

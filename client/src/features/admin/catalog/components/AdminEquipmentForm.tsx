@@ -370,7 +370,7 @@ export function AdminEquipmentForm({
 
       <label className="flex items-center gap-3 rounded-[22px] border border-white/10 bg-adminBackground/60 px-4 py-3 text-sm text-white/78">
         <input type="checkbox" className="h-4 w-4 rounded border-white/20 bg-transparent" {...register("isFeatured")} />
-        Показывать позицию в featured-подборках каталога
+        Показывать позицию в витринных подборках каталога
       </label>
 
       {serverError ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{serverError}</p> : null}

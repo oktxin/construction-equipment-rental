@@ -36,8 +36,26 @@ process.env.DATABASE_URL = process.env.DATABASE_URL || env.DATABASE_URL;
 
 const prisma = new PrismaClient();
 
-const SEED_REPORT_PREFIX = "Seed:";
-const SEED_ORDER_PREFIX = "BR-SEED-";
+const LEGACY_SEED_ORDER_PREFIX = "BR-SEED-";
+const DEMO_ORDER_PREFIX = "BR-202605-";
+const SEEDED_CATEGORY_SLUGS = CATEGORY_SEEDS.map((category) => category.slug);
+const SEEDED_EQUIPMENT_SLUGS = EQUIPMENT_SEEDS.map((equipment) => equipment.slug);
+const TEMP_CATEGORY_SLUG_PREFIXES = [
+  "rental-test-",
+  "fav-review-",
+  "public-reviews-",
+  "catalog-reviews-",
+  "reports-category-",
+  "temp-category-",
+];
+const TEMP_EQUIPMENT_SLUG_PREFIXES = [
+  "rental-test-",
+  "fav-review-",
+  "public-reviews-",
+  "catalog-reviews-",
+  "reports-machine-",
+  "temp-equipment-",
+];
 
 function roundMoney(value: number) {
   return Number(value.toFixed(2));
@@ -167,6 +185,194 @@ async function seedCategories() {
   return categories;
 }
 
+async function cleanupSmokeTestData() {
+  const temporaryUsers = await prisma.user.findMany({
+    where: {
+      OR: [
+        {
+          email: {
+            contains: "@example.com",
+            mode: "insensitive",
+          },
+        },
+        {
+          email: {
+            contains: "codex.auth.",
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const temporaryUserIds = temporaryUsers.map((user) => user.id);
+
+  if (temporaryUserIds.length > 0) {
+    await prisma.report.deleteMany({
+      where: {
+        userId: {
+          in: temporaryUserIds,
+        },
+      },
+    });
+
+    await prisma.favorite.deleteMany({
+      where: {
+        userId: {
+          in: temporaryUserIds,
+        },
+      },
+    });
+
+    await prisma.review.deleteMany({
+      where: {
+        userId: {
+          in: temporaryUserIds,
+        },
+      },
+    });
+
+    await prisma.rentalOrder.deleteMany({
+      where: {
+        userId: {
+          in: temporaryUserIds,
+        },
+      },
+    });
+
+    await prisma.user.deleteMany({
+      where: {
+        id: {
+          in: temporaryUserIds,
+        },
+      },
+    });
+  }
+
+  const temporaryCategories = await prisma.category.findMany({
+    where: {
+      OR: [
+        ...TEMP_CATEGORY_SLUG_PREFIXES.map((prefix) => ({
+          slug: {
+            startsWith: prefix,
+          },
+        })),
+        ...SEEDED_CATEGORY_SLUGS.map((slug) => ({
+          slug: {
+            startsWith: `${slug}-`,
+          },
+        })),
+        {
+          description: {
+            equals: "tmp",
+          },
+        },
+        {
+          description: {
+            contains: "Temporary",
+            mode: "insensitive",
+          },
+        },
+        {
+          name: {
+            contains: "Temp ",
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: "Временн",
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const temporaryCategoryIds = temporaryCategories.map((category) => category.id);
+
+  const temporaryEquipment = await prisma.equipment.findMany({
+    where: {
+      OR: [
+        ...TEMP_EQUIPMENT_SLUG_PREFIXES.map((prefix) => ({
+          slug: {
+            startsWith: prefix,
+          },
+        })),
+        ...SEEDED_EQUIPMENT_SLUGS.map((slug) => ({
+          slug: {
+            startsWith: `${slug}-`,
+          },
+        })),
+        ...(temporaryCategoryIds.length > 0
+          ? [
+              {
+                categoryId: {
+                  in: temporaryCategoryIds,
+                },
+              },
+            ]
+          : []),
+        {
+          name: {
+            contains: "Temporary",
+            mode: "insensitive",
+          },
+        },
+        {
+          name: {
+            contains: "Temp ",
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: "Временн",
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (temporaryEquipment.length > 0) {
+    await prisma.review.deleteMany({
+      where: {
+        equipmentId: {
+          in: temporaryEquipment.map((item) => item.id),
+        },
+      },
+    });
+
+    await prisma.equipment.deleteMany({
+      where: {
+        id: {
+          in: temporaryEquipment.map((item) => item.id),
+        },
+      },
+    });
+  }
+
+  if (temporaryCategoryIds.length > 0) {
+    await prisma.category.deleteMany({
+      where: {
+        id: {
+          in: temporaryCategoryIds,
+        },
+      },
+    });
+  }
+}
+
 async function seedEquipment() {
   const {
     orders: orderSeeds,
@@ -181,7 +387,7 @@ async function seedEquipment() {
       await prisma.category.findMany({
         where: {
           slug: {
-            in: CATEGORY_SEEDS.map((category) => category.slug),
+            in: SEEDED_CATEGORY_SLUGS,
           },
         },
       })
@@ -289,12 +495,12 @@ async function seedEquipment() {
 
 async function clearSeededRelationalData(params: {
   clientIds: string[];
-  adminEmail: string;
+  adminId: string;
 }) {
   await prisma.report.deleteMany({
     where: {
-      title: {
-        startsWith: SEED_REPORT_PREFIX,
+      userId: {
+        in: [...params.clientIds, params.adminId],
       },
     },
   });
@@ -317,9 +523,23 @@ async function clearSeededRelationalData(params: {
 
   await prisma.rentalOrder.deleteMany({
     where: {
-      orderNumber: {
-        startsWith: SEED_ORDER_PREFIX,
-      },
+      OR: [
+        {
+          userId: {
+            in: params.clientIds,
+          },
+        },
+        {
+          orderNumber: {
+            startsWith: LEGACY_SEED_ORDER_PREFIX,
+          },
+        },
+        {
+          orderNumber: {
+            startsWith: DEMO_ORDER_PREFIX,
+          },
+        },
+      ],
     },
   });
 }
@@ -345,7 +565,7 @@ async function seedOrders(orderSeeds: ReturnType<typeof buildRentalOrderSeeds>["
       await prisma.equipment.findMany({
         where: {
           slug: {
-            in: EQUIPMENT_SEEDS.map((equipment) => equipment.slug),
+            in: SEEDED_EQUIPMENT_SLUGS,
           },
         },
       })
@@ -631,12 +851,13 @@ async function main() {
     clientRoleId: clientRole.id,
   });
 
+  await cleanupSmokeTestData();
   await seedCategories();
   const { orderSeeds } = await seedEquipment();
 
   await clearSeededRelationalData({
     clientIds: clients.map((client) => client.id),
-    adminEmail: admin.email,
+    adminId: admin.id,
   });
 
   await seedOrders(orderSeeds);

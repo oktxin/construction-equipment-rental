@@ -1,464 +1,147 @@
 # BuildRent
 
-BuildRent is a coursework project for building an online platform to rent construction equipment. The platform will combine a public catalog, customer rental flow, personal account, and an admin area for equipment, orders, users, and reports.
+BuildRent — курсовой проект онлайн-платформы аренды строительного оборудования. Репозиторий содержит готовый пользовательский каталог, личный кабинет клиента, административную панель и сервер API с демо-данными для показа.
 
-## Project Materials
+## Что готово
 
-- Architecture plan: [docs/architecture-plan.md](docs/architecture-plan.md)
-- Google Docs reference: https://docs.google.com/document/d/1fMx8kRFZ0IwHiYF-MDHM7ZCR3fo7Ycgh/edit?usp=sharing&ouid=106355912309267225557&rtpof=true&sd=true
+- публичные страницы: главная, каталог, карточка оборудования, регистрация, вход, 404;
+- клиентский кабинет: избранное, оформление аренды, список заявок, детальная страница заявки, профиль, отчёты;
+- админ-зона: дашборд, управление заявками, оборудованием, категориями, пользователями, отзывами и отчётами;
+- сервер на `Express + Prisma + PostgreSQL` с JWT-авторизацией, бизнес-правилами аренды и генерацией `PDF/DOCX`;
+- идемпотентный seed и backup для воспроизводимого demo-сценария.
 
-## Tech Stack
+## Технологии
 
-- Frontend: React, TypeScript, Vite, React Router, Redux Toolkit, Axios, Tailwind CSS, React Hook Form, Zod
-- Backend: Node.js, Express, TypeScript, Prisma, PostgreSQL, dotenv, cors, helmet, morgan, bcrypt, jsonwebtoken
+- frontend: `React`, `TypeScript`, `Vite`, `React Router`, `Redux Toolkit`, `Axios`, `React Hook Form`, `Zod`, `Tailwind CSS`;
+- backend: `Node.js`, `Express`, `TypeScript`, `Prisma`, `PostgreSQL`, `JWT`, `bcrypt`, `cors`, `helmet`, `morgan`;
+- документы: `pdfkit`, `docx`.
 
-## Project Structure
+## Структура проекта
 
 ```text
 BuildRent/
-  client/   # React + Vite frontend
-  server/   # Express + Prisma backend
-  docs/     # Architecture and project docs
+  client/   # Vite + React приложение
+  server/   # Express API + Prisma
+  docs/     # Архитектура, API и материалы к демо
 ```
 
-## Environment Variables
+## Быстрый старт
 
-1. Copy `.env.example` to `.env` in the project root.
-2. Adjust values if needed.
-
-The frontend Vite config reads variables from the project root, and the backend also loads the root `.env`.
-
-## Run Commands
-
-### Install dependencies
+1. Установите зависимости:
 
 ```bash
 npm install
 ```
 
-### Run client
+2. При необходимости скопируйте `.env.example` в `.env`.
 
-```bash
-npm run dev:client
-```
+3. Подготовьте базу данных PostgreSQL `buildrent`.
 
-### Run server
-
-```bash
-npm run dev:server
-```
-
-### Type check all workspaces
-
-```bash
-npm run typecheck
-```
-
-### Build all workspaces
-
-```bash
-npm run build
-```
-
-## Database Setup
-
-1. Create PostgreSQL database `buildrent`.
-2. Copy `.env.example` to `.env`.
-3. Make sure `DATABASE_URL` points to your local PostgreSQL instance.
-
-### Generate Prisma Client
+4. Сгенерируйте Prisma Client и примените миграции:
 
 ```bash
 npm run prisma:generate --workspace server
-```
-
-### Apply Prisma migrations
-
-```bash
 npm run prisma:migrate --workspace server
 ```
 
-### Open Prisma Studio
-
-```bash
-npm run prisma:studio --workspace server
-```
-
-### Seed base roles and admin
+5. Заполните базу демо-данными:
 
 ```bash
 npm run prisma:seed --workspace server
 ```
 
-On a clean database, the seed creates a full demo dataset for testing:
-
-- 2 roles
-- 13 users (1 admin + 12 clients)
-- 9 categories
-- 45 equipment records
-- 90 equipment images
-- 180 equipment specs
-- 35 rental orders with mixed statuses
-- 30 favorites
-- 40 reviews
-- 20 payments
-- 10 reports
-
-On a clean database the seed produces 500+ records in total and is safe to re-run because it uses stable identifiers and replaces only its own test data.
-
-Test accounts:
-
-- `admin@buildrent.local` / `Admin12345!`
-- any seeded client account / `Client12345!`
-
-The default administrator can still be configured through environment variables:
-
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-- `ADMIN_FULL_NAME`
-
-### Create JSON backup
+6. Запустите проект:
 
 ```bash
-npm run prisma:backup --workspace server
+npm run dev:server
+npm run dev:client
 ```
 
-This creates `server/prisma/backups/buildrent_seed_backup.json`.
+Frontend по умолчанию работает на `http://localhost:5173`, API — на `http://localhost:4000/api`.
 
-If `pg_dump` is available in your environment, the same script also attempts to create:
-
-`server/prisma/backups/buildrent_seed_backup.sql`
-
-## Database Seed And Backup
-
-Use these commands after migrations are applied:
+## Основные команды
 
 ```bash
+npm run typecheck
+npm run build
 npm run prisma:seed --workspace server
 npm run prisma:backup --workspace server
 ```
 
-The seed prints the actual current database totals to the console after completion, and the backup script exports the main tables for demonstration or restore-oriented review.
+## Демо-данные и учётки
 
-## Frontend Design Concept
+После `npm run prisma:seed --workspace server` на чистой базе создаются:
 
-The frontend visual direction, UI-kit rules, layout system, and implementation roadmap are documented in [docs/frontend-design-concept.md](docs/frontend-design-concept.md).
+- `2` роли;
+- `13` пользователей;
+- `9` категорий;
+- `45` единиц оборудования;
+- `35` заявок аренды;
+- `30` избранных позиций;
+- `40` отзывов;
+- `20` платежей;
+- `10` отчётов;
+- всего `543` записи.
 
-## Frontend Foundation
+Seed повторяемый: он обновляет свои данные и очищает временные QA/demo-записи, старые `BR-SEED-*` заявки и ручные тестовые дубликаты.
 
-The first frontend foundation pass now includes:
+Демо-доступ:
 
-- theme tokens and global styles
-- public, auth, and admin layouts
-- protected and admin-only routes
-- shared UI building blocks
-- auth state with token persistence
-- placeholder pages for public, client, and admin flows
+- клиент: `ivan.petrov@buildrent.local` / `Client12345!`
+- администратор: `admin@buildrent.local` / `Admin12345!`
 
-Frontend documentation:
+## Ключевые маршруты
 
-- [docs/frontend-foundation.md](docs/frontend-foundation.md)
-- [docs/frontend-public-pages.md](docs/frontend-public-pages.md)
-- [docs/frontend-admin-pages.md](docs/frontend-admin-pages.md)
-
-Main frontend routes currently prepared:
+Публичная часть:
 
 - `/`
 - `/catalog`
 - `/equipment/:slug`
 - `/login`
 - `/register`
+
+Клиент:
+
 - `/favorites`
+- `/checkout`
 - `/orders`
 - `/orders/:id`
-- `/reports`
 - `/profile`
-- `/checkout`
+- `/reports`
+
+Админ:
+
 - `/admin`
+- `/admin/orders`
 - `/admin/equipment`
 - `/admin/categories`
-- `/admin/orders`
 - `/admin/users`
 - `/admin/reviews`
 - `/admin/reports`
 
-Frontend environment:
-
-- `VITE_API_URL=http://localhost:4000/api`
-
-Public homepage:
-
-- `/` now loads live categories from `GET /api/categories`
-- `/` now loads featured equipment from `GET /api/equipment/featured`
-
-Public catalog page:
-
-- `/catalog` now loads live equipment from `GET /api/equipment`
-- supports search, filters, sorting, pagination, and category deep links
-- keeps catalog settings in `localStorage` under `buildrent.catalog.filters`
-- syncs active catalog state with `URLSearchParams`
-
-Equipment detail page:
-
-- `/equipment/:slug` now loads live equipment details from `GET /api/equipment/:slug`
-- supports image gallery, technical specs, reviews, favorite toggle, similar equipment, and CTA to `/checkout?equipmentId=...`
-- uses favorites endpoints `GET /api/favorites/check/:equipmentId`, `POST /api/favorites/:equipmentId`, `DELETE /api/favorites/:equipmentId`
-- loads public reviews from `GET /api/reviews/equipment/:equipmentId`
-- allows authenticated clients to create, edit, and delete their own reviews on the same page
-
-Checkout page:
-
-- `/checkout` is protected by `ProtectedRoute` and now opens a live rental checkout flow
-- loads the selected equipment from `GET /api/equipment/by-id/:id`
-- calculates totals via `POST /api/rental-orders/calculate`
-- creates rental orders via `POST /api/rental-orders`
-- shows a success state with a link to `/orders`
-
-Client orders pages:
-
-- `/orders` is protected and now shows the current user's rental history
-- supports status filtering and pagination for `GET /api/rental-orders/my`
-- `/orders/:id` shows order details, timeline, totals, and order items
-- allows cancellation through `PATCH /api/rental-orders/:id/cancel` for `PENDING` and `APPROVED`
-- allows downloading order documents in `PDF` and `DOCX` through the reports endpoints
-
-Client cabinet pages:
-
-- `/favorites` is protected and now loads saved equipment from `GET /api/favorites`
-- supports removing items through `DELETE /api/favorites/:equipmentId`, empty state, and pagination
-- `/profile` is protected and now shows customer account data with an editable contact form
-- saves profile changes through `PATCH /api/users/:id` and refreshes the auth user after update
-- `/reports` is protected and now loads customer report history from `GET /api/reports/my`
-- supports filtering by report type and format, plus downloading files through `GET /api/reports/:id/download`
-
-Admin pages:
-
-- `/admin` now shows a live operational dashboard for rental orders
-- `/admin/orders` now supports filters, pagination, detail panel, status changes, and manager comments
-- `/admin/equipment` now supports live catalog management for equipment, filters, create and edit flows, image replacement, specs replacement, and safe delete or archive behavior
-- `/admin/categories` now supports category search, create and edit flows, and guarded deletion when equipment is still attached
-- `/admin/users` now supports live user search, role and block filters, detail view, profile editing, and block or unblock actions
-- `/admin/reviews` now supports moderation filters, detail view, publish or hide actions, review editing, and deletion with confirmation
-- `/admin/reports` now supports report filters, admin rental statistics generation in `PDF` and `DOCX`, download, and guarded deletion
-- admin order management uses `GET /api/admin/rental-orders`, `GET /api/admin/rental-orders/:id`, `PATCH /api/admin/rental-orders/:id/status`, and `PATCH /api/admin/rental-orders/:id/comment`
-- admin user management uses `GET /api/users`, `GET /api/users/:id`, `PATCH /api/users/:id`, and `PATCH /api/users/:id/block`
-- admin review moderation uses `GET /api/admin/reviews`, `PATCH /api/admin/reviews/:id/publish`, `PATCH /api/reviews/:id`, and `DELETE /api/reviews/:id`
-- admin reports use `GET /api/admin/reports`, `POST /api/admin/reports/rental-statistics`, `DELETE /api/admin/reports/:id`, `GET /api/reports/:id/download`, and `GET /api/users` for the user filter
-
-Run frontend locally:
-
-```bash
-npm run dev:client
-```
-
-## Frontend Auth Flow
-
-The frontend auth flow is now connected to the backend API and includes:
-
-- live `login`, `register`, and `fetch me` requests
-- session bootstrap from `localStorage`
-- protected client routes and admin-only routes
-- logout with full token cleanup
-- normalized Russian error messages for auth forms
-
-Demo access:
-
-- client: `ivan.petrov@buildrent.local` / `Client12345!`
-- admin: `admin@buildrent.local` / `Admin12345!`
-
-Redirect behavior:
-
-- admin users go to `/admin` after login
-- client users return to the protected route they originally requested when possible
-- otherwise clients go to `/catalog`
-
-Token storage:
-
-- `localStorage` key: `buildrent.auth.token`
-
-## Authentication API
-
-Authentication is implemented with JWT Bearer access tokens.
-
-### Authorization header
-
-```text
-Authorization: Bearer <token>
-```
-
-### Main endpoints
-
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `GET /api/auth/me`
-- `GET /api/users`
-- `GET /api/users/:id`
-- `PATCH /api/users/:id`
-- `PATCH /api/users/:id/block`
-
-### Create admin user
-
-1. Configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_FULL_NAME` in `.env`.
-2. Run:
-
-```bash
-npm run prisma:seed --workspace server
-```
-
-## Catalog API
-
-The backend now includes public catalog and admin catalog management endpoints.
-
-### Public endpoints
-
-- `GET /api/categories`
-- `GET /api/categories/:slug`
-- `GET /api/equipment`
-- `GET /api/equipment/featured`
-- `GET /api/equipment/by-id/:id`
-- `GET /api/equipment/:slug`
-
-### Admin catalog endpoints
-
-- `POST /api/categories`
-- `PATCH /api/categories/:id`
-- `DELETE /api/categories/:id`
-- `POST /api/equipment`
-- `PATCH /api/equipment/:id`
-- `PUT /api/equipment/:id/images`
-- `PUT /api/equipment/:id/specs`
-- `DELETE /api/equipment/:id`
-
-### Catalog filters
-
-- `search`
-- `categorySlug`
-- `minPrice`
-- `maxPrice`
-- `status`
-- `isFeatured`
-- `sortBy`
-- `sortOrder`
-- `page`
-- `limit`
-
-### Sorting
-
-- `name`
-- `dailyPrice`
-- `createdAt`
-- `popularity`
-- `rating`
-
-Detailed examples are documented in [docs/catalog-api.md](docs/catalog-api.md).
-
-## Rental Orders API
-
-The backend now includes rental order calculation, customer rental flow, and admin order management.
-
-### Main endpoints
-
-- `POST /api/rental-orders/calculate`
-- `POST /api/rental-orders`
-- `GET /api/rental-orders/my`
-- `GET /api/rental-orders/my/:id`
-- `PATCH /api/rental-orders/:id/cancel`
-- `GET /api/admin/rental-orders`
-- `GET /api/admin/rental-orders/:id`
-- `PATCH /api/admin/rental-orders/:id/status`
-- `PATCH /api/admin/rental-orders/:id/comment`
-
-### Status flow
-
-- `PENDING -> APPROVED -> ACTIVE -> COMPLETED`
-- `PENDING -> REJECTED`
-- `PENDING -> CANCELLED`
-- `APPROVED -> CANCELLED`
-
-### Inventory strategy
-
-- `PENDING` orders do not reserve inventory yet
-- `APPROVED` reserves stock by decreasing `quantityAvailable`
-- `APPROVED -> CANCELLED` returns stock
-- `ACTIVE -> COMPLETED` returns stock
-
-Detailed examples are documented in [docs/rental-orders-api.md](docs/rental-orders-api.md).
-
-## Favorites and Reviews API
-
-The backend now includes favorites and equipment reviews with moderation support.
-
-### Main favorites endpoints
-
-- `GET /api/favorites`
-- `POST /api/favorites/:equipmentId`
-- `DELETE /api/favorites/:equipmentId`
-- `GET /api/favorites/check/:equipmentId`
-
-### Main reviews endpoints
-
-- `GET /api/reviews/equipment/:equipmentId`
-- `POST /api/reviews`
-- `PATCH /api/reviews/:id`
-- `DELETE /api/reviews/:id`
-- `GET /api/reviews/my`
-- `GET /api/admin/reviews`
-- `PATCH /api/admin/reviews/:id/publish`
-
-### Behavior
-
-- users can add and remove favorites only for themselves
-- archived equipment cannot be added to favorites
-- one user can leave only one review per equipment
-- clients can edit and delete only their own reviews from the equipment page
-- public reviews show only published entries
-- admin can moderate review visibility
-- `averageRating` and `reviewsCount` in catalog are based only on published reviews
-
-Detailed examples are documented in [docs/favorites-reviews-api.md](docs/favorites-reviews-api.md).
-
-## Reports API
-
-The backend now includes downloadable reports for rental orders, rental history, and admin rental statistics.
-
-### Available reports
-
-- `ORDER_DOCUMENT`
-- `RENTAL_HISTORY`
-- `ADMIN_RENTAL_STATISTICS`
-
-### Supported formats
-
-- `PDF`
-- `DOCX`
-
-### Main endpoints
-
-- `POST /api/reports/order/:orderId`
-- `POST /api/reports/rental-history`
-- `GET /api/reports/my`
-- `GET /api/reports/:id/download`
-- `POST /api/admin/reports/rental-statistics`
-- `GET /api/admin/reports`
-- `DELETE /api/admin/reports/:id`
-
-### Storage
-
-- generated files are stored in `server/uploads/reports`
-- report metadata is saved in the `Report` table
-- files are served through `/uploads`
-
-Detailed examples are documented in [docs/reports-api.md](docs/reports-api.md).
-
-## Health Check
-
-After starting the server, open:
+## Документация
+
+- [Краткое резюме проекта](docs/project-summary.md)
+- [Чек-лист для демонстрации](docs/demo-checklist.md)
+- [Seed и backup](docs/seed-and-backup.md)
+- [Архитектурный план](docs/architecture-plan.md)
+- [Дизайн-концепция фронтенда](docs/frontend-design-concept.md)
+- [Public pages](docs/frontend-public-pages.md)
+- [Admin pages](docs/frontend-admin-pages.md)
+- [Catalog API](docs/catalog-api.md)
+- [Rental Orders API](docs/rental-orders-api.md)
+- [Favorites & Reviews API](docs/favorites-reviews-api.md)
+- [Reports API](docs/reports-api.md)
+
+## Проверка API
+
+После запуска сервера проверьте:
 
 ```text
 http://localhost:4000/api/health
 ```
 
-Expected response:
+Ожидаемый ответ:
 
 ```json
 {

@@ -145,12 +145,12 @@ function chooseOrderWindow(index: number, status: OrderStatus) {
 
 function chooseCustomerComment(index: number) {
   const comments = [
-    "Please confirm morning pickup.",
-    "Need the equipment for a tight renovation schedule.",
-    "Site access is available after 09:00.",
-    "Please include extension cable recommendations.",
-    "Call one hour before delivery.",
-    "Crew works on weekdays only.",
+    "Подтвердите, пожалуйста, выдачу в первой половине дня.",
+    "Техника нужна под плотный график отделочных работ.",
+    "Доступ на объект открыт после 09:00.",
+    "Подскажите, пожалуйста, нужен ли удлинитель для подключения.",
+    "Позвоните за час до доставки.",
+    "Бригада работает только по будням.",
   ];
 
   return comments[index % comments.length];
@@ -158,34 +158,34 @@ function chooseCustomerComment(index: number) {
 
 function chooseManagerComment(status: OrderStatus, index: number) {
   if (status === OrderStatus.REJECTED) {
-    return "Rejected because the requested slot overlaps with planned maintenance.";
+    return "Отклонено из-за пересечения с техническим обслуживанием оборудования.";
   }
 
   if (status === OrderStatus.CANCELLED) {
-    return "Cancelled at customer request after schedule change.";
+    return "Заявка отменена по просьбе клиента после изменения графика работ.";
   }
 
   if (status === OrderStatus.APPROVED) {
-    return "Approved by operator after stock and identity check.";
+    return "Заявка подтверждена после проверки остатков и контактных данных.";
   }
 
   if (status === OrderStatus.ACTIVE) {
-    return "Rental is in progress and inventory is reserved.";
+    return "Аренда в процессе, оборудование зарезервировано за клиентом.";
   }
 
   if (status === OrderStatus.COMPLETED) {
-    return "Equipment returned and checked by the warehouse team.";
+    return "Техника возвращена и проверена складской командой.";
   }
 
   if (index % 3 === 0) {
-    return "Waiting for final customer confirmation.";
+    return "Ожидаем финальное подтверждение по времени получения.";
   }
 
   return null;
 }
 
 function createOrderNumber(index: number) {
-  return `BR-SEED-${`${index + 1}`.padStart(4, "0")}`;
+  return `BR-202605-${`${index + 1}`.padStart(4, "0")}`;
 }
 
 export function buildRentalOrderSeeds(params: {

@@ -25,7 +25,7 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().min(1).default("7d"),
   ADMIN_EMAIL: z.string().email().default("admin@buildrent.local"),
   ADMIN_PASSWORD: z.string().min(8).default("Admin12345!"),
-  ADMIN_FULL_NAME: z.string().min(1).default("BuildRent Admin"),
+  ADMIN_FULL_NAME: z.string().min(1).default("Администратор BuildRent"),
   BCRYPT_SALT_ROUNDS: z.coerce.number().int().min(4).max(15).default(10),
   REPORT_STORAGE_PATH: z.string().min(1).default("./uploads/reports"),
 });

@@ -121,7 +121,7 @@ export function AdminEquipmentFilters({
 
         <div className="space-y-2">
           <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-featured">
-            Featured
+            Витрина
           </label>
           <div className="relative">
             <select
@@ -141,8 +141,8 @@ export function AdminEquipmentFilters({
               }
             >
               <option value="">Все позиции</option>
-              <option value="true">Только featured</option>
-              <option value="false">Без featured</option>
+              <option value="true">Только на витрине</option>
+              <option value="false">Без витрины</option>
             </select>
             <span className="pointer-events-none absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-white/40" />
           </div>

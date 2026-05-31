@@ -9,15 +9,18 @@ export function NotFoundPage() {
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="rounded-display bg-secondary p-6 text-background">
             <p className="text-xs uppercase tracking-[0.22em] text-primary">404</p>
-            <h1 className="mt-4 font-heading text-5xl font-semibold tracking-[-0.06em]">Маршрут не найден</h1>
+            <h1 className="mt-4 font-heading text-5xl font-semibold tracking-[-0.06em]">
+              Маршрут не найден
+            </h1>
           </div>
           <div className="flex flex-col justify-between gap-6">
             <div>
               <h2 className="font-heading text-3xl font-semibold tracking-[-0.04em] text-foreground">
-                Эта страница еще не подключена к основному маршруту.
+                Такой страницы нет или ссылка устарела.
               </h2>
               <p className="mt-4 max-w-xl text-base leading-7 text-foreground/68">
-                Вернитесь в публичную часть или откройте рабочую админку. Карта маршрутов уже собрана, но этот путь пока не ведет к живому экрану.
+                Вернитесь на главную страницу, откройте каталог или продолжите работу через
+                нужный раздел платформы.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">

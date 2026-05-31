@@ -30,7 +30,7 @@ function MobileEquipmentCard({
             </div>
           </div>
           <Badge variant={equipment.isFeatured ? "accent" : "neutral"}>
-            {equipment.isFeatured ? "Featured" : "Обычная"}
+            {equipment.isFeatured ? "Витрина" : "Обычная"}
           </Badge>
         </div>
 
@@ -181,7 +181,7 @@ export function AdminEquipmentTable({
         },
         {
           key: "featured",
-          header: "Featured",
+          header: "Витрина",
           cellClassName: "min-w-[140px]",
           render: (item) => (
             <Badge variant={item.isFeatured ? "accent" : "neutral"}>

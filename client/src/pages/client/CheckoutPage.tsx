@@ -526,7 +526,7 @@ export function CheckoutPage() {
         const existsInMyOrders = myOrders.items.some((item) => item.id === order.id);
         setOrdersVerificationHint(
           existsInMyOrders
-            ? "Заявка подтверждена в backend и уже доступна в списке моих заявок."
+            ? "Заявка подтверждена сервером и уже доступна в списке моих заявок."
             : "Заявка создана, но список моих заявок пока не подтвердил обновление.",
         );
       } catch {

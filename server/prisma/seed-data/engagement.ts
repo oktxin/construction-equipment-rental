@@ -79,14 +79,14 @@ export function buildReviewSeeds(params: {
   equipment: SeedEquipment[];
 }) {
   const reviewTexts = [
-    "The equipment arrived clean, started quickly, and worked through the whole shift without issues.",
-    "Good condition overall. Delivery was on time and the machine handled our concrete work well.",
-    "Reliable rental for a short project. Controls were easy to understand for the crew.",
-    "Helped us finish the site work faster than expected. Would rent this model again.",
-    "Solid choice for routine construction tasks. Support team answered setup questions quickly.",
-    "Tool condition matched the description and the battery or fuel usage was reasonable on site.",
-    "Very practical unit for our schedule. Pickup and return process was straightforward.",
-    "Performance was stable even during longer use. No surprises during the rental window.",
+    "Техника приехала чистой, быстро запустилась и спокойно отработала всю смену без сбоев.",
+    "Состояние хорошее, доставка была вовремя, оборудование уверенно справилось с задачами по бетону.",
+    "Надёжная аренда для короткого проекта. Бригада быстро разобралась с управлением.",
+    "Помогли закончить работы быстрее, чем планировали. Эту модель взяли бы ещё раз.",
+    "Хороший вариант для типовых строительных задач. Поддержка быстро ответила на вопросы по запуску.",
+    "Состояние полностью соответствовало описанию, расход топлива и ресурса оказался предсказуемым.",
+    "Практичная позиция под плотный график. Выдача и возврат прошли без лишних задержек.",
+    "Оборудование стабильно работало даже при длительной нагрузке. В аренде всё прошло спокойно.",
   ];
 
   const reviews: SeedReview[] = [];
@@ -186,7 +186,7 @@ export function buildReportSeeds(params: {
       format: order.orderNumber.endsWith("1") || order.orderNumber.endsWith("3")
         ? ReportFormat.PDF
         : ReportFormat.DOCX,
-      title: `Seed: Order document ${order.orderNumber}`,
+      title: `Документ по заявке ${order.orderNumber}`,
       fileUrl: null,
     }));
 
@@ -195,7 +195,7 @@ export function buildReportSeeds(params: {
     rentalOrderNumber: null,
     type: ReportType.RENTAL_HISTORY,
     format: index % 2 === 0 ? ReportFormat.PDF : ReportFormat.DOCX,
-    title: `Seed: Rental history ${client.fullName}`,
+    title: `История аренды: ${client.fullName}`,
     fileUrl: null,
   }));
 
@@ -205,7 +205,7 @@ export function buildReportSeeds(params: {
       rentalOrderNumber: null,
       type: ReportType.ADMIN_RENTAL_STATISTICS,
       format: ReportFormat.PDF,
-      title: "Seed: Admin rental statistics Q2",
+      title: "Статистика аренды за квартал",
       fileUrl: null,
     },
     {
@@ -213,7 +213,7 @@ export function buildReportSeeds(params: {
       rentalOrderNumber: null,
       type: ReportType.ADMIN_RENTAL_STATISTICS,
       format: ReportFormat.DOCX,
-      title: "Seed: Admin rental statistics detailed export",
+      title: "Статистика аренды: подробная выгрузка",
       fileUrl: null,
     },
     {
@@ -221,7 +221,7 @@ export function buildReportSeeds(params: {
       rentalOrderNumber: null,
       type: ReportType.EQUIPMENT_UTILIZATION,
       format: ReportFormat.PDF,
-      title: "Seed: Equipment utilization snapshot",
+      title: "Сводка по использованию оборудования",
       fileUrl: null,
     },
   ];

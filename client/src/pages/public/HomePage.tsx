@@ -196,7 +196,7 @@ export function HomePage() {
                 <div className="relative z-10 flex h-full flex-col justify-between gap-8">
                   <div className="space-y-4">
                     <Badge variant="accent" className="border-white/10 bg-white/7 text-primary">
-                      Живой public flow
+                      Живой сценарий аренды
                     </Badge>
                     <div className="max-w-[19ch] space-y-3">
                       <h2 className="font-heading text-3xl font-semibold tracking-[-0.05em] text-white md:text-[2.2rem]">
@@ -268,7 +268,7 @@ export function HomePage() {
         <SectionHeading
           eyebrow="Категории"
           title="Техника распределена по понятным рабочим направлениям."
-          description="Категории приходят из backend и сразу ведут в каталог по нужному `categorySlug`, чтобы подбор начинался с задачи, а не с хаотичного списка."
+          description="Категории загружаются из каталога и сразу ведут к нужной подборке, чтобы поиск начинался с задачи, а не с хаотичного списка."
           actions={
             <Link to="/catalog">
               <Button variant="secondary">Все категории</Button>
@@ -312,7 +312,7 @@ export function HomePage() {
       <section className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-8">
         <SectionHeading
           title="Популярные позиции уже готовы к быстрому просмотру."
-          description="Featured equipment приходит с backend и показывает, как будет выглядеть живая каталожная карточка с ценой, залогом, статусом и рейтингом."
+          description="Популярные позиции подтягиваются из каталога и показывают живую карточку с ценой, залогом, статусом и рейтингом."
           actions={
             <Link to="/catalog">
               <Button>Смотреть весь каталог</Button>
@@ -333,7 +333,7 @@ export function HomePage() {
           {!featuredLoading && !featuredError && featuredEquipment.length === 0 ? (
             <EmptyState
               title="Популярная подборка пока пуста"
-              description="Когда в каталоге появятся отмеченные featured-позиции, они отобразятся здесь отдельным блоком."
+              description="Когда в каталоге появятся позиции для витрины, они отобразятся здесь отдельным блоком."
             >
               <div className="pt-2">
                 <Link to="/catalog">
@@ -396,7 +396,7 @@ export function HomePage() {
                   Подберите оборудование под задачу
                 </h2>
                 <p className="max-w-[56ch] text-base leading-7 text-white/72">
-                  Откройте каталог, перейдите в нужную категорию и начните живой сценарий подбора уже на реальных данных backend.
+                  Откройте каталог, перейдите в нужную категорию и начните подбор уже на реальных данных сервиса.
                 </p>
               </div>
               <Link to="/catalog">

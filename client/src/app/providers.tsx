@@ -8,7 +8,12 @@ import { AuthBootstrap } from "./AuthBootstrap";
 export function AppProviders({ children }: PropsWithChildren) {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AuthBootstrap>{children}</AuthBootstrap>
       </BrowserRouter>
     </Provider>
