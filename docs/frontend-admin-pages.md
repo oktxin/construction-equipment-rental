@@ -209,3 +209,52 @@
 - `/admin/reviews` работает под `AdminRoute`
 - пользователь без token уходит на `/login`
 - пользователь без роли `ADMIN` уходит на `/`
+
+## AdminReportsPage
+
+Страница `/admin/reports` превращает отчёты в рабочий инструмент админки: статистику можно сформировать по периоду, а уже созданные документы можно фильтровать, скачивать и удалять.
+
+### Подключённые endpoints
+
+- `GET /api/admin/reports`
+- `POST /api/admin/reports/rental-statistics`
+- `DELETE /api/admin/reports/:id`
+- `GET /api/reports/:id/download`
+- `GET /api/users`
+
+### Что реализовано
+
+- page header с общим счётчиком по текущей выборке
+- верхний блок генерации статистического отчёта по периоду в `PDF` или `DOCX`
+- валидация `dateFrom`, `dateTo`, `format` с русскими сообщениями
+- success-сценарий после генерации с возможностью сразу скачать новый файл
+- фильтры `type`, `format`, `userId`, `limit`
+- синхронизация фильтров и пагинации с `URLSearchParams`
+- responsive table на desktop и tablet
+- mobile cards без общего horizontal overflow
+- построчное скачивание с локальным loading state только для выбранной строки
+- confirm modal для удаления отчёта
+- русские loading, empty, error и success states
+
+### Search params
+
+- `type`
+- `format`
+- `userId`
+- `page`
+- `limit`
+
+### Поведение
+
+- изменение фильтров сбрасывает `page` на `1`
+- reset очищает `URLSearchParams`
+- после генерации список отчётов тихо перечитывается
+- после удаления последнего элемента на странице список возвращается на предыдущую страницу
+- фильтр по пользователю использует `GET /api/users` и показывает список доступных аккаунтов
+- download использует `blob`, временную ссылку и имя из `Content-Disposition`, если оно пришло от сервера
+
+### Protected admin flow
+
+- `/admin/reports` работает под `AdminRoute`
+- пользователь без token уходит на `/login`
+- пользователь без роли `ADMIN` уходит на `/`

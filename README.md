@@ -239,9 +239,11 @@ Admin pages:
 - `/admin/categories` now supports category search, create and edit flows, and guarded deletion when equipment is still attached
 - `/admin/users` now supports live user search, role and block filters, detail view, profile editing, and block or unblock actions
 - `/admin/reviews` now supports moderation filters, detail view, publish or hide actions, review editing, and deletion with confirmation
+- `/admin/reports` now supports report filters, admin rental statistics generation in `PDF` and `DOCX`, download, and guarded deletion
 - admin order management uses `GET /api/admin/rental-orders`, `GET /api/admin/rental-orders/:id`, `PATCH /api/admin/rental-orders/:id/status`, and `PATCH /api/admin/rental-orders/:id/comment`
 - admin user management uses `GET /api/users`, `GET /api/users/:id`, `PATCH /api/users/:id`, and `PATCH /api/users/:id/block`
 - admin review moderation uses `GET /api/admin/reviews`, `PATCH /api/admin/reviews/:id/publish`, `PATCH /api/reviews/:id`, and `DELETE /api/reviews/:id`
+- admin reports use `GET /api/admin/reports`, `POST /api/admin/reports/rental-statistics`, `DELETE /api/admin/reports/:id`, `GET /api/reports/:id/download`, and `GET /api/users` for the user filter
 
 Run frontend locally:
 
