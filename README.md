@@ -237,7 +237,11 @@ Admin pages:
 - `/admin/orders` now supports filters, pagination, detail panel, status changes, and manager comments
 - `/admin/equipment` now supports live catalog management for equipment, filters, create and edit flows, image replacement, specs replacement, and safe delete or archive behavior
 - `/admin/categories` now supports category search, create and edit flows, and guarded deletion when equipment is still attached
+- `/admin/users` now supports live user search, role and block filters, detail view, profile editing, and block or unblock actions
+- `/admin/reviews` now supports moderation filters, detail view, publish or hide actions, review editing, and deletion with confirmation
 - admin order management uses `GET /api/admin/rental-orders`, `GET /api/admin/rental-orders/:id`, `PATCH /api/admin/rental-orders/:id/status`, and `PATCH /api/admin/rental-orders/:id/comment`
+- admin user management uses `GET /api/users`, `GET /api/users/:id`, `PATCH /api/users/:id`, and `PATCH /api/users/:id/block`
+- admin review moderation uses `GET /api/admin/reviews`, `PATCH /api/admin/reviews/:id/publish`, `PATCH /api/reviews/:id`, and `DELETE /api/reviews/:id`
 
 Run frontend locally:
 
