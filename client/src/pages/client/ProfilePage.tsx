@@ -188,7 +188,7 @@ export function ProfilePage() {
                       initials
                     )}
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-semibold uppercase tracking-[0.16em] text-accent-strong">
                       Карточка пользователя
                     </p>
@@ -201,24 +201,26 @@ export function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="grid flex-1 gap-4 sm:grid-cols-2">
-                  <div className="rounded-display border border-border/60 bg-background/45 p-4">
+                <div className="grid min-w-0 flex-1 gap-4 sm:grid-cols-2">
+                  <div className="min-w-0 rounded-display border border-border/60 bg-background/45 p-4">
                     <p className="text-sm text-foreground/56">Email</p>
-                    <p className="mt-2 text-sm font-semibold text-foreground">{user.email}</p>
+                    <p className="mt-2 break-all text-sm font-semibold leading-6 text-foreground">
+                      {user.email}
+                    </p>
                   </div>
-                  <div className="rounded-display border border-border/60 bg-background/45 p-4">
+                  <div className="min-w-0 rounded-display border border-border/60 bg-background/45 p-4">
                     <p className="text-sm text-foreground/56">Телефон</p>
                     <p className="mt-2 text-sm font-semibold text-foreground">
                       {user.phone ?? "Не указан"}
                     </p>
                   </div>
-                  <div className="rounded-display border border-border/60 bg-background/45 p-4">
+                  <div className="min-w-0 rounded-display border border-border/60 bg-background/45 p-4">
                     <p className="text-sm text-foreground/56">Роль</p>
                     <p className="mt-2 text-sm font-semibold text-foreground">
                       {getUserRoleLabel(user.role.name)}
                     </p>
                   </div>
-                  <div className="rounded-display border border-border/60 bg-background/45 p-4">
+                  <div className="min-w-0 rounded-display border border-border/60 bg-background/45 p-4">
                     <p className="text-sm text-foreground/56">Дата регистрации</p>
                     <p className="mt-2 text-sm font-semibold text-foreground">
                       {formatDate(user.createdAt)}
