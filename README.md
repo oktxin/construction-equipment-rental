@@ -21,18 +21,10 @@ npm run dev:client
 
 Frontend по умолчанию работает на `http://localhost:5173`, API — на `http://localhost:4000/api`.
 
-## Переменные окружения
-
-Проект использует корневой `.env`. Для локального запуска достаточно скопировать `.env.example` в `.env` и настроить `DATABASE_URL` при необходимости.
-
 ## База данных
 
 - СУБД: `PostgreSQL`
 - ORM: `Prisma`
-- сидирование: `npm run prisma:seed --workspace server`
-- резервная копия: `npm run prisma:backup --workspace server`
-
-После seed создаётся демонстрационный набор данных для публичной части, клиентского кабинета и административной панели.
 
 ## Демо-учётки
 
@@ -76,17 +68,3 @@ Frontend по умолчанию работает на `http://localhost:5173`, 
 - избранное, история заявок, профиль и отчёты клиента;
 - управление оборудованием, категориями, пользователями, отзывами и отчётами в админ-панели;
 - генерация и скачивание документов.
-
-## Документация
-
-- [Архитектурный план](docs/architecture-plan.md)
-- [Дизайн-концепция фронтенда](docs/frontend-design-concept.md)
-- [Публичные страницы](docs/frontend-public-pages.md)
-- [Административные страницы](docs/frontend-admin-pages.md)
-- [Catalog API](docs/catalog-api.md)
-- [Rental Orders API](docs/rental-orders-api.md)
-- [Favorites & Reviews API](docs/favorites-reviews-api.md)
-- [Reports API](docs/reports-api.md)
-- [Seed и backup](docs/seed-and-backup.md)
-- [Demo checklist](docs/demo-checklist.md)
-- [Project summary](docs/project-summary.md)
