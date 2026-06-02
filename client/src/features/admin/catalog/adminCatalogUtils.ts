@@ -14,6 +14,7 @@ import type {
   AdminEquipmentImageInput,
   AdminEquipmentSpecInput,
 } from "./adminCatalogTypes";
+import { localizeSpecLabel, localizeSpecUnit, localizeSpecValue } from "../../../shared/utils/specLabels";
 
 type ApiEnvelope<T> = {
   status?: "success" | "error";
@@ -154,9 +155,9 @@ export function normalizeEquipmentImage(image: RawEquipmentImage | EquipmentImag
 export function normalizeEquipmentSpec(spec: RawEquipmentSpec | EquipmentSpec): EquipmentSpec {
   return {
     id: spec.id ?? `${spec.name}-${spec.sortOrder}`,
-    name: spec.name,
-    value: spec.value,
-    unit: spec.unit,
+    name: localizeSpecLabel(spec.name),
+    value: localizeSpecValue(spec.value),
+    unit: localizeSpecUnit(spec.unit),
     sortOrder: Number(spec.sortOrder) || 0,
   };
 }

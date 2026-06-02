@@ -1,4 +1,5 @@
 import { apiClient } from "../../shared/api/apiClient";
+import { localizeSpecLabel, localizeSpecUnit, localizeSpecValue } from "../../shared/utils/specLabels";
 import type {
   CatalogAppliedFilters,
   CatalogQueryParams,
@@ -118,9 +119,9 @@ function normalizeEquipmentImage(image: RawEquipmentImage) {
 function normalizeEquipmentSpec(spec: RawEquipmentSpec) {
   return {
     id: spec.id,
-    name: spec.name,
-    value: spec.value,
-    unit: spec.unit,
+    name: localizeSpecLabel(spec.name),
+    value: localizeSpecValue(spec.value),
+    unit: localizeSpecUnit(spec.unit),
     sortOrder: Number(spec.sortOrder) || 0,
   };
 }

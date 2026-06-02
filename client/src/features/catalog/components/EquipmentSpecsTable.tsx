@@ -1,4 +1,5 @@
 import { Card, EmptyState } from "../../../shared/ui";
+import { localizeSpecLabel, localizeSpecUnit, localizeSpecValue } from "../../../shared/utils/specLabels";
 import type { EquipmentSpec } from "../catalogTypes";
 
 type EquipmentSpecsTableProps = {
@@ -6,7 +7,10 @@ type EquipmentSpecsTableProps = {
 };
 
 function formatSpecValue(spec: EquipmentSpec) {
-  return spec.unit ? `${spec.value} ${spec.unit}` : spec.value;
+  const localizedValue = localizeSpecValue(spec.value);
+  const localizedUnit = localizeSpecUnit(spec.unit);
+
+  return localizedUnit ? `${localizedValue} ${localizedUnit}` : localizedValue;
 }
 
 export function EquipmentSpecsTable({ specs }: EquipmentSpecsTableProps) {
@@ -28,7 +32,7 @@ export function EquipmentSpecsTable({ specs }: EquipmentSpecsTableProps) {
             key={spec.id}
             className="grid gap-2 px-5 py-4 sm:grid-cols-[minmax(0,220px)_minmax(0,1fr)] sm:gap-6 sm:px-6"
           >
-            <dt className="text-sm font-medium text-foreground/62">{spec.name}</dt>
+            <dt className="text-sm font-medium text-foreground/62">{localizeSpecLabel(spec.name)}</dt>
             <dd className="text-sm font-semibold leading-6 text-foreground">
               {formatSpecValue(spec)}
             </dd>
