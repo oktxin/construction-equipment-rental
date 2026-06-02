@@ -196,10 +196,20 @@ async function cleanupSmokeTestData() {
           },
         },
         {
-          email: {
-            contains: "codex.auth.",
-            mode: "insensitive",
-          },
+          AND: [
+            {
+              email: {
+                contains: ".auth.",
+                mode: "insensitive",
+              },
+            },
+            {
+              email: {
+                endsWith: "@buildrent.local",
+                mode: "insensitive",
+              },
+            },
+          ],
         },
       ],
     },
