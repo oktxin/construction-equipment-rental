@@ -5,6 +5,7 @@ import { formatDate } from "../../../rentalOrders/rentalOrdersUtils";
 import type { AdminUser, UpdateAdminUserPayload } from "../adminUsersTypes";
 import { AdminUserForm } from "./AdminUserForm";
 import { AdminUserRoleBadge } from "./AdminUserRoleBadge";
+import { adminBadgeStyles } from "../../components/adminBadgeStyles";
 
 type SummaryFieldProps = {
   label: string;
@@ -24,7 +25,7 @@ function SummaryField({ label, value }: SummaryFieldProps) {
 
 function UserBlockBadge({ isBlocked }: { isBlocked: boolean }) {
   return (
-    <Badge variant={isBlocked ? "danger" : "success"}>
+    <Badge variant={isBlocked ? "danger" : "success"} className={isBlocked ? adminBadgeStyles.danger : adminBadgeStyles.success}>
       {isBlocked ? "Заблокирован" : "Активен"}
     </Badge>
   );

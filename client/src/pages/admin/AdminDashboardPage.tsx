@@ -5,6 +5,7 @@ import { Button, EmptyState, LoadingSkeleton, PageHeader, StatusBadge } from "..
 import { getErrorMessage } from "../../shared/utils/errorMessage";
 import { formatCurrency, formatDateRange } from "../../features/rentalOrders/rentalOrdersUtils";
 import { AdminStatsCard } from "../../features/admin/components/AdminStatsCard";
+import { getAdminStatusBadgeClassName } from "../../features/admin/components/adminBadgeStyles";
 import { getAdminOrders } from "../../features/admin/orders/adminOrdersApi";
 import { buildAdminDashboardStats } from "../../features/admin/orders/adminOrdersUtils";
 import type { AdminOrder } from "../../features/admin/orders/adminOrdersTypes";
@@ -46,7 +47,11 @@ function RecentOrderRow({ order }: { order: AdminOrder }) {
     <div className="flex flex-col gap-4 rounded-[24px] border border-white/10 bg-adminBackground/60 p-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="min-w-0 space-y-3">
         <div className="flex flex-wrap items-center gap-3">
-          <StatusBadge status={order.status} context="order" />
+          <StatusBadge
+            status={order.status}
+            context="order"
+            className={getAdminStatusBadgeClassName(order.status)}
+          />
           <span className="text-xs uppercase tracking-[0.18em] text-white/35">
             {order.orderNumber}
           </span>

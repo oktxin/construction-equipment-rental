@@ -27,7 +27,7 @@ function MobileReportCard({
             </div>
             <div>
               <p className="font-medium text-white">{report.title}</p>
-              <p className="mt-1 text-sm text-white/56">
+              <p className="mt-1 text-sm text-white/68">
                 {report.user?.fullName ?? "Пользователь не указан"}
               </p>
             </div>
@@ -107,7 +107,7 @@ export function AdminReportsTable({
           render: (item) => (
             <div className="space-y-1">
               <p className="font-medium text-white">{item.title}</p>
-              <p className="text-sm text-white/56">{item.id}</p>
+              <p className="text-sm text-white/64">{item.id}</p>
             </div>
           ),
         },
@@ -130,7 +130,7 @@ export function AdminReportsTable({
           render: (item) => (
             <div className="space-y-1">
               <p className="text-white">{item.user?.fullName ?? "Не указан"}</p>
-              <p className="text-sm text-white/48">{item.user?.email ?? "Нет email"}</p>
+              <p className="text-sm text-white/60">{item.user?.email ?? "Нет email"}</p>
             </div>
           ),
         },
@@ -139,7 +139,7 @@ export function AdminReportsTable({
           header: "Заявка",
           cellClassName: "min-w-[150px]",
           render: (item) => (
-            <p className="text-white/68">
+            <p className="text-white/76">
               {item.rentalOrder?.orderNumber ?? "Без заявки"}
             </p>
           ),
@@ -148,7 +148,7 @@ export function AdminReportsTable({
           key: "createdAt",
           header: "Создан",
           cellClassName: "min-w-[180px]",
-          render: (item) => <p className="text-white/68">{formatDateTime(item.createdAt)}</p>,
+          render: (item) => <p className="text-white/76">{formatDateTime(item.createdAt)}</p>,
         },
         {
           key: "actions",

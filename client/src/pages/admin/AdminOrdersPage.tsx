@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { AdminDataTable } from "../../features/admin/components/AdminDataTable";
 import { AdminOrderDetailPanel } from "../../features/admin/components/AdminOrderDetailPanel";
 import { AdminOrderFilters } from "../../features/admin/components/AdminOrderFilters";
+import { getAdminStatusBadgeClassName } from "../../features/admin/components/adminBadgeStyles";
 import { Button, Card, EmptyState, LoadingSkeleton, PageHeader, StatusBadge } from "../../shared/ui";
 import { getErrorMessage } from "../../shared/utils/errorMessage";
 import {
@@ -88,7 +89,11 @@ function MobileOrderCard({
       <div className="space-y-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="space-y-2">
-            <StatusBadge status={order.status} context="order" />
+            <StatusBadge
+              status={order.status}
+              context="order"
+              className={getAdminStatusBadgeClassName(order.status)}
+            />
             <div>
               <p className="font-medium text-white">{order.orderNumber}</p>
               <p className="mt-1 text-sm text-white/56">{order.user.fullName}</p>
@@ -473,7 +478,13 @@ export function AdminOrdersPage() {
                 key: "status",
                 header: "Статус",
                 cellClassName: "min-w-[180px]",
-                render: (order) => <StatusBadge status={order.status} context="order" />,
+                render: (order) => (
+                  <StatusBadge
+                    status={order.status}
+                    context="order"
+                    className={getAdminStatusBadgeClassName(order.status)}
+                  />
+                ),
               },
               {
                 key: "total",

@@ -1,6 +1,22 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+
+type AuthRouteState = {
+  from?: {
+    pathname?: string;
+    search?: string;
+    hash?: string;
+  };
+};
 
 export function AuthLayout() {
+  const location = useLocation();
+  const routeState = location.state as AuthRouteState | null;
+  const from = routeState?.from;
+  const backTarget = from?.pathname
+    ? `${from.pathname}${from.search ?? ""}${from.hash ?? ""}`
+    : "/";
+  const backLabel = from?.pathname ? "← Вернуться назад" : "← На главную";
+
   return (
     <div className="min-h-[100dvh] overflow-x-hidden bg-secondary text-background">
       <div className="grid min-h-[100dvh] lg:grid-cols-[1.05fr_0.95fr]">
@@ -35,8 +51,25 @@ export function AuthLayout() {
         </section>
 
         <section className="relative flex items-center justify-center px-3 py-6 sm:px-6 sm:py-10 lg:px-10">
-          <div className="w-full min-w-0 max-w-[34rem] rounded-display border border-white/10 bg-adminSurface/85 p-5 shadow-industrial-dark-xl backdrop-blur-xl sm:p-8">
-            <Outlet />
+          <div className="w-full min-w-0 max-w-[34rem] space-y-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-3 self-start rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                <span className="font-heading text-base tracking-[-0.03em]">BuildRent</span>
+              </Link>
+              <Link
+                to={backTarget}
+                className="inline-flex items-center gap-2 self-start text-sm font-medium text-white/76 transition hover:text-white"
+              >
+                {backLabel}
+              </Link>
+            </div>
+
+            <div className="w-full min-w-0 rounded-display border border-white/10 bg-adminSurface/85 p-5 shadow-industrial-dark-xl backdrop-blur-xl sm:p-8">
+              <Outlet />
+            </div>
           </div>
         </section>
       </div>

@@ -14,6 +14,7 @@ import type { AdminOrder } from "../orders/adminOrdersTypes";
 import { AdminOrderCommentForm } from "./AdminOrderCommentForm";
 import { AdminOrderStatusSelect } from "./AdminOrderStatusSelect";
 import { AdminOrderStatusTimeline } from "./AdminOrderStatusTimeline";
+import { getAdminStatusBadgeClassName } from "./adminBadgeStyles";
 
 const panelTextareaClassName =
   "min-h-[120px] w-full rounded-2xl border border-white/10 bg-adminBackground px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
@@ -131,7 +132,13 @@ export function AdminOrderDetailPanel({
             <h2 className="font-heading text-2xl font-semibold tracking-[-0.04em] text-white">
               {order ? order.orderNumber : "Загрузка"}
             </h2>
-            {order ? <StatusBadge status={order.status} context="order" /> : null}
+            {order ? (
+              <StatusBadge
+                status={order.status}
+                context="order"
+                className={getAdminStatusBadgeClassName(order.status)}
+              />
+            ) : null}
           </div>
 
           <Button

@@ -1,5 +1,6 @@
 import { Badge, Button, Card, EmptyState } from "../../../../shared/ui";
 import { AdminDataTable } from "../../components/AdminDataTable";
+import { adminBadgeStyles } from "../../components/adminBadgeStyles";
 import type { AdminEquipment } from "../adminCatalogTypes";
 import { formatInventoryLabel } from "../adminCatalogUtils";
 import { formatCurrency } from "../../../rentalOrders/rentalOrdersUtils";
@@ -26,10 +27,10 @@ function MobileEquipmentCard({
             <AdminEquipmentStatusBadge status={equipment.status} />
             <div>
               <p className="font-medium text-white">{equipment.name}</p>
-              <p className="mt-1 text-sm text-white/56">{equipment.category.name}</p>
+              <p className="mt-1 text-sm text-white/68">{equipment.category.name}</p>
             </div>
           </div>
-          <Badge variant={equipment.isFeatured ? "accent" : "neutral"}>
+          <Badge variant={equipment.isFeatured ? "accent" : "neutral"} className={equipment.isFeatured ? adminBadgeStyles.accent : adminBadgeStyles.neutral}>
             {equipment.isFeatured ? "Витрина" : "Обычная"}
           </Badge>
         </div>
@@ -127,7 +128,7 @@ export function AdminEquipmentTable({
           render: (item) => (
             <div className="space-y-2">
               <p className="font-medium text-white">{item.name}</p>
-              <p className="text-sm text-white/56">{item.shortDescription || item.slug}</p>
+              <p className="text-sm text-white/68">{item.shortDescription || item.slug}</p>
             </div>
           ),
         },
@@ -138,7 +139,7 @@ export function AdminEquipmentTable({
           render: (item) => (
             <div className="space-y-1">
               <p className="text-white">{item.category.name}</p>
-              <p className="text-sm text-white/48">{item.category.slug}</p>
+              <p className="text-sm text-white/60">{item.category.slug}</p>
             </div>
           ),
         },
@@ -149,7 +150,7 @@ export function AdminEquipmentTable({
           render: (item) => (
             <div className="space-y-1">
               <p className="text-white">{item.brand || "Не указано"}</p>
-              <p className="text-sm text-white/48">{item.model || "Без модели"}</p>
+              <p className="text-sm text-white/60">{item.model || "Без модели"}</p>
             </div>
           ),
         },
@@ -168,7 +169,7 @@ export function AdminEquipmentTable({
           header: "Доступно / всего",
           cellClassName: "min-w-[150px]",
           render: (item) => (
-            <p className="text-white/72">
+            <p className="text-white/80">
               {formatInventoryLabel(item.quantityAvailable, item.quantityTotal)}
             </p>
           ),
@@ -184,7 +185,7 @@ export function AdminEquipmentTable({
           header: "Витрина",
           cellClassName: "min-w-[140px]",
           render: (item) => (
-            <Badge variant={item.isFeatured ? "accent" : "neutral"}>
+            <Badge variant={item.isFeatured ? "accent" : "neutral"} className={item.isFeatured ? adminBadgeStyles.accent : adminBadgeStyles.neutral}>
               {item.isFeatured ? "Да" : "Нет"}
             </Badge>
           ),

@@ -50,12 +50,12 @@ export function AdminDataTable<TItem>({
         <div className="overflow-x-auto">
           <table className="min-w-full border-collapse">
             <thead>
-              <tr className="border-b border-white/8 bg-white/[0.03] text-left">
+              <tr className="border-b border-white/8 bg-white/[0.04] text-left">
                 {columns.map((column) => (
                   <th
                     key={column.key}
                     className={cn(
-                      "px-5 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/45",
+                      "px-5 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/58",
                       column.className,
                     )}
                   >
@@ -69,14 +69,14 @@ export function AdminDataTable<TItem>({
                 <tr
                   key={getRowKey(row)}
                   className={cn(
-                    "align-top transition-colors hover:bg-white/[0.02]",
+                    "align-top transition-colors hover:bg-white/[0.03]",
                     index < rows.length - 1 && "border-b border-white/8",
                   )}
                 >
                   {columns.map((column) => (
                     <td
                       key={column.key}
-                      className={cn("px-5 py-4 text-sm text-white/78", column.cellClassName)}
+                      className={cn("px-5 py-4 text-sm text-white/84", column.cellClassName)}
                     >
                       {column.render(row)}
                     </td>
@@ -90,4 +90,3 @@ export function AdminDataTable<TItem>({
     </div>
   );
 }
-

@@ -65,6 +65,7 @@ export function LoginPage() {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const fallbackPath = useAppSelector(selectPostAuthFallbackPath);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const routeState = location.state as RouteState | null;
 
   const {
     register,
@@ -88,12 +89,11 @@ export function LoginPage() {
       return;
     }
 
-    const routeState = location.state as RouteState | null;
     const requestedPath = getRequestedPath(routeState?.from);
     const targetPath = auth.user?.role.name === "ADMIN" ? "/admin" : requestedPath ?? fallbackPath;
 
     navigate(targetPath, { replace: true });
-  }, [auth.isInitialized, auth.user, fallbackPath, isAuthenticated, location.state, navigate]);
+  }, [auth.isInitialized, auth.user, fallbackPath, isAuthenticated, navigate, routeState]);
 
   const applyDemoAccess = (variant: keyof typeof demoAccounts) => {
     const account = demoAccounts[variant];
@@ -169,7 +169,7 @@ export function LoginPage() {
           <Button type="submit" className="w-full min-w-0 justify-center" disabled={auth.isLoading}>
             {auth.isLoading ? "Проверяем доступ..." : "Войти"}
           </Button>
-          <Link to="/register">
+          <Link to="/register" state={routeState}>
             <Button
               variant="ghost"
               className="w-full min-w-0 justify-center border-white/10 bg-white/6 text-white hover:bg-white/10"
@@ -220,6 +220,7 @@ export function LoginPage() {
           Нет аккаунта?{" "}
           <Link
             to="/register"
+            state={routeState}
             className="font-semibold text-primary transition hover:text-primary-strong"
           >
             Зарегистрироваться

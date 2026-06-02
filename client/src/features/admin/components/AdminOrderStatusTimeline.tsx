@@ -2,6 +2,7 @@ import { StatusBadge } from "../../../shared/ui";
 import { cn } from "../../../shared/utils/cn";
 import type { OrderStatus } from "../../rentalOrders/rentalOrdersTypes";
 import { formatDateTime } from "../../rentalOrders/rentalOrdersUtils";
+import { getAdminStatusBadgeClassName } from "./adminBadgeStyles";
 
 type TimelineStep = {
   label: string;
@@ -81,7 +82,11 @@ export function AdminOrderStatusTimeline({
                 : "Заявка не перешла в аренду и была отклонена."}
             </p>
           </div>
-          <StatusBadge status={status} context="order" />
+          <StatusBadge
+            status={status}
+            context="order"
+            className={getAdminStatusBadgeClassName(status)}
+          />
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -111,7 +116,11 @@ export function AdminOrderStatusTimeline({
             Таймлайн помогает быстро понять, где заявка находится прямо сейчас.
           </p>
         </div>
-        <StatusBadge status={status} context="order" />
+        <StatusBadge
+          status={status}
+          context="order"
+          className={getAdminStatusBadgeClassName(status)}
+        />
       </div>
 
       <div className="mt-6 space-y-4">
@@ -147,4 +156,3 @@ export function AdminOrderStatusTimeline({
     </div>
   );
 }
-

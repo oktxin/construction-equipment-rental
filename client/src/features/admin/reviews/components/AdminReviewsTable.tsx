@@ -4,10 +4,11 @@ import type { AdminReview } from "../adminReviewsTypes";
 import { truncateReviewText } from "../adminReviewsUtils";
 import { AdminReviewRatingBadge } from "./AdminReviewRatingBadge";
 import { AdminDataTable } from "../../components/AdminDataTable";
+import { adminBadgeStyles } from "../../components/adminBadgeStyles";
 
 function PublishBadge({ isPublished }: { isPublished: boolean }) {
   return (
-    <Badge variant={isPublished ? "success" : "warning"}>
+    <Badge variant={isPublished ? "success" : "warning"} className={isPublished ? adminBadgeStyles.success : adminBadgeStyles.warning}>
       {isPublished ? "Опубликован" : "Скрыт"}
     </Badge>
   );
@@ -34,7 +35,7 @@ function MobileReviewCard({
             <AdminReviewRatingBadge rating={review.rating} />
             <div>
               <p className="font-medium text-white">{review.user.fullName}</p>
-              <p className="mt-1 text-sm text-white/56">{review.equipment.name}</p>
+              <p className="mt-1 text-sm text-white/68">{review.equipment.name}</p>
             </div>
           </div>
           <PublishBadge isPublished={review.isPublished} />
@@ -127,7 +128,7 @@ export function AdminReviewsTable({
           render: (item) => (
             <div className="space-y-1">
               <p className="font-medium text-white">{item.user.fullName}</p>
-              <p className="text-sm text-white/56">{item.user.email}</p>
+              <p className="text-sm text-white/68">{item.user.email}</p>
             </div>
           ),
         },
@@ -138,7 +139,7 @@ export function AdminReviewsTable({
           render: (item) => (
             <div className="space-y-1">
               <p className="text-white">{item.equipment.name}</p>
-              <p className="text-sm text-white/48">{item.equipment.category.name}</p>
+              <p className="text-sm text-white/60">{item.equipment.category.name}</p>
             </div>
           ),
         },
@@ -153,7 +154,7 @@ export function AdminReviewsTable({
           header: "Текст",
           cellClassName: "min-w-[260px]",
           render: (item) => (
-            <p className="text-sm leading-6 text-white/68">
+            <p className="text-sm leading-6 text-white/78">
               {truncateReviewText(item.text)}
             </p>
           ),
@@ -168,7 +169,7 @@ export function AdminReviewsTable({
           key: "createdAt",
           header: "Дата",
           cellClassName: "min-w-[140px]",
-          render: (item) => <p className="text-white/68">{formatDate(item.createdAt)}</p>,
+          render: (item) => <p className="text-white/76">{formatDate(item.createdAt)}</p>,
         },
         {
           key: "actions",

@@ -1,4 +1,5 @@
 import type { EquipmentStatus } from "../../../catalog/catalogTypes";
+import { getAdminStatusBadgeClassName } from "../../components/adminBadgeStyles";
 import { StatusBadge } from "../../../../shared/ui";
 
 export type AdminEquipmentStatusBadgeProps = {
@@ -10,5 +11,11 @@ export function AdminEquipmentStatusBadge({
   status,
   className,
 }: AdminEquipmentStatusBadgeProps) {
-  return <StatusBadge status={status} context="equipment" className={className} />;
+  return (
+    <StatusBadge
+      status={status}
+      context="equipment"
+      className={`${getAdminStatusBadgeClassName(status)} ${className ?? ""}`.trim()}
+    />
+  );
 }

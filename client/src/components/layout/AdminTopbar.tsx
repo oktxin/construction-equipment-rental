@@ -56,8 +56,19 @@ export function AdminTopbar({ onOpenSidebar }: AdminTopbarProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
+          <Link to="/">
+            <Button
+              variant="ghost"
+              className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong"
+            >
+              На сайт
+            </Button>
+          </Link>
           <Link to="/profile">
-            <Button variant="ghost" className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong">
+            <Button
+              variant="ghost"
+              className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong"
+            >
               Профиль
             </Button>
           </Link>

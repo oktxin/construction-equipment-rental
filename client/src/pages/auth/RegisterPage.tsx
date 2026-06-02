@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import {
@@ -47,6 +47,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export function RegisterPage() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
   const auth = useAppSelector(selectAuth);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
@@ -246,7 +247,11 @@ export function RegisterPage() {
 
         <p className="text-sm text-white/62">
           Уже есть аккаунт?{" "}
-          <Link to="/login" className="font-semibold text-primary transition hover:text-primary-strong">
+          <Link
+            to="/login"
+            state={location.state}
+            className="font-semibold text-primary transition hover:text-primary-strong"
+          >
             Войти
           </Link>
         </p>

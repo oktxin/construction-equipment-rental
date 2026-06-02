@@ -3,10 +3,11 @@ import { formatDate } from "../../../rentalOrders/rentalOrdersUtils";
 import type { AdminUser } from "../adminUsersTypes";
 import { AdminUserRoleBadge } from "./AdminUserRoleBadge";
 import { AdminDataTable } from "../../components/AdminDataTable";
+import { adminBadgeStyles } from "../../components/adminBadgeStyles";
 
 function UserBlockBadge({ isBlocked }: { isBlocked: boolean }) {
   return (
-    <Badge variant={isBlocked ? "danger" : "success"}>
+    <Badge variant={isBlocked ? "danger" : "success"} className={isBlocked ? adminBadgeStyles.danger : adminBadgeStyles.success}>
       {isBlocked ? "Заблокирован" : "Активен"}
     </Badge>
   );
@@ -31,7 +32,7 @@ function MobileUserCard({
             <AdminUserRoleBadge role={user.role.name} />
             <div>
               <p className="font-medium text-white">{user.fullName}</p>
-              <p className="mt-1 text-sm text-white/56">{user.email}</p>
+              <p className="mt-1 text-sm text-white/68">{user.email}</p>
             </div>
           </div>
           <UserBlockBadge isBlocked={user.isBlocked} />
@@ -118,7 +119,7 @@ export function AdminUsersTable({
           render: (item) => (
             <div className="space-y-1">
               <p className="font-medium text-white">{item.fullName}</p>
-              <p className="text-sm text-white/56">{item.email}</p>
+              <p className="text-sm text-white/68">{item.email}</p>
             </div>
           ),
         },
@@ -126,7 +127,7 @@ export function AdminUsersTable({
           key: "phone",
           header: "Телефон",
           cellClassName: "min-w-[160px]",
-          render: (item) => <p className="text-white/72">{item.phone || "Не указан"}</p>,
+          render: (item) => <p className="text-white/80">{item.phone || "Не указан"}</p>,
         },
         {
           key: "role",
@@ -144,7 +145,7 @@ export function AdminUsersTable({
           key: "createdAt",
           header: "Регистрация",
           cellClassName: "min-w-[150px]",
-          render: (item) => <p className="text-white/68">{formatDate(item.createdAt)}</p>,
+          render: (item) => <p className="text-white/76">{formatDate(item.createdAt)}</p>,
         },
         {
           key: "actions",

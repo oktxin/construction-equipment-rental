@@ -1,9 +1,10 @@
 import { Badge, Button } from "../../../../shared/ui";
 import type { AdminReview } from "../adminReviewsTypes";
+import { adminBadgeStyles } from "../../components/adminBadgeStyles";
 
 function PublishBadge({ isPublished }: { isPublished: boolean }) {
   return (
-    <Badge variant={isPublished ? "success" : "warning"}>
+    <Badge variant={isPublished ? "success" : "warning"} className={isPublished ? adminBadgeStyles.success : adminBadgeStyles.warning}>
       {isPublished ? "Опубликован" : "Скрыт"}
     </Badge>
   );

@@ -614,7 +614,8 @@ export function CheckoutPage() {
           ]}
         />
 
-        <section className="space-y-3">
+        <section className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-3">
           <h1 className="font-heading text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl">
             Оформление аренды
           </h1>
@@ -622,6 +623,16 @@ export function CheckoutPage() {
             Выберите даты, количество и способ получения. Мы покажем предварительный
             расчёт стоимости и подготовим заявку для отправки.
           </p>
+          </div>
+
+          <Link
+            to={equipment ? `/equipment/${equipment.slug}` : "/catalog"}
+            className="sm:self-start"
+          >
+            <Button variant="ghost" className="w-full justify-center sm:w-auto">
+              {equipment ? "Назад к карточке" : "Вернуться в каталог"}
+            </Button>
+          </Link>
         </section>
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
