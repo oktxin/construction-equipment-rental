@@ -4,14 +4,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "../../../../shared/ui";
+import {
+  adminErrorTextClassName,
+  adminFieldClassName,
+  adminGhostButtonClassName,
+  adminHintTextClassName,
+  adminLabelClassName,
+  adminTextareaClassName,
+} from "../../components/adminUiStyles";
 import type { AdminCategoryPayload } from "../adminCatalogTypes";
 import { normalizeAdminSlug } from "../adminCatalogUtils";
-
-const fieldClassName =
-  "h-12 w-full rounded-2xl border border-white/10 bg-adminBackground px-4 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
-
-const textareaClassName =
-  "min-h-[132px] w-full rounded-2xl border border-white/10 bg-adminBackground px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const categorySchema = z.object({
   name: z.string().trim().min(1, "Укажите название категории").max(120, "Максимум 120 символов"),
@@ -92,27 +94,27 @@ export function AdminCategoryForm({
     >
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-category-name">
+          <label className={adminLabelClassName} htmlFor="admin-category-name">
             Название
           </label>
           <input
             id="admin-category-name"
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="Например, Генераторы"
             {...register("name")}
           />
-          {errors.name ? <p className="text-sm text-rose-300">{errors.name.message}</p> : null}
+          {errors.name ? <p className={adminErrorTextClassName}>{errors.name.message}</p> : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-category-slug">
+          <label className={adminLabelClassName} htmlFor="admin-category-slug">
             Slug
           </label>
           <input
             id="admin-category-slug"
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="generators"
             {...slugRegister}
             onChange={(event) => {
@@ -120,53 +122,53 @@ export function AdminCategoryForm({
               slugRegister.onChange(event);
             }}
           />
-          {errors.slug ? <p className="text-sm text-rose-300">{errors.slug.message}</p> : null}
+          {errors.slug ? <p className={adminErrorTextClassName}>{errors.slug.message}</p> : null}
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_260px]">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-category-description">
+          <label className={adminLabelClassName} htmlFor="admin-category-description">
             Описание
           </label>
           <textarea
             id="admin-category-description"
-            className={textareaClassName}
+            className={adminTextareaClassName}
             placeholder="Коротко опишите, что входит в раздел."
             {...register("description")}
           />
           {errors.description ? (
-            <p className="text-sm text-rose-300">{errors.description.message}</p>
+            <p className={adminErrorTextClassName}>{errors.description.message}</p>
           ) : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-category-icon">
+          <label className={adminLabelClassName} htmlFor="admin-category-icon">
             Icon name
           </label>
           <input
             id="admin-category-icon"
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="hammer"
             {...register("iconName")}
           />
-          <p className="text-sm leading-6 text-white/48">
+          <p className={adminHintTextClassName}>
             Можно использовать техническое имя иконки или внутренний descriptor для каталога.
           </p>
           {errors.iconName ? (
-            <p className="text-sm text-rose-300">{errors.iconName.message}</p>
+            <p className={adminErrorTextClassName}>{errors.iconName.message}</p>
           ) : null}
         </div>
       </div>
 
-      {serverError ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{serverError}</p> : null}
+      {serverError ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-[#FF8A75]">{serverError}</p> : null}
 
       <div className="flex flex-col-reverse gap-3 border-t border-white/8 pt-5 sm:flex-row sm:justify-end">
         <Button
           type="button"
           variant="ghost"
-          className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+          className={adminGhostButtonClassName}
           onClick={onCancel}
           disabled={isSubmitting}
         >

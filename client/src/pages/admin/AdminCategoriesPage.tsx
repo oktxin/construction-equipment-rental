@@ -24,6 +24,7 @@ import {
 import { AdminCategoryForm } from "../../features/admin/catalog/components/AdminCategoryForm";
 import { AdminCategoryTable } from "../../features/admin/catalog/components/AdminCategoryTable";
 import { AdminDeleteConfirmModal } from "../../features/admin/catalog/components/AdminDeleteConfirmModal";
+import { adminModalClassName } from "../../features/admin/components/adminUiStyles";
 import { getErrorMessage } from "../../shared/utils/errorMessage";
 
 type CategoryModalMode = "create" | "edit" | null;
@@ -359,14 +360,15 @@ export function AdminCategoriesPage() {
 
           closeModal();
         }}
-        className="max-h-[calc(100dvh-2rem)] max-w-4xl overflow-y-auto border-white/10 bg-adminSurface text-white"
+        variant="admin"
+        className={`max-h-[calc(100dvh-2rem)] max-w-4xl overflow-y-auto ${adminModalClassName}`}
       >
         <div className="space-y-5">
           <div className="space-y-2">
-            <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-white">
+            <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-[#F4EFE6]">
               {modalMode === "create" ? "Добавить категорию" : "Редактирование категории"}
             </h2>
-            <p className="text-sm leading-6 text-white/58">
+            <p className="text-sm leading-6 text-[rgba(244,239,230,0.72)]">
               {modalMode === "create"
                 ? "Создайте новый раздел каталога и подготовьте его для фильтров и навигации."
                 : selectedCategory

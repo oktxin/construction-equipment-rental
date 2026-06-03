@@ -34,6 +34,7 @@ import {
   parsePositiveInteger,
 } from "../../features/admin/catalog/adminCatalogUtils";
 import { AdminDeleteConfirmModal } from "../../features/admin/catalog/components/AdminDeleteConfirmModal";
+import { adminModalClassName } from "../../features/admin/components/adminUiStyles";
 import {
   AdminEquipmentFilters,
   type AdminEquipmentFilterValues,
@@ -515,14 +516,15 @@ export function AdminEquipmentPage() {
 
           closeModal();
         }}
-        className="max-h-[calc(100dvh-2rem)] max-w-5xl overflow-y-auto border-white/10 bg-adminSurface text-white"
+        variant="admin"
+        className={`max-h-[calc(100dvh-2rem)] max-w-5xl overflow-y-auto ${adminModalClassName}`}
       >
         <div className="space-y-5">
           <div className="space-y-2">
-            <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-white">
+            <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-[#F4EFE6]">
               {getEquipmentModalTitle(modalMode)}
             </h2>
-            <p className="text-sm leading-6 text-white/58">
+            <p className="text-sm leading-6 text-[rgba(244,239,230,0.72)]">
               {modalMode === "create"
                 ? "Создайте новую позицию каталога. Изображения и характеристики можно дополнить сразу после сохранения."
                 : selectedEquipment

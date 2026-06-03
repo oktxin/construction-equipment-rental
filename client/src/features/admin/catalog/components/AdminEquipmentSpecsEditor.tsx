@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 
 import { Button } from "../../../../shared/ui";
+import {
+  adminCompactFieldClassName,
+  adminErrorTextClassName,
+  adminGhostButtonClassName,
+  adminHintTextClassName,
+  adminInsetPanelClassName,
+  adminLabelClassName,
+  adminMutedTextClassName,
+} from "../../components/adminUiStyles";
 import type { EquipmentSpec } from "../../../catalog/catalogTypes";
 import type { AdminEquipmentSpecInput } from "../adminCatalogTypes";
-
-const fieldClassName =
-  "h-11 w-full rounded-2xl border border-white/10 bg-adminBackground px-4 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const specSchema = z.array(
   z.object({
@@ -74,20 +80,20 @@ export function AdminEquipmentSpecsEditor({
 
   return (
     <div className="space-y-5">
-      <div className="rounded-[24px] border border-white/10 bg-adminBackground/60 p-4 text-sm leading-6 text-white/64">
+      <div className={`${adminInsetPanelClassName} p-4 ${adminHintTextClassName}`}>
         Здесь можно полностью заменить технические характеристики для позиции <span className="text-white">{equipmentName}</span>.
       </div>
 
       <div className="space-y-4">
         {rows.map((row) => (
-          <div key={row.draftId} className="rounded-[24px] border border-white/10 bg-adminBackground/60 p-4">
+          <div key={row.draftId} className={`${adminInsetPanelClassName} p-4`}>
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_160px_140px]">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/78">Название</label>
+                <label className={adminLabelClassName}>Название</label>
                 <input
                   type="text"
                   value={row.name}
-                  className={fieldClassName}
+                  className={adminCompactFieldClassName}
                   placeholder="Мощность"
                   onChange={(event) =>
                     setRows((current) =>
@@ -100,11 +106,11 @@ export function AdminEquipmentSpecsEditor({
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/78">Значение</label>
+                <label className={adminLabelClassName}>Значение</label>
                 <input
                   type="text"
                   value={row.value}
-                  className={fieldClassName}
+                  className={adminCompactFieldClassName}
                   placeholder="2200"
                   onChange={(event) =>
                     setRows((current) =>
@@ -117,11 +123,11 @@ export function AdminEquipmentSpecsEditor({
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/78">Единица</label>
+                <label className={adminLabelClassName}>Единица</label>
                 <input
                   type="text"
                   value={row.unit}
-                  className={fieldClassName}
+                  className={adminCompactFieldClassName}
                   placeholder="Вт"
                   onChange={(event) =>
                     setRows((current) =>
@@ -134,12 +140,12 @@ export function AdminEquipmentSpecsEditor({
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/78">Порядок</label>
+                <label className={adminLabelClassName}>Порядок</label>
                 <input
                   type="number"
                   min={0}
                   value={row.sortOrder}
-                  className={fieldClassName}
+                  className={adminCompactFieldClassName}
                   onChange={(event) =>
                     setRows((current) =>
                       current.map((item) =>
@@ -156,7 +162,7 @@ export function AdminEquipmentSpecsEditor({
             <div className="mt-4 flex justify-end">
               <Button
                 variant="ghost"
-                className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong"
+                className={adminGhostButtonClassName}
                 onClick={() =>
                   setRows((current) =>
                     current.length === 1
@@ -175,7 +181,7 @@ export function AdminEquipmentSpecsEditor({
       <div className="flex flex-wrap items-center gap-3">
         <Button
           variant="ghost"
-          className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+          className={adminGhostButtonClassName}
           onClick={() =>
             setRows((current) => [
               ...current,
@@ -191,16 +197,16 @@ export function AdminEquipmentSpecsEditor({
         >
           Добавить строку
         </Button>
-        <p className="text-sm text-white/48">Подготовлено характеристик: {rows.length}</p>
+        <p className={adminMutedTextClassName}>Подготовлено характеристик: {rows.length}</p>
       </div>
 
-      {localError ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{localError}</p> : null}
-      {error ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{error}</p> : null}
+      {localError ? <p className={`rounded-2xl bg-danger/12 px-4 py-3 ${adminErrorTextClassName}`}>{localError}</p> : null}
+      {error ? <p className={`rounded-2xl bg-danger/12 px-4 py-3 ${adminErrorTextClassName}`}>{error}</p> : null}
 
       <div className="flex flex-col-reverse gap-3 border-t border-white/8 pt-5 sm:flex-row sm:justify-end">
         <Button
           variant="ghost"
-          className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+          className={adminGhostButtonClassName}
           onClick={onCancel}
           disabled={isSubmitting}
         >

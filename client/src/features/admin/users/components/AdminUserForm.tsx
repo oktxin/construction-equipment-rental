@@ -4,11 +4,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "../../../../shared/ui";
+import {
+  adminErrorTextClassName,
+  adminFieldClassName,
+  adminGhostButtonClassName,
+  adminHintTextClassName,
+  adminLabelClassName,
+  adminMutedTextClassName,
+} from "../../components/adminUiStyles";
 import { getUserRoleLabel } from "../../../../shared/utils/statusLabels";
 import type { AdminUser, UpdateAdminUserPayload } from "../adminUsersTypes";
-
-const fieldClassName =
-  "h-12 w-full rounded-2xl border border-white/10 bg-adminBackground px-4 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const userSchema = z.object({
   fullName: z
@@ -82,14 +87,14 @@ export function AdminUserForm({
     >
       <div className="grid gap-4 md:grid-cols-2">
         <label className="space-y-2">
-          <span className="text-sm font-medium text-white/78">Email</span>
-          <input className={fieldClassName + " text-white/56"} value={user.email} disabled />
+          <span className={adminLabelClassName}>Email</span>
+          <input className={adminFieldClassName + " text-[rgba(244,239,230,0.56)]"} value={user.email} disabled />
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-white/78">Роль</span>
+          <span className={adminLabelClassName}>Роль</span>
           <input
-            className={fieldClassName + " text-white/56"}
+            className={adminFieldClassName + " text-[rgba(244,239,230,0.56)]"}
             value={getUserRoleLabel(user.role.name)}
             disabled
           />
@@ -98,43 +103,43 @@ export function AdminUserForm({
 
       <div className="grid gap-4">
         <label className="space-y-2">
-          <span className="text-sm font-medium text-white/78">ФИО</span>
+          <span className={adminLabelClassName}>ФИО</span>
           <input
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="Например, Иван Петров"
             {...register("fullName")}
           />
           {errors.fullName ? (
-            <p className="text-sm text-rose-300">{errors.fullName.message}</p>
+            <p className={adminErrorTextClassName}>{errors.fullName.message}</p>
           ) : null}
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-white/78">Телефон</span>
+          <span className={adminLabelClassName}>Телефон</span>
           <input
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="+375291234567"
             {...register("phone")}
           />
           {errors.phone ? (
-            <p className="text-sm text-rose-300">{errors.phone.message}</p>
+            <p className={adminErrorTextClassName}>{errors.phone.message}</p>
           ) : null}
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-white/78">Ссылка на аватар</span>
+          <span className={adminLabelClassName}>Ссылка на аватар</span>
           <input
             type="url"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="https://example.com/avatar.jpg"
             {...register("avatarUrl")}
           />
           {errors.avatarUrl ? (
-            <p className="text-sm text-rose-300">{errors.avatarUrl.message}</p>
+            <p className={adminErrorTextClassName}>{errors.avatarUrl.message}</p>
           ) : (
-            <p className="text-sm text-white/48">
+            <p className={adminMutedTextClassName}>
               Поле можно оставить пустым, если аватар не нужен.
             </p>
           )}
@@ -154,14 +159,14 @@ export function AdminUserForm({
       ) : null}
 
       <div className="flex flex-col gap-3 border-t border-white/8 pt-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-white/48">
+        <p className={adminHintTextClassName}>
           Email и роль доступны только для просмотра.
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <Button
             type="button"
             variant="ghost"
-            className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+            className={adminGhostButtonClassName}
             onClick={() => reset(buildDefaultValues(user))}
             disabled={isSubmitting || !isDirty}
           >

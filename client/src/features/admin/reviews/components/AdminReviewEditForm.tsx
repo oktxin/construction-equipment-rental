@@ -4,13 +4,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "../../../../shared/ui";
+import {
+  adminErrorTextClassName,
+  adminFieldClassName,
+  adminGhostButtonClassName,
+  adminLabelClassName,
+  adminLongTextareaClassName,
+  adminMutedTextClassName,
+} from "../../components/adminUiStyles";
 import type { AdminReview, UpdateAdminReviewPayload } from "../adminReviewsTypes";
-
-const fieldClassName =
-  "h-12 w-full rounded-2xl border border-white/10 bg-adminBackground px-4 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
-
-const textareaClassName =
-  "min-h-[160px] w-full rounded-2xl border border-white/10 bg-adminBackground px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const reviewSchema = z.object({
   rating: z.coerce.number().int().min(1, "Минимум 1").max(5, "Максимум 5"),
@@ -71,10 +73,10 @@ export function AdminReviewEditForm({
     >
       <div className="grid gap-4 md:grid-cols-[180px_minmax(0,1fr)]">
         <label className="space-y-2">
-          <span className="text-sm font-medium text-white/78">Рейтинг</span>
+          <span className={adminLabelClassName}>Рейтинг</span>
           <div className="relative">
             <select
-              className={fieldClassName + " appearance-none pr-11"}
+              className={adminFieldClassName + " appearance-none pr-11"}
               {...register("rating", { valueAsNumber: true })}
             >
               {[5, 4, 3, 2, 1].map((value) => (
@@ -83,24 +85,24 @@ export function AdminReviewEditForm({
                 </option>
               ))}
             </select>
-            <span className="pointer-events-none absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-white/40" />
+            <span className="pointer-events-none absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-[rgba(244,239,230,0.5)]" />
           </div>
           {errors.rating ? (
-            <p className="text-sm text-rose-300">{errors.rating.message}</p>
+            <p className={adminErrorTextClassName}>{errors.rating.message}</p>
           ) : null}
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-white/78">Текст отзыва</span>
+          <span className={adminLabelClassName}>Текст отзыва</span>
           <textarea
-            className={textareaClassName}
+            className={adminLongTextareaClassName}
             placeholder="Отредактируйте текст отзыва..."
             {...register("text")}
           />
           {errors.text ? (
-            <p className="text-sm text-rose-300">{errors.text.message}</p>
+            <p className={adminErrorTextClassName}>{errors.text.message}</p>
           ) : (
-            <p className="text-sm text-white/48">
+            <p className={adminMutedTextClassName}>
               Длина текста от 10 до 1000 символов.
             </p>
           )}
@@ -123,7 +125,7 @@ export function AdminReviewEditForm({
         <Button
           type="button"
           variant="ghost"
-          className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+          className={adminGhostButtonClassName}
           onClick={() => reset(buildDefaultValues(review))}
           disabled={isSubmitting || !isDirty}
         >

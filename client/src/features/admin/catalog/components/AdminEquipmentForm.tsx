@@ -4,15 +4,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "../../../../shared/ui";
+import {
+  adminErrorTextClassName,
+  adminFieldClassName,
+  adminGhostButtonClassName,
+  adminLabelClassName,
+  adminTextareaClassName,
+} from "../../components/adminUiStyles";
 import type { Category, EquipmentStatus } from "../../../catalog/catalogTypes";
 import type { AdminEquipmentPayload } from "../adminCatalogTypes";
 import { normalizeAdminSlug } from "../adminCatalogUtils";
-
-const fieldClassName =
-  "h-12 w-full rounded-2xl border border-white/10 bg-adminBackground px-4 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
-
-const textareaClassName =
-  "min-h-[132px] w-full rounded-2xl border border-white/10 bg-adminBackground px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const equipmentStatusOptions: Array<{ value: EquipmentStatus; label: string }> = [
   { value: "AVAILABLE", label: "Доступно" },
@@ -143,27 +144,27 @@ export function AdminEquipmentForm({
     >
       <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-name">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-name">
             Название
           </label>
           <input
             id="admin-equipment-name"
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="Например, Bosch GBH 8-45 DV"
             {...register("name")}
           />
-          {errors.name ? <p className="text-sm text-rose-300">{errors.name.message}</p> : null}
+          {errors.name ? <p className={adminErrorTextClassName}>{errors.name.message}</p> : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-form-category">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-form-category">
             Категория
           </label>
           <div className="relative">
             <select
               id="admin-equipment-form-category"
-              className={fieldClassName + " appearance-none pr-11"}
+              className={adminFieldClassName + " appearance-none pr-11"}
               {...register("categoryId")}
             >
               <option value="">Выберите категорию</option>
@@ -173,23 +174,23 @@ export function AdminEquipmentForm({
                 </option>
               ))}
             </select>
-            <span className="pointer-events-none absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-white/40" />
+            <span className="pointer-events-none absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-[rgba(244,239,230,0.5)]" />
           </div>
           {errors.categoryId ? (
-            <p className="text-sm text-rose-300">{errors.categoryId.message}</p>
+            <p className={adminErrorTextClassName}>{errors.categoryId.message}</p>
           ) : null}
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-slug">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-slug">
             Slug
           </label>
           <input
             id="admin-equipment-slug"
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="bosch-gbh-8-45-dv"
             {...slugRegister}
             onChange={(event) => {
@@ -197,17 +198,17 @@ export function AdminEquipmentForm({
               slugRegister.onChange(event);
             }}
           />
-          {errors.slug ? <p className="text-sm text-rose-300">{errors.slug.message}</p> : null}
+          {errors.slug ? <p className={adminErrorTextClassName}>{errors.slug.message}</p> : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-form-status">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-form-status">
             Статус
           </label>
           <div className="relative">
             <select
               id="admin-equipment-form-status"
-              className={fieldClassName + " appearance-none pr-11"}
+              className={adminFieldClassName + " appearance-none pr-11"}
               {...register("status")}
             >
               {equipmentStatusOptions.map((option) => (
@@ -216,91 +217,91 @@ export function AdminEquipmentForm({
                 </option>
               ))}
             </select>
-            <span className="pointer-events-none absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-white/40" />
+            <span className="pointer-events-none absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-[rgba(244,239,230,0.5)]" />
           </div>
-          {errors.status ? <p className="text-sm text-rose-300">{errors.status.message}</p> : null}
+          {errors.status ? <p className={adminErrorTextClassName}>{errors.status.message}</p> : null}
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-short-description">
+        <label className={adminLabelClassName} htmlFor="admin-equipment-short-description">
           Короткое описание
         </label>
         <textarea
           id="admin-equipment-short-description"
-          className={textareaClassName}
+          className={adminTextareaClassName}
           placeholder="Короткий текст для списков и карточек каталога."
           {...register("shortDescription")}
         />
         {errors.shortDescription ? (
-          <p className="text-sm text-rose-300">{errors.shortDescription.message}</p>
+          <p className={adminErrorTextClassName}>{errors.shortDescription.message}</p>
         ) : null}
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-description">
+        <label className={adminLabelClassName} htmlFor="admin-equipment-description">
           Полное описание
         </label>
         <textarea
           id="admin-equipment-description"
-          className={textareaClassName + " min-h-[180px]"}
+          className={adminTextareaClassName + " min-h-[180px]"}
           placeholder="Подробное описание сценариев использования и состояния техники."
           {...register("description")}
         />
         {errors.description ? (
-          <p className="text-sm text-rose-300">{errors.description.message}</p>
+          <p className={adminErrorTextClassName}>{errors.description.message}</p>
         ) : null}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-brand">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-brand">
             Бренд
           </label>
-          <input id="admin-equipment-brand" type="text" className={fieldClassName} {...register("brand")} />
-          {errors.brand ? <p className="text-sm text-rose-300">{errors.brand.message}</p> : null}
+          <input id="admin-equipment-brand" type="text" className={adminFieldClassName} {...register("brand")} />
+          {errors.brand ? <p className={adminErrorTextClassName}>{errors.brand.message}</p> : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-model">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-model">
             Модель
           </label>
-          <input id="admin-equipment-model" type="text" className={fieldClassName} {...register("model")} />
-          {errors.model ? <p className="text-sm text-rose-300">{errors.model.message}</p> : null}
+          <input id="admin-equipment-model" type="text" className={adminFieldClassName} {...register("model")} />
+          {errors.model ? <p className={adminErrorTextClassName}>{errors.model.message}</p> : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-power">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-power">
             Мощность
           </label>
           <input
             id="admin-equipment-power"
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="2200"
             {...register("power")}
           />
-          {errors.power ? <p className="text-sm text-rose-300">{errors.power.message}</p> : null}
+          {errors.power ? <p className={adminErrorTextClassName}>{errors.power.message}</p> : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-weight">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-weight">
             Вес
           </label>
           <input
             id="admin-equipment-weight"
             type="text"
-            className={fieldClassName}
+            className={adminFieldClassName}
             placeholder="32.5"
             {...register("weight")}
           />
-          {errors.weight ? <p className="text-sm text-rose-300">{errors.weight.message}</p> : null}
+          {errors.weight ? <p className={adminErrorTextClassName}>{errors.weight.message}</p> : null}
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-daily-price">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-daily-price">
             Цена в сутки
           </label>
           <input
@@ -308,16 +309,16 @@ export function AdminEquipmentForm({
             type="number"
             min={0}
             step={1}
-            className={fieldClassName}
+            className={adminFieldClassName}
             {...register("dailyPrice", { valueAsNumber: true })}
           />
           {errors.dailyPrice ? (
-            <p className="text-sm text-rose-300">{errors.dailyPrice.message}</p>
+            <p className={adminErrorTextClassName}>{errors.dailyPrice.message}</p>
           ) : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-deposit">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-deposit">
             Залог
           </label>
           <input
@@ -325,16 +326,16 @@ export function AdminEquipmentForm({
             type="number"
             min={0}
             step={1}
-            className={fieldClassName}
+            className={adminFieldClassName}
             {...register("depositAmount", { valueAsNumber: true })}
           />
           {errors.depositAmount ? (
-            <p className="text-sm text-rose-300">{errors.depositAmount.message}</p>
+            <p className={adminErrorTextClassName}>{errors.depositAmount.message}</p>
           ) : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-total">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-total">
             Всего единиц
           </label>
           <input
@@ -342,16 +343,16 @@ export function AdminEquipmentForm({
             type="number"
             min={0}
             step={1}
-            className={fieldClassName}
+            className={adminFieldClassName}
             {...register("quantityTotal", { valueAsNumber: true })}
           />
           {errors.quantityTotal ? (
-            <p className="text-sm text-rose-300">{errors.quantityTotal.message}</p>
+            <p className={adminErrorTextClassName}>{errors.quantityTotal.message}</p>
           ) : null}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/78" htmlFor="admin-equipment-available">
+          <label className={adminLabelClassName} htmlFor="admin-equipment-available">
             Доступно сейчас
           </label>
           <input
@@ -359,27 +360,27 @@ export function AdminEquipmentForm({
             type="number"
             min={0}
             step={1}
-            className={fieldClassName}
+            className={adminFieldClassName}
             {...register("quantityAvailable", { valueAsNumber: true })}
           />
           {errors.quantityAvailable ? (
-            <p className="text-sm text-rose-300">{errors.quantityAvailable.message}</p>
+            <p className={adminErrorTextClassName}>{errors.quantityAvailable.message}</p>
           ) : null}
         </div>
       </div>
 
-      <label className="flex items-center gap-3 rounded-[22px] border border-white/10 bg-adminBackground/60 px-4 py-3 text-sm text-white/78">
-        <input type="checkbox" className="h-4 w-4 rounded border-white/20 bg-transparent" {...register("isFeatured")} />
+      <label className="flex items-center gap-3 rounded-[22px] border border-[rgba(255,255,255,0.14)] bg-[#101316] px-4 py-3 text-sm text-[#F4EFE6]">
+        <input type="checkbox" className="h-4 w-4 rounded border-white/20 bg-transparent text-primary focus:ring-primary/40" {...register("isFeatured")} />
         Показывать позицию в витринных подборках каталога
       </label>
 
-      {serverError ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{serverError}</p> : null}
+      {serverError ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-[#FF8A75]">{serverError}</p> : null}
 
       <div className="flex flex-col-reverse gap-3 border-t border-white/8 pt-5 sm:flex-row sm:justify-end">
         <Button
           type="button"
           variant="ghost"
-          className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+          className={adminGhostButtonClassName}
           onClick={onCancel}
           disabled={isSubmitting}
         >

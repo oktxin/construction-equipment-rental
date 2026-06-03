@@ -2,11 +2,17 @@ import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
 import { Button } from "../../../../shared/ui";
+import {
+  adminCompactFieldClassName,
+  adminErrorTextClassName,
+  adminGhostButtonClassName,
+  adminHintTextClassName,
+  adminInsetPanelClassName,
+  adminLabelClassName,
+  adminMutedTextClassName,
+} from "../../components/adminUiStyles";
 import type { EquipmentImage } from "../../../catalog/catalogTypes";
 import type { AdminEquipmentImageInput } from "../adminCatalogTypes";
-
-const fieldClassName =
-  "h-11 w-full rounded-2xl border border-white/10 bg-adminBackground px-4 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const imageSchema = z.array(
   z.object({
@@ -71,20 +77,20 @@ export function AdminEquipmentImagesEditor({
 
   return (
     <div className="space-y-5">
-      <div className="rounded-[24px] border border-white/10 bg-adminBackground/60 p-4 text-sm leading-6 text-white/64">
+      <div className={`${adminInsetPanelClassName} p-4 ${adminHintTextClassName}`}>
         Редактор полностью заменяет набор изображений для позиции <span className="text-white">{equipmentName}</span>.
       </div>
 
       <div className="space-y-4">
         {rows.map((row, index) => (
-          <div key={row.draftId} className="rounded-[24px] border border-white/10 bg-adminBackground/60 p-4">
+          <div key={row.draftId} className={`${adminInsetPanelClassName} p-4`}>
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,0.8fr)_140px]">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/78">URL изображения</label>
+                <label className={adminLabelClassName}>URL изображения</label>
                 <input
                   type="text"
                   value={row.url}
-                  className={fieldClassName}
+                  className={adminCompactFieldClassName}
                   placeholder="https://..."
                   onChange={(event) =>
                     setRows((current) =>
@@ -97,11 +103,11 @@ export function AdminEquipmentImagesEditor({
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/78">Alt</label>
+                <label className={adminLabelClassName}>Alt</label>
                 <input
                   type="text"
                   value={row.alt}
-                  className={fieldClassName}
+                  className={adminCompactFieldClassName}
                   placeholder="Описание изображения"
                   onChange={(event) =>
                     setRows((current) =>
@@ -114,12 +120,12 @@ export function AdminEquipmentImagesEditor({
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/78">Порядок</label>
+                <label className={adminLabelClassName}>Порядок</label>
                 <input
                   type="number"
                   min={0}
                   value={row.sortOrder}
-                  className={fieldClassName}
+                  className={adminCompactFieldClassName}
                   onChange={(event) =>
                     setRows((current) =>
                       current.map((item) =>
@@ -134,7 +140,7 @@ export function AdminEquipmentImagesEditor({
             </div>
 
             <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div className="rounded-[22px] border border-white/8 bg-adminSurface p-3">
+              <div className={`${adminInsetPanelClassName} p-3`}>
                 {row.url.trim() ? (
                   <img
                     src={row.url}
@@ -142,7 +148,7 @@ export function AdminEquipmentImagesEditor({
                     className="h-28 w-full rounded-2xl object-cover lg:w-40"
                   />
                 ) : (
-                  <div className="flex h-28 w-full items-center justify-center rounded-2xl border border-dashed border-white/10 px-6 text-sm text-white/35 lg:w-40">
+                  <div className="flex h-28 w-full items-center justify-center rounded-2xl border border-dashed border-white/10 px-6 text-sm text-[rgba(244,239,230,0.45)] lg:w-40">
                     Предпросмотр появится после вставки URL
                   </div>
                 )}
@@ -150,7 +156,7 @@ export function AdminEquipmentImagesEditor({
 
               <Button
                 variant="ghost"
-                className="border-white/10 bg-adminSurface text-white hover:bg-adminSurface-strong"
+                className={adminGhostButtonClassName}
                 onClick={() =>
                   setRows((current) =>
                     current.length === 1
@@ -169,7 +175,7 @@ export function AdminEquipmentImagesEditor({
       <div className="flex flex-wrap items-center gap-3">
         <Button
           variant="ghost"
-          className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+          className={adminGhostButtonClassName}
           onClick={() =>
             setRows((current) => [
               ...current,
@@ -184,16 +190,16 @@ export function AdminEquipmentImagesEditor({
         >
           Добавить строку
         </Button>
-        <p className="text-sm text-white/48">Подготовлено изображений: {previewRows.length}</p>
+        <p className={adminMutedTextClassName}>Подготовлено изображений: {previewRows.length}</p>
       </div>
 
-      {localError ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{localError}</p> : null}
-      {error ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{error}</p> : null}
+      {localError ? <p className={`rounded-2xl bg-danger/12 px-4 py-3 ${adminErrorTextClassName}`}>{localError}</p> : null}
+      {error ? <p className={`rounded-2xl bg-danger/12 px-4 py-3 ${adminErrorTextClassName}`}>{error}</p> : null}
 
       <div className="flex flex-col-reverse gap-3 border-t border-white/8 pt-5 sm:flex-row sm:justify-end">
         <Button
           variant="ghost"
-          className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+          className={adminGhostButtonClassName}
           onClick={onCancel}
           disabled={isSubmitting}
         >

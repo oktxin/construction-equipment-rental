@@ -1,4 +1,5 @@
 import { Button, Modal } from "../../../../shared/ui";
+import { adminGhostButtonClassName } from "../../components/adminUiStyles";
 import type { AdminUser } from "../adminUsersTypes";
 
 export type AdminUserBlockModalProps = {
@@ -21,16 +22,12 @@ export function AdminUserBlockModal({
   const isBlocked = Boolean(user?.isBlocked);
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      className="max-w-lg border-white/10 bg-adminSurface text-white"
-    >
+    <Modal open={open} onClose={onClose} variant="admin" className="max-w-lg">
       <div className="space-y-5">
-        <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-white">
+        <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-[#F4EFE6]">
           {isBlocked ? "Разблокировать пользователя?" : "Заблокировать пользователя?"}
         </h2>
-        <p className="text-sm leading-6 text-white/68">
+        <p className="text-sm leading-6 text-[rgba(244,239,230,0.72)]">
           {user
             ? isBlocked
               ? `Пользователь ${user.fullName} снова получит доступ к платформе и личному кабинету.`
@@ -47,7 +44,7 @@ export function AdminUserBlockModal({
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <Button
             variant="ghost"
-            className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+            className={adminGhostButtonClassName}
             onClick={onClose}
             disabled={isSubmitting}
           >

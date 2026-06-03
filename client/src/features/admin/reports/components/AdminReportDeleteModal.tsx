@@ -1,4 +1,5 @@
 import { Button, Modal } from "../../../../shared/ui";
+import { adminGhostButtonClassName, adminInsetPanelClassName } from "../../components/adminUiStyles";
 import type { AdminReport } from "../adminReportsTypes";
 
 export type AdminReportDeleteModalProps = {
@@ -19,30 +20,26 @@ export function AdminReportDeleteModal({
   onClose,
 }: AdminReportDeleteModalProps) {
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      className="max-w-lg border-white/10 bg-adminSurface text-white"
-    >
+    <Modal open={open} onClose={onClose} variant="admin" className="max-w-lg">
       <div className="space-y-5">
-        <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-white">
+        <h2 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-[#F4EFE6]">
           Удалить отчёт?
         </h2>
-        <div className="space-y-3 text-sm leading-6 text-white/68">
+        <div className="space-y-3 text-sm leading-6 text-[rgba(244,239,230,0.72)]">
           <p>Файл отчёта также будет удалён, если он существует.</p>
           {report ? (
-            <p className="rounded-2xl border border-white/10 bg-adminBackground/60 px-4 py-3 text-white/82">
+            <p className={`${adminInsetPanelClassName} px-4 py-3 text-[#F4EFE6]`}>
               {report.title}
             </p>
           ) : null}
         </div>
 
-        {error ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-rose-300">{error}</p> : null}
+        {error ? <p className="rounded-2xl bg-danger/12 px-4 py-3 text-sm text-[#FF8A75]">{error}</p> : null}
 
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <Button
             variant="ghost"
-            className="border-white/10 bg-adminBackground text-white hover:bg-adminSurface-strong"
+            className={adminGhostButtonClassName}
             onClick={onClose}
             disabled={isSubmitting}
           >
