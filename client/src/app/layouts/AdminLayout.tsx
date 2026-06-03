@@ -8,8 +8,8 @@ export function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-[100dvh] overflow-x-hidden bg-adminBackground text-white">
-      <div className="flex min-h-[100dvh]">
+    <div className="min-h-screen overflow-x-hidden bg-adminBackground text-white">
+      <div className="flex min-h-screen">
         <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="flex min-w-0 flex-1 flex-col">
           <AdminTopbar onOpenSidebar={() => setSidebarOpen(true)} />

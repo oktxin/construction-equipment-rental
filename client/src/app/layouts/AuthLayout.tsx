@@ -18,8 +18,8 @@ export function AuthLayout() {
   const backLabel = from?.pathname ? "← Вернуться назад" : "← На главную";
 
   return (
-    <div className="min-h-[100dvh] overflow-x-hidden bg-secondary text-background">
-      <div className="grid min-h-[100dvh] lg:grid-cols-[1.05fr_0.95fr]">
+    <div className="min-h-screen overflow-x-hidden bg-secondary text-background">
+      <div className="grid min-h-screen lg:grid-cols-[1.05fr_0.95fr]">
         <section className="relative hidden overflow-hidden border-r border-white/10 lg:flex">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(242,165,49,0.28),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(196,107,45,0.24),transparent_30%)]" />
           <div className="relative z-10 flex w-full flex-col justify-between px-12 py-12">

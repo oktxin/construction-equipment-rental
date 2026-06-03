@@ -14,7 +14,7 @@ export function AuthBootstrap({ children }: PropsWithChildren) {
 
   if (auth.token && !auth.isInitialized) {
     return (
-      <main className="min-h-[100dvh] bg-background px-4 py-10 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-xl flex-col gap-5 pt-12">
           <div className="space-y-3 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent-strong">
