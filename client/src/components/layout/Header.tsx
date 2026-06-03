@@ -42,16 +42,16 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-border/55 bg-background/88 backdrop-blur-xl">
-        <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-sm font-bold uppercase tracking-[0.22em] text-primary">
+        <div className="mx-auto flex min-h-[76px] max-w-[1440px] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-6 lg:px-8">
+          <Link to="/" className="flex min-w-0 items-center gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-bold uppercase tracking-[0.22em] text-primary">
               BR
             </span>
-            <div>
-              <div className="font-heading text-lg font-semibold tracking-[-0.03em] text-foreground">
+            <div className="min-w-0">
+              <div className="truncate font-heading text-lg font-semibold tracking-[-0.03em] text-foreground">
                 BuildRent
               </div>
-              <div className="text-xs uppercase tracking-[0.2em] text-foreground/48">
+              <div className="truncate text-xs uppercase tracking-[0.2em] text-foreground/48">
                 Прокат техники
               </div>
             </div>
@@ -120,7 +120,7 @@ export function Header() {
 
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-card text-foreground shadow-industrial lg:hidden"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border/70 bg-card text-foreground shadow-industrial lg:hidden"
             aria-label="Открыть навигацию"
             onClick={() => setMobileOpen(true)}
           >

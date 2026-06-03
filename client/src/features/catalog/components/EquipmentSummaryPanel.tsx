@@ -21,7 +21,7 @@ export function EquipmentSummaryPanel({
   const canRent = isRentAvailable(equipment);
 
   return (
-    <Card className="space-y-6 p-6 xl:sticky xl:top-24">
+    <Card className="min-w-0 space-y-6 p-6 xl:sticky xl:top-24">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge status={equipment.status} context="equipment" />
@@ -44,17 +44,17 @@ export function EquipmentSummaryPanel({
       </div>
 
       <div className="grid gap-3 rounded-display border border-border/55 bg-background/45 p-4">
-        <div className="flex items-center justify-between gap-3 text-sm">
-          <span className="text-foreground/62">Всего единиц</span>
-          <span className="font-semibold text-foreground">{equipment.quantityTotal}</span>
+        <div className="flex items-start justify-between gap-3 text-sm">
+          <span className="min-w-0 text-foreground/62">Всего единиц</span>
+          <span className="min-w-0 text-right font-semibold text-foreground">{equipment.quantityTotal}</span>
         </div>
-        <div className="flex items-center justify-between gap-3 text-sm">
-          <span className="text-foreground/62">Свободно сейчас</span>
-          <span className="font-semibold text-foreground">{equipment.quantityAvailable}</span>
+        <div className="flex items-start justify-between gap-3 text-sm">
+          <span className="min-w-0 text-foreground/62">Свободно сейчас</span>
+          <span className="min-w-0 text-right font-semibold text-foreground">{equipment.quantityAvailable}</span>
         </div>
-        <div className="flex items-center justify-between gap-3 text-sm">
-          <span className="text-foreground/62">Категория</span>
-          <span className="font-semibold text-foreground">{equipment.category.name}</span>
+        <div className="flex items-start justify-between gap-3 text-sm">
+          <span className="min-w-0 text-foreground/62">Категория</span>
+          <span className="min-w-0 text-right font-semibold text-foreground">{equipment.category.name}</span>
         </div>
       </div>
 

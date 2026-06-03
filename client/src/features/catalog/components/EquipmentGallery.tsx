@@ -31,9 +31,9 @@ export function EquipmentGallery({
   const activeImage = images[activeIndex] ?? null;
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn("min-w-0 space-y-4", className)}>
       <Card className="overflow-hidden p-0">
-        <div className="relative aspect-[16/11] min-h-[280px] bg-secondary/10">
+        <div className="relative aspect-[16/11] bg-secondary/10 sm:min-h-[280px]">
           {activeImage ? (
             <img
               src={activeImage.url}
@@ -45,7 +45,7 @@ export function EquipmentGallery({
               className="flex h-full w-full items-end p-6 text-background sm:p-8"
               style={{ background: fallbackBackground }}
             >
-              <div className="max-w-[26rem] space-y-3">
+              <div className="min-w-0 max-w-[26rem] space-y-3">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
                   BuildRent
                 </p>
@@ -68,7 +68,7 @@ export function EquipmentGallery({
       </Card>
 
       {images.length > 1 ? (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="min-w-0 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {images.map((image, index) => {
             const isActive = index === activeIndex;
 

@@ -46,14 +46,14 @@ function SectionHeading({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-      <div className="max-w-3xl space-y-3">
+    <div className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+      <div className="min-w-0 max-w-3xl space-y-3">
         {eyebrow ? (
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-accent-strong">
             {eyebrow}
           </p>
         ) : null}
-        <h2 className="max-w-[18ch] font-heading text-[clamp(2.2rem,3.8vw,4rem)] font-semibold leading-[1.02] tracking-[-0.05em] text-foreground">
+        <h2 className="max-w-full break-words font-heading text-[2rem] font-semibold leading-[1.02] tracking-[-0.04em] text-foreground sm:max-w-[18ch] sm:text-[clamp(2.2rem,3.8vw,4rem)] sm:tracking-[-0.05em]">
           {title}
         </h2>
         <p className="max-w-[65ch] text-base leading-7 text-foreground/68">{description}</p>
@@ -169,19 +169,19 @@ export function HomePage() {
   return (
     <div className="overflow-x-hidden">
       <section className="relative border-b border-border/55">
-        <div className="mx-auto grid min-h-[100dvh] max-w-[1440px] gap-10 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[1.04fr_0.96fr] lg:px-8 lg:py-12">
-          <div className="flex flex-col justify-start pt-4 lg:pt-10">
-            <h1 className="max-w-[11ch] font-heading text-[clamp(3.1rem,6vw,5.9rem)] font-semibold leading-[0.94] tracking-[-0.07em] text-foreground">
+        <div className="mx-auto grid min-h-[100dvh] max-w-[1440px] gap-10 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] lg:px-8 lg:py-12">
+          <div className="min-w-0 flex flex-col justify-start pt-4 lg:pt-10">
+            <h1 className="max-w-full break-words font-heading text-4xl font-semibold leading-[0.98] tracking-[-0.05em] text-foreground sm:max-w-[11ch] sm:text-5xl lg:text-[5.9rem] lg:leading-[0.94] lg:tracking-[-0.07em]">
               Аренда строительного оборудования без лишних звонков
             </h1>
-            <p className="mt-6 max-w-[57ch] text-lg leading-8 text-foreground/70">
+            <p className="mt-6 max-w-full text-base leading-7 text-foreground/70 sm:max-w-[57ch] sm:text-lg sm:leading-8">
               Выбирайте технику, проверяйте доступность и оформляйте заявку онлайн — от перфоратора до виброплиты.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link to="/catalog">
+            <div className="mt-8 flex max-w-full flex-col gap-3 sm:flex-row">
+              <Link to="/catalog" className="w-full sm:w-auto">
                 <Button size="lg">Перейти в каталог</Button>
               </Link>
-              <a href="#how-it-works">
+              <a href="#how-it-works" className="w-full sm:w-auto">
                 <Button variant="secondary" size="lg">
                   Как это работает
                 </Button>
@@ -189,7 +189,7 @@ export function HomePage() {
             </div>
           </div>
 
-          <div className="grid auto-rows-[minmax(168px,1fr)] gap-4 sm:grid-cols-2">
+          <div className="min-w-0 grid auto-rows-[minmax(168px,1fr)] gap-4 sm:grid-cols-2">
             <Card className="overflow-hidden p-0 sm:col-span-2">
               <div className="relative h-full min-h-[300px] overflow-hidden rounded-card bg-[linear-gradient(142deg,rgba(22,24,27,0.96),rgba(46,50,56,0.78)),radial-gradient(circle_at_top_right,rgba(242,165,49,0.22),transparent_30%)] p-6 text-background md:p-7">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(115deg,rgba(255,255,255,0.03)_0,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_15px)] opacity-45" />
@@ -198,8 +198,8 @@ export function HomePage() {
                     <Badge variant="accent" className="border-white/10 bg-white/7 text-primary">
                       Живой сценарий аренды
                     </Badge>
-                    <div className="max-w-[19ch] space-y-3">
-                      <h2 className="font-heading text-3xl font-semibold tracking-[-0.05em] text-white md:text-[2.2rem]">
+                    <div className="max-w-full space-y-3 sm:max-w-[19ch]">
+                      <h2 className="break-words font-heading text-[2rem] font-semibold tracking-[-0.04em] text-white md:text-[2.2rem] md:tracking-[-0.05em]">
                         Спокойный каталог снаружи, точный контроль внутри.
                       </h2>
                       <p className="text-sm leading-6 text-white/72">
@@ -392,7 +392,7 @@ export function HomePage() {
             <div className="relative z-10 grid gap-6 lg:grid-cols-[1.1fr_auto] lg:items-end">
               <div className="space-y-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Следующий шаг</p>
-                <h2 className="max-w-[15ch] font-heading text-[clamp(2.3rem,4vw,4.2rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-white">
+                <h2 className="max-w-full break-words font-heading text-[2rem] font-semibold leading-[1] tracking-[-0.04em] text-white sm:max-w-[15ch] sm:text-[clamp(2.3rem,4vw,4.2rem)] sm:tracking-[-0.05em]">
                   Подберите оборудование под задачу
                 </h2>
                 <p className="max-w-[56ch] text-base leading-7 text-white/72">
