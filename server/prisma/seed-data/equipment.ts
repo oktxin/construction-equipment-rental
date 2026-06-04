@@ -40,7 +40,7 @@ type EquipmentFactoryInput = Omit<SeedEquipment, "images" | "specs"> & {
 function buildImages(name: string, imageUrls: string[]): SeedEquipmentImage[] {
   return imageUrls.map((url, index) => ({
     url,
-    alt: `${name} ракурс ${index + 1}`,
+    alt: `Фото оборудования ${name} (${index + 1})`,
     sortOrder: index,
   }));
 }
@@ -54,40 +54,40 @@ function equipment(input: EquipmentFactoryInput): SeedEquipment {
 
 const imageLibrary = {
   demolition: [
-    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1755168648692-ef8937b7e63e?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1679797870465-b4eda40ead96?auto=format&fit=crop&w=1200&q=80",
   ],
   mixer: [
-    "https://images.unsplash.com/photo-1599707254554-027aeb4deacd?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1751221701301-b02ca1b4b49e?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1770822662967-7f66605f9103?auto=format&fit=crop&w=1200&q=80",
   ],
   compactor: [
-    "https://images.unsplash.com/photo-1541976590-713941681591?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1597157639073-69284dc0fdaf?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1776381733574-372689e246b4?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1760708626681-59a5373819a6?auto=format&fit=crop&w=1200&q=80",
   ],
   generator: [
-    "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1759692071712-adc78a8516c8?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1653878729171-efea1af9e7a8?auto=format&fit=crop&w=1200&q=80",
   ],
   compressor: [
-    "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1542486500-db3f713278bc?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1655165312002-9d781ad4046e?auto=format&fit=crop&w=1200&q=80",
   ],
   scaffolding: [
-    "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1760597307051-67946f9cf865?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1741916541913-7203d2be5e6e?auto=format&fit=crop&w=1200&q=80",
   ],
   welding: [
-    "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1473090928358-00fcead4f08c?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1726421690313-2e0519335b82?auto=format&fit=crop&w=1200&q=80",
   ],
   saws: [
-    "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1723117799189-ab87698c8938?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1505855796860-aa05646cbf1f?auto=format&fit=crop&w=1200&q=80",
   ],
   measuring: [
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1771068807150-2cab0734d25b?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1770822662903-aa69f6aa9b03?auto=format&fit=crop&w=1200&q=80",
   ],
 } satisfies Record<string, string[]>;
 
