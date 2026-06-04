@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-import { Button, Card, StatusBadge } from "../../../shared/ui";
+import { Button, Card } from "../../../shared/ui";
+import {
+  getEquipmentAvailabilityMeta,
+  isEquipmentRentable,
+} from "../catalogAvailability";
 import type { EquipmentDetail } from "../catalogTypes";
 import { EquipmentAvailability } from "./EquipmentAvailability";
+import { EquipmentAvailabilityBadge } from "./EquipmentAvailabilityBadge";
 import { EquipmentPrice } from "./EquipmentPrice";
 import { FavoriteButton } from "./FavoriteButton";
 
@@ -10,21 +15,21 @@ type EquipmentSummaryPanelProps = {
   equipment: EquipmentDetail;
 };
 
-function isRentAvailable(equipment: EquipmentDetail) {
-  return equipment.status === "AVAILABLE" && equipment.quantityAvailable > 0;
-}
-
 export function EquipmentSummaryPanel({
   equipment,
 }: EquipmentSummaryPanelProps) {
   const navigate = useNavigate();
-  const canRent = isRentAvailable(equipment);
+  const canRent = isEquipmentRentable(equipment);
+  const availability = getEquipmentAvailabilityMeta(equipment);
 
   return (
     <Card className="min-w-0 space-y-6 p-6 xl:sticky xl:top-24">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
-          <StatusBadge status={equipment.status} context="equipment" />
+          <EquipmentAvailabilityBadge
+            status={equipment.status}
+            quantityAvailable={equipment.quantityAvailable}
+          />
           {equipment.isFeatured ? (
             <span className="rounded-full border border-accent/35 bg-accent/12 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-accent-strong">
               Популярная позиция
@@ -81,9 +86,7 @@ export function EquipmentSummaryPanel({
       </div>
 
       <p className="text-sm leading-6 text-foreground/62">
-        {canRent
-          ? "Переход к оформлению ведет на защищенный checkout. Если вы еще не вошли, приложение сначала откроет страницу авторизации."
-          : "Позиция временно недоступна для подтверждения аренды. Можно сохранить ее в избранное и вернуться позже."}
+        {availability.rentHint}
       </p>
     </Card>
   );

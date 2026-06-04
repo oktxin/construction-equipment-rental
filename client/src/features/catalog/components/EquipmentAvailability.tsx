@@ -1,5 +1,6 @@
-import { StatusBadge } from "../../../shared/ui";
 import type { EquipmentStatus } from "../catalogTypes";
+import { getEquipmentAvailabilityMeta } from "../catalogAvailability";
+import { EquipmentAvailabilityBadge } from "./EquipmentAvailabilityBadge";
 
 export type EquipmentAvailabilityProps = {
   status: EquipmentStatus;
@@ -10,11 +11,16 @@ export function EquipmentAvailability({
   status,
   quantityAvailable,
 }: EquipmentAvailabilityProps) {
+  const availability = getEquipmentAvailabilityMeta({ status, quantityAvailable });
+
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <StatusBadge status={status} context="equipment" />
+      <EquipmentAvailabilityBadge
+        status={status}
+        quantityAvailable={quantityAvailable}
+      />
       <span className="min-w-0 break-words text-sm text-foreground/58">
-        {quantityAvailable > 0 ? `${quantityAvailable} ед. свободно` : "Поставка по подтверждению"}
+        {availability.details}
       </span>
     </div>
   );

@@ -4,6 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { selectAuth } from "../../features/auth/authSlice";
 import { getEquipmentBySlug } from "../../features/catalog/catalogApi";
+import {
+  getEquipmentAvailabilityMeta,
+  isEquipmentRentable,
+} from "../../features/catalog/catalogAvailability";
+import { EquipmentAvailabilityBadge } from "../../features/catalog/components/EquipmentAvailabilityBadge";
 import { EquipmentGallery } from "../../features/catalog/components/EquipmentGallery";
 import { EquipmentReviews } from "../../features/catalog/components/EquipmentReviews";
 import { EquipmentSpecsTable } from "../../features/catalog/components/EquipmentSpecsTable";
@@ -22,7 +27,6 @@ import {
   Card,
   EmptyState,
   LoadingSkeleton,
-  StatusBadge,
 } from "../../shared/ui";
 import { getErrorMessage } from "../../shared/utils/errorMessage";
 
@@ -251,6 +255,8 @@ export function EquipmentDetailPage() {
   const reviewsCount = visibleReviews.length;
   const averageRating =
     reviews !== null ? calculateAverageRating(visibleReviews) : equipment.averageRating;
+  const canRent = isEquipmentRentable(equipment);
+  const availability = getEquipmentAvailabilityMeta(equipment);
 
   const handleReviewsChanged = async () => {
     setIsReviewsLoading(true);
@@ -293,7 +299,10 @@ export function EquipmentDetailPage() {
           <Card className="space-y-6 p-6 sm:p-7">
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-3">
-                <StatusBadge status={equipment.status} context="equipment" />
+                <EquipmentAvailabilityBadge
+                  status={equipment.status}
+                  quantityAvailable={equipment.quantityAvailable}
+                />
                 <span className="rounded-full border border-border/55 bg-background/55 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-foreground/72">
                   {equipment.category.name}
                 </span>
@@ -327,9 +336,9 @@ export function EquipmentDetailPage() {
               <div>
                 <p className="text-sm font-medium text-foreground/58">Доступность</p>
                 <p className="mt-2 text-base leading-7 text-foreground/74">
-                  {equipment.quantityAvailable > 0
+                  {canRent
                     ? `Свободно ${equipment.quantityAvailable} из ${equipment.quantityTotal} единиц.`
-                    : "Свободных единиц сейчас нет, но карточка и условия аренды остаются доступными для просмотра."}
+                    : availability.rentHint}
                 </p>
               </div>
             </div>

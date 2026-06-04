@@ -5,7 +5,9 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 import { getEquipmentById } from "../../features/catalog/catalogApi";
+import { isEquipmentRentable } from "../../features/catalog/catalogAvailability";
 import { EquipmentAvailability } from "../../features/catalog/components/EquipmentAvailability";
+import { EquipmentAvailabilityBadge } from "../../features/catalog/components/EquipmentAvailabilityBadge";
 import { EquipmentPrice } from "../../features/catalog/components/EquipmentPrice";
 import type { EquipmentDetail } from "../../features/catalog/catalogTypes";
 import {
@@ -163,12 +165,6 @@ function calculateSelectedDays(startDate: string, endDate: string) {
   const millisecondsPerDay = 24 * 60 * 60 * 1000;
 
   return Math.floor((end.getTime() - start.getTime()) / millisecondsPerDay) + 1;
-}
-
-function isEquipmentRentable(equipment: EquipmentDetail | null) {
-  return Boolean(
-    equipment && equipment.status === "AVAILABLE" && equipment.quantityAvailable > 0,
-  );
 }
 
 function RentalCheckoutSuccess({ order }: { order: RentalOrder }) {
@@ -812,7 +808,10 @@ export function CheckoutPage() {
 
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-3">
-                  <StatusBadge status={equipment.status} context="equipment" />
+                  <EquipmentAvailabilityBadge
+                    status={equipment.status}
+                    quantityAvailable={equipment.quantityAvailable}
+                  />
                   <span className="rounded-full border border-border/55 bg-background/55 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-foreground/72">
                     {equipment.category.name}
                   </span>
